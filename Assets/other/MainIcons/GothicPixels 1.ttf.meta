@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: 2daf91c4c3811bc4fb02b8ed1126ae90
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - GothicPixels
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 855effff493e50541b1c2d184fa5460e, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
