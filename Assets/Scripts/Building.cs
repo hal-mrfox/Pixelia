@@ -8,7 +8,7 @@ using UnityEngine;
 
 public class Building : MonoBehaviour, IClickable
 {
-    public enum BuildingType { Castle }
+    public enum BuildingType { Castle, Farmlands, Logging_Camp, Mines, Village }
     public BuildingType buildingType;
     public Country controller;
     public ProvinceScript provinceController;
@@ -18,7 +18,7 @@ public class Building : MonoBehaviour, IClickable
     public bool hovering;
     bool popCanEnter;
     bool controllersAtWar;
-    bool allControlled;
+    public bool allControlled;
 
     public void Start()
     {
@@ -104,9 +104,13 @@ public class Building : MonoBehaviour, IClickable
         //looping through all buildings to see if all buildings are owned by player country
         for (int i = 0; i < provinceController.buildings.Count; i++)
         {
-            if (provinceController.buildings[i].provinceController == CountryManager.instance.playerCountry)
+            if (provinceController.buildings[i].provinceController != provinceController.owner)
             {
-
+                allControlled = true;
+            }
+            else
+            {
+                allControlled = false;
             }
         }
         if (this == controller.capital || allControlled)

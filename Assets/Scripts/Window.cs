@@ -69,7 +69,7 @@ public class Window : MonoBehaviour
                 provinceTarget.buildings[provinceTarget.buildings.Count - 1].gameObject.transform.position = Input.mousePosition;
                 provinceTarget.buildings[provinceTarget.buildings.Count - 1].transform.parent = provinceTarget.buildingsParent.transform;
                 provinceTarget.buildings[provinceTarget.buildings.Count - 1].provinceController = provinceTarget;
-                provinceTarget.buildings[provinceTarget.buildings.Count - 1].name = "[BUILDING] " + nameBuilding.text;
+                provinceTarget.buildings[provinceTarget.buildings.Count - 1].name = provinceTarget.name + " " + nameBuilding.text;
                 provinceTarget.buildings[provinceTarget.buildings.Count - 1].controller = provinceTarget.owner;
                 CountryManager.instance.totalBuildings.Add(provinceTarget.buildings[provinceTarget.buildings.Count - 1]);
             }
