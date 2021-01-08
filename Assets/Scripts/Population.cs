@@ -8,7 +8,7 @@ using UnityEngine;
 
 public class Population : MonoBehaviour, IPointerDownHandler
 {
-    public enum PopType { Unemployed, Soldier };
+    public enum PopType { Unemployed, Slave, Soldier, Laborer, Farmer, Clerk, Missionary, Knight, Aristocrat};
     public PopType popType;
     public Country controller;
     public bool selected;
@@ -37,6 +37,12 @@ public class Population : MonoBehaviour, IPointerDownHandler
     public void RefreshColor()
     {
         GetComponent<Image>().color = controller.countryColor;
+    }
+
+    [Button]
+    public void OnChangePopType()
+    {
+        name = controller.name + "'s " + popType;
     }
 
     ////different options for moving -- not just being selected

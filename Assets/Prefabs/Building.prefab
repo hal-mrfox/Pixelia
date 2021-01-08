@@ -89,3 +89,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buildingType: 0
+  controller: {fileID: 0}
+  provinceController: {fileID: 0}
+  containingPops: []
+  popCapacity: 0
+  hovering: 0
+  castle: {fileID: 21300000, guid: 47f2e70d42fbdc64680d0e0b6b66851b, type: 3}
+  farmlands: {fileID: 21300000, guid: ba7e85e96200ad847916a57d4501e4bf, type: 3}
+  farmlandsContainable: 010000000300000002000000
+  loggingCamp: {fileID: 21300000, guid: c99a2c606d07a064e89a0b6f050a04e0, type: 3}
+  loggingContainable: 
+  mines: {fileID: 21300000, guid: 1495a3bcfe63583499041914c2776542, type: 3}
+  minesContainable: 
+  village: {fileID: 21300000, guid: 6bbb983f5c77171479346f09dd4ec119, type: 3}
+  villageContainable: 

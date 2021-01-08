@@ -16,13 +16,45 @@ public class Building : MonoBehaviour, IClickable
     public int popCapacity;
     [ReadOnly]
     public bool hovering;
+    public Sprite castle;
+    public Sprite farmlands;
+    public List<Population.PopType> farmlandsContainable;
+    public Sprite loggingCamp;
+    public List<Population.PopType> loggingContainable;
+    public Sprite mines;
+    public List<Population.PopType> minesContainable;
+    public Sprite village;
+    public List<Population.PopType> villageContainable;
     bool popCanEnter;
     bool controllersAtWar;
-    public bool allControlled;
+    bool allControlled;
 
     public void Start()
     {
         RefreshColor();
+
+        if (buildingType == BuildingType.Castle)
+        {
+            GetComponent<Image>().sprite = castle;
+        }
+        else if (buildingType == BuildingType.Farmlands)
+        {
+            GetComponent<Image>().sprite = farmlands;
+        }
+        else if (buildingType == BuildingType.Logging_Camp)
+        {
+            GetComponent<Image>().sprite = loggingCamp;
+        }
+        else if (buildingType == BuildingType.Mines)
+        {
+            GetComponent<Image>().sprite = mines;
+        }
+        else if (buildingType == BuildingType.Village)
+        {
+            GetComponent<Image>().sprite = village;
+        }
+
+        GetComponent<Image>().SetNativeSize();
     }
 
     [Button]
@@ -76,6 +108,12 @@ public class Building : MonoBehaviour, IClickable
                         RefreshPopState();
                         CountryManager.instance.VisibleMouse();
                     }
+                    else if (buildingType == BuildingType.Farmlands && farmlandsContainable.Contains(CountryManager.instance.selectedPop.popType))
+                    {
+                        containingPops.Add(CountryManager.instance.selectedPop);
+                        RefreshPopState();
+                        CountryManager.instance.VisibleMouse();
+                    }
                 }
                 else
                 {
@@ -125,7 +163,26 @@ public class Building : MonoBehaviour, IClickable
         CountryManager.instance.VisibleMouse();
     }
 
-    public void ifPopCanEnter()
+    public void OnPointerEnter()
+    {
+        hovering = true;
+
+        if (CountryManager.instance.playerCountry.atWar.Contains(controller))
+        {
+            controllersAtWar = true;
+        }
+        else
+        {
+            controllersAtWar = false;
+        }
+
+        if (CountryManager.instance.selectedPop != null)
+        {
+            IfPopCanEnter();
+        }
+    }
+
+    public void IfPopCanEnter()
     { 
         if (controller == CountryManager.instance.playerCountry)
         {
@@ -143,25 +200,6 @@ public class Building : MonoBehaviour, IClickable
             CountryManager.instance.cursorIcon.GetComponent<Image>().color = Color.grey;
         }
     }
-
-    public void OnPointerEnter()
-    {
-        hovering = true;
-        if (CountryManager.instance.selectedPop != null)
-        {
-            ifPopCanEnter();
-        }
-
-        if (CountryManager.instance.playerCountry.atWar.Contains(controller))
-        {
-            controllersAtWar = true;
-        }
-        else
-        {
-            controllersAtWar = false;
-        }
-    }
-    //same with this!
     public void OnPointerExit()
     {
         hovering = false;

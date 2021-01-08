@@ -24,6 +24,8 @@ public class CountryManager : MonoBehaviour
     public List<Population> totalPops;
     public Population selectedPop;
 
+    public AudioSource openWindowSound;
+
     public void Awake()
     {
         instance = this;

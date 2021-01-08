@@ -13,14 +13,17 @@ public class Window : MonoBehaviour
     public Button createBuildingButton;
     public TextMeshProUGUI warButtonText;
     public TextMeshProUGUI countryName;
-    public InputField nameBuilding;
     bool atWar;
+    [Range(0, 4)]public int selectedBuildingType;
 
     //[ReadOnly]
     public GameObject creatingBuildingMarker;
     public bool markBuildingSpot;
     public Country target;
     public ProvinceScript provinceTarget;
+
+    public Color declareWarRed;
+    public Color makePeaceBlue;
 
     public void Start()
     {
@@ -29,7 +32,6 @@ public class Window : MonoBehaviour
         createBuildingButton.onClick.AddListener(CreateBuilding);
         gameObject.SetActive(false);
         creatingBuildingMarker.SetActive(false);
-        nameBuilding.gameObject.SetActive(false);
     }
 
     //Check to see player
@@ -52,7 +54,6 @@ public class Window : MonoBehaviour
     {
         //toggle building mode
         markBuildingSpot = true;
-        nameBuilding.gameObject.SetActive(true);
     }
     //*
     public void Update()
@@ -69,7 +70,8 @@ public class Window : MonoBehaviour
                 provinceTarget.buildings[provinceTarget.buildings.Count - 1].gameObject.transform.position = Input.mousePosition;
                 provinceTarget.buildings[provinceTarget.buildings.Count - 1].transform.parent = provinceTarget.buildingsParent.transform;
                 provinceTarget.buildings[provinceTarget.buildings.Count - 1].provinceController = provinceTarget;
-                provinceTarget.buildings[provinceTarget.buildings.Count - 1].name = provinceTarget.name + " " + nameBuilding.text;
+                provinceTarget.buildings[provinceTarget.buildings.Count - 1].buildingType = (Building.BuildingType)selectedBuildingType;
+                provinceTarget.buildings[provinceTarget.buildings.Count - 1].name = provinceTarget.owner.name + "'s " + provinceTarget.buildings[provinceTarget.buildings.Count - 1].buildingType;
                 provinceTarget.buildings[provinceTarget.buildings.Count - 1].controller = provinceTarget.owner;
                 CountryManager.instance.totalBuildings.Add(provinceTarget.buildings[provinceTarget.buildings.Count - 1]);
             }
@@ -83,24 +85,23 @@ public class Window : MonoBehaviour
         {
             creatingBuildingMarker.SetActive(false);
         }
-    }
 
-    //change button text to be accurate to war state
-    public void IfAlreadyWar()
-    {
-        if (CountryManager.instance.playerCountry.atWar.Contains(target))
+        if (Input.mouseScrollDelta.y > 0)
         {
-            atWar = true;
-            warButtonText.text = "Offer Peace";
+            if (selectedBuildingType < 4)
+            {
+                selectedBuildingType++;
+            }
         }
-        else
+        if (Input.mouseScrollDelta.y < 0)
         {
-            atWar = false;
-            warButtonText.text = "Declare War";
+            if (selectedBuildingType > 0)
+            {
+
+                selectedBuildingType--;
+            }
         }
     }
-
-
 
     //Buttons\\
     public void WarButton()
@@ -116,6 +117,23 @@ public class Window : MonoBehaviour
             CountryManager.instance.playerCountry.atWar.Remove(target);
             target.atWar.Remove(CountryManager.instance.playerCountry);
             IfAlreadyWar();
+        }
+    }
+
+    //change button text to be accurate to war state
+    public void IfAlreadyWar()
+    {
+        if (CountryManager.instance.playerCountry.atWar.Contains(target))
+        {
+            atWar = true;
+            warButtonText.text = "Offer Peace";
+            warButton.GetComponent<Image>().color = makePeaceBlue;
+        }
+        else
+        {
+            atWar = false;
+            warButtonText.text = "Declare War";
+            warButton.GetComponent<Image>().color = declareWarRed;
         }
     }
 

@@ -33,8 +33,8 @@ public class ProvinceScript : MonoBehaviour , IClickable
         owner.population.Add(pops[pops.Count - 1]);
         //adding to capitals containing pops
         owner.capital.containingPops.Add(pops[pops.Count - 1]);
-        pops[pops.Count - 1].name = "Pop " + popNameNumber;
         pops[pops.Count - 1].controller = owner;
+        pops[pops.Count - 1].OnChangePopType();
         CountryManager.instance.totalPops.Add(pops[pops.Count - 1]);
         popNameNumber++;
     }
@@ -56,6 +56,7 @@ public class ProvinceScript : MonoBehaviour , IClickable
     {
         if (Input.GetKeyDown(KeyCode.Mouse1))
         {
+            CountryManager.instance.openWindowSound.Play();
             if (CountryManager.instance.selectedPop != null && hovering == true && popCanMove)
             {
                 CountryManager.instance.selectedPop.transform.position = Input.mousePosition;
