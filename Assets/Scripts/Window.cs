@@ -22,9 +22,6 @@ public class Window : MonoBehaviour
     public Country target;
     public ProvinceScript provinceTarget;
 
-    public Color declareWarRed;
-    public Color makePeaceBlue;
-
     public void Start()
     {
         exitButton.onClick.AddListener(ExitButton);
@@ -71,7 +68,7 @@ public class Window : MonoBehaviour
                 provinceTarget.buildings[provinceTarget.buildings.Count - 1].transform.parent = provinceTarget.buildingsParent.transform;
                 provinceTarget.buildings[provinceTarget.buildings.Count - 1].provinceController = provinceTarget;
                 provinceTarget.buildings[provinceTarget.buildings.Count - 1].buildingType = (Building.BuildingType)selectedBuildingType;
-                provinceTarget.buildings[provinceTarget.buildings.Count - 1].name = provinceTarget.owner.name + "'s " + provinceTarget.buildings[provinceTarget.buildings.Count - 1].buildingType;
+                provinceTarget.buildings[provinceTarget.buildings.Count - 1].name = provinceTarget.name + "'s " + provinceTarget.buildings[provinceTarget.buildings.Count - 1].buildingType;
                 provinceTarget.buildings[provinceTarget.buildings.Count - 1].controller = provinceTarget.owner;
                 CountryManager.instance.totalBuildings.Add(provinceTarget.buildings[provinceTarget.buildings.Count - 1]);
             }
@@ -127,13 +124,13 @@ public class Window : MonoBehaviour
         {
             atWar = true;
             warButtonText.text = "Offer Peace";
-            warButton.GetComponent<Image>().color = makePeaceBlue;
+            warButton.GetComponent<Image>().color = CountryManager.instance.blue;
         }
         else
         {
             atWar = false;
             warButtonText.text = "Declare War";
-            warButton.GetComponent<Image>().color = declareWarRed;
+            warButton.GetComponent<Image>().color = CountryManager.instance.red;
         }
     }
 

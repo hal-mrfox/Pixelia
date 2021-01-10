@@ -24,6 +24,11 @@ public class CountryManager : MonoBehaviour
     public List<Population> totalPops;
     public Population selectedPop;
 
+    public Color red;
+    public Color blue;
+    public Color green;
+    public Color yellow;
+
     public AudioSource openWindowSound;
 
     public void Awake()

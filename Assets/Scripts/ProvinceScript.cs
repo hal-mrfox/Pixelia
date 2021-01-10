@@ -31,7 +31,7 @@ public class ProvinceScript : MonoBehaviour , IClickable
         pops.Add(Instantiate(CountryManager.instance.popPrefab));
         pops[pops.Count - 1].transform.parent = popsParent.transform;
         owner.population.Add(pops[pops.Count - 1]);
-        //adding to capitals containing pops
+        //adding to capitals containing pops (CHANGE TO RANDOM BUILDING IN PROVINCE)
         owner.capital.containingPops.Add(pops[pops.Count - 1]);
         pops[pops.Count - 1].controller = owner;
         pops[pops.Count - 1].OnChangePopType();
