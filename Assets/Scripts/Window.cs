@@ -8,27 +8,34 @@ using UnityEngine;
 
 public class Window : MonoBehaviour
 {
+    public Country target;
+    public ProvinceScript provinceTarget;
     public Button exitButton;
+    public TextMeshProUGUI countryName;
     public Button warButton;
     public Button createBuildingButton;
     public TextMeshProUGUI warButtonText;
-    public TextMeshProUGUI countryName;
     bool atWar;
     [Range(0, 4)]public int selectedBuildingType;
 
     //[ReadOnly]
     public GameObject creatingBuildingMarker;
     public bool markBuildingSpot;
-    public Country target;
-    public ProvinceScript provinceTarget;
 
-    public void Start()
+    public void Awake()
     {
         exitButton.onClick.AddListener(ExitButton);
         warButton.onClick.AddListener(WarButton);
         createBuildingButton.onClick.AddListener(CreateBuilding);
         gameObject.SetActive(false);
         creatingBuildingMarker.SetActive(false);
+    }
+
+    public void OnEnable()
+    {
+        countryName.text = target.name;
+        IfPlayer();
+        IfAlreadyWar();
     }
 
     //Check to see player

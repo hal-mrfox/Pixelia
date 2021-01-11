@@ -13,7 +13,9 @@ public class CountryManager : MonoBehaviour
     public List<Country> countries;
     public List<ProvinceScript> provinces;
     public Country playerCountry;
+    public Population selectedPop;
     public Window window;
+    public WindowProvince windowProvince;
 
     public Population popPrefab;
     public Building buildingPrefab;
@@ -22,7 +24,6 @@ public class CountryManager : MonoBehaviour
 
     public List<Building> totalBuildings;
     public List<Population> totalPops;
-    public Population selectedPop;
 
     public Color red;
     public Color blue;

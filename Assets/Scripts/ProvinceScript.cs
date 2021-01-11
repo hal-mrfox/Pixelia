@@ -54,6 +54,7 @@ public class ProvinceScript : MonoBehaviour , IClickable
 
     public void OnPointerDown()
     {
+        //right click on province to open up diplomacy with owner
         if (Input.GetKeyDown(KeyCode.Mouse1))
         {
             CountryManager.instance.openWindowSound.Play();
@@ -71,15 +72,19 @@ public class ProvinceScript : MonoBehaviour , IClickable
             {
                 CountryManager.instance.window.target = owner;
                 CountryManager.instance.window.provinceTarget = this;
-                CountryManager.instance.window.countryName.text = owner.name;
                 CountryManager.instance.window.gameObject.SetActive(true);
-                CountryManager.instance.window.IfPlayer();
-                CountryManager.instance.window.IfAlreadyWar();
             }
+        }
+        //left click on province to open up province viewer
+        if (Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            CountryManager.instance.windowProvince.target = owner;
+            CountryManager.instance.windowProvince.provinceTarget = this;
+            CountryManager.instance.windowProvince.gameObject.SetActive(true);
         }
     }
 
-    public void ifPopCanMove()
+    public void IfPopCanMove()
     {
         if (owner == CountryManager.instance.playerCountry || CountryManager.instance.playerCountry.atWar.Contains(owner))
         {
@@ -98,7 +103,7 @@ public class ProvinceScript : MonoBehaviour , IClickable
         hovering = true;
         if (CountryManager.instance.selectedPop != null)
         {
-            ifPopCanMove();
+            IfPopCanMove();
         }
     }
 
