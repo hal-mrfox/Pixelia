@@ -10,6 +10,14 @@ public class Population : MonoBehaviour, IPointerDownHandler
 {
     public enum PopType { Unemployed, Slave, Soldier, Laborer, Farmer, Clerk, Missionary, Knight, Aristocrat};
     public PopType popType;
+    public enum Religion { Shimbleworth, Parkinsins}
+    public Religion religion;
+    public enum Culture { Crumbus, Yaboi}
+    public Culture culture;
+    public enum Ideology { Tribe, Feudal}
+    public Ideology ideology;
+    public enum Nationality { Sooblian, Idiotlian }
+    public Nationality nationality;
     public Country controller;
     public bool selected;
 

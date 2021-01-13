@@ -9,15 +9,16 @@ using UnityEngine;
 public class ProvinceScript : MonoBehaviour , IClickable
 {
     public Country owner;
-
+    public bool hovering;
     public List<Population> pops;
     public List<Building> buildings;
     public GameObject popsParent;
     public GameObject buildingsParent;
-
-    public bool hovering;
+    public int buildingCapacity;
+    [Range(0, 1)] public float unrest;
+    public int supplyLimit;
+    public float tax;
     bool popCanMove;
-
     int popNameNumber;
 
     public void Start()
@@ -35,6 +36,12 @@ public class ProvinceScript : MonoBehaviour , IClickable
         owner.capital.containingPops.Add(pops[pops.Count - 1]);
         pops[pops.Count - 1].controller = owner;
         pops[pops.Count - 1].OnChangePopType();
+
+        //randomizing pop beliefs
+        pops[pops.Count - 1].religion = (Population.Religion)Random.Range(0, System.Enum.GetNames(typeof(Population.Religion)).Length);
+        pops[pops.Count - 1].culture = (Population.Culture)Random.Range(0, System.Enum.GetNames(typeof(Population.Culture)).Length);
+        pops[pops.Count - 1].ideology = (Population.Ideology)Random.Range(0, System.Enum.GetNames(typeof(Population.Ideology)).Length);
+        pops[pops.Count - 1].nationality = (Population.Nationality)Random.Range(0, System.Enum.GetNames(typeof(Population.Nationality)).Length);
         CountryManager.instance.totalPops.Add(pops[pops.Count - 1]);
         popNameNumber++;
     }
@@ -55,7 +62,7 @@ public class ProvinceScript : MonoBehaviour , IClickable
     public void OnPointerDown()
     {
         //right click on province to open up diplomacy with owner
-        if (Input.GetKeyDown(KeyCode.Mouse1))
+        if (Input.GetKeyDown(KeyCode.Mouse1) && CountryManager.instance.available == true)
         {
             CountryManager.instance.openWindowSound.Play();
             if (CountryManager.instance.selectedPop != null && hovering == true && popCanMove)
@@ -73,14 +80,16 @@ public class ProvinceScript : MonoBehaviour , IClickable
                 CountryManager.instance.window.target = owner;
                 CountryManager.instance.window.provinceTarget = this;
                 CountryManager.instance.window.gameObject.SetActive(true);
+                CountryManager.instance.window.OnClicked();
             }
         }
         //left click on province to open up province viewer
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+        if (Input.GetKeyDown(KeyCode.Mouse0) && CountryManager.instance.available == true)
         {
             CountryManager.instance.windowProvince.target = owner;
             CountryManager.instance.windowProvince.provinceTarget = this;
             CountryManager.instance.windowProvince.gameObject.SetActive(true);
+            CountryManager.instance.windowProvince.OnClicked();
         }
     }
 

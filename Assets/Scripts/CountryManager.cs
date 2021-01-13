@@ -14,6 +14,7 @@ public class CountryManager : MonoBehaviour
     public List<ProvinceScript> provinces;
     public Country playerCountry;
     public Population selectedPop;
+    public bool available;
     public Window window;
     public WindowProvince windowProvince;
 
@@ -21,6 +22,8 @@ public class CountryManager : MonoBehaviour
     public Building buildingPrefab;
 
     public GameObject cursorIcon;
+    public RectTransform crownLine;
+    public RectTransform crown;
 
     public List<Building> totalBuildings;
     public List<Population> totalPops;
@@ -29,6 +32,7 @@ public class CountryManager : MonoBehaviour
     public Color blue;
     public Color green;
     public Color yellow;
+    public Color tan;
 
     public AudioSource openWindowSound;
 
@@ -44,7 +48,6 @@ public class CountryManager : MonoBehaviour
 
 
     //UI\\
-
 
     public void VisibleMouse()
     {
@@ -77,7 +80,6 @@ public class CountryManager : MonoBehaviour
             }
             else
             {
-                window.markBuildingSpot = false;
                 window.ExitButton();
             }
         }

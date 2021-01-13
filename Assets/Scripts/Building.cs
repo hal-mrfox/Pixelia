@@ -14,6 +14,8 @@ public class Building : MonoBehaviour, IClickable
     public ProvinceScript provinceController;
     public List<Population> containingPops;
     public int popCapacity;
+    [Range(0, 1)] public float popGrowthCount;
+    public float popGrowth;
     [ReadOnly]
     public bool hovering;
     public Sprite castle;
@@ -95,6 +97,7 @@ public class Building : MonoBehaviour, IClickable
     //pop entering building
     public void OnPointerDown()
     {
+
         if (Input.GetKeyDown(KeyCode.Mouse1) && hovering)
         {
             if (popCanEnter)
