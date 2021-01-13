@@ -14,14 +14,9 @@ public class Window : MonoBehaviour
     public TextMeshProUGUI countryName;
     public Button warButton;
     public TextMeshProUGUI warButtonText;
+    public Button trade;
+    public Button offerAlliance;
     bool atWar;
-
-    public void Awake()
-    {
-        exitButton.onClick.AddListener(ExitButton);
-        warButton.onClick.AddListener(WarButton);
-        gameObject.SetActive(false);
-    }
 
     public void OnEnable()
     {
@@ -44,10 +39,14 @@ public class Window : MonoBehaviour
         if (target == CountryManager.instance.playerCountry)
         {
             warButton.gameObject.SetActive(false);
+            trade.gameObject.SetActive(false);
+            offerAlliance.gameObject.SetActive(false);
         }
         else
         {
             warButton.gameObject.SetActive(true);
+            trade.gameObject.SetActive(true);
+            offerAlliance.gameObject.SetActive(true);
         }
     }
 

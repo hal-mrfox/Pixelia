@@ -81,8 +81,9 @@ public class Building : MonoBehaviour, IClickable
     {
         if (containingPops.Count == 0 && controller.capital != this)
         {
-            Destroy(gameObject);
             CountryManager.instance.totalBuildings.Remove(this);
+            provinceController.buildings.Remove(this);
+            Destroy(gameObject);
         }
         else if (controller.capital == this)
         {

@@ -25,18 +25,21 @@ public class WindowProvince : MonoBehaviour
     //resources!
     bool isPlayer;
     public List<Button> buildingSlots;
-        //sub windows
+    //sub windows
     //seeing building info window stuff
     public GameObject buildingInfoWindow;
     //creating new buildings stuff
     public GameObject createBuildingMarker;
     public GameObject selectBuildingWindow;
-    bool markBuildingSpot;
     public int selectedBuildingType;
+    //destroying buildings stuff
+    public Building selectedBuilding;
+    public GameObject destroyBuildingConfirmation;
+    //local
+    bool markBuildingSpot;
 
     public void Awake()
     {
-        gameObject.SetActive(false);
         createBuildingMarker.SetActive(false);
     }
     public void OnEnable()
@@ -100,33 +103,18 @@ public class WindowProvince : MonoBehaviour
         this.dominantCulture.text = ((Population.Culture)dominantCulture).ToString();
         this.dominantIdeology.text = ((Population.Ideology)dominantIdeology).ToString();
     }
-
-    public void SetBuildings()
-    {
-        for (int i = 0; i < buildingSlots.Count; i++)
-        {
-            if (i < provinceTarget.buildings.Count)
-            {
-                buildingSlots[i].gameObject.SetActive(true);
-                buildingSlots[i].GetComponent<Image>().color = CountryManager.instance.tan;
-            }
-            else if (i == provinceTarget.buildings.Count)
-            {
-                buildingSlots[i].gameObject.SetActive(true);
-                buildingSlots[i].GetComponent<Image>().color = CountryManager.instance.green;
-            }
-            else if (i > provinceTarget.buildings.Count)
-            {
-                buildingSlots[i].gameObject.SetActive(false);
-            }
-        }
-    }
     public void BuildingButton(int buildingNumber)
     {
         if (buildingNumber < provinceTarget.buildings.Count)
         {
+            if (selectedBuilding != null)
+            {
+                selectedBuilding.RefreshColor();
+            }
             buildingInfoWindow.gameObject.SetActive(buildingNumber < provinceTarget.buildings.Count);
-            buildingName.text = provinceTarget.buildings[buildingNumber].name;
+            selectedBuilding = provinceTarget.buildings[buildingNumber];
+            buildingName.text = selectedBuilding.name;
+            selectedBuilding.GetComponent<Image>().color = CountryManager.instance.yellow;
         }
         else if (buildingNumber == provinceTarget.buildings.Count)
         {
@@ -145,6 +133,11 @@ public class WindowProvince : MonoBehaviour
         {
             print("this aint yo country");
         }
+
+        if (Input.GetKeyDown(KeyCode.Mouse1))
+        {
+            selectBuildingWindow.gameObject.SetActive(false);
+        }
     }
     public void BuildingCreation(int buildingID)
     {
@@ -160,6 +153,40 @@ public class WindowProvince : MonoBehaviour
         else
         {
             print("You have reached this provinces building capacity!");
+        }
+    }
+    public void BuildingDestructionConfirmation()
+    {
+        destroyBuildingConfirmation.gameObject.SetActive(true);
+    }
+    public void BuildingDestructionNo()
+    {
+        destroyBuildingConfirmation.gameObject.SetActive(false);
+    }
+    public void BuildingDestructionYes()
+    {
+        destroyBuildingConfirmation.gameObject.SetActive(false);
+        selectedBuilding.DestroyBuilding();
+        SetBuildings();
+    }
+    public void SetBuildings()
+    {
+        for (int i = 0; i < buildingSlots.Count; i++)
+        {
+            if (i < provinceTarget.buildings.Count)
+            {
+                buildingSlots[i].gameObject.SetActive(true);
+                buildingSlots[i].GetComponent<Image>().color = CountryManager.instance.tan;
+            }
+            else if (i == provinceTarget.buildings.Count)
+            {
+                buildingSlots[i].gameObject.SetActive(true);
+                buildingSlots[i].GetComponent<Image>().color = CountryManager.instance.green;
+            }
+            else if (i > provinceTarget.buildings.Count)
+            {
+                buildingSlots[i].gameObject.SetActive(false);
+            }
         }
     }
     public void Update()
@@ -182,6 +209,7 @@ public class WindowProvince : MonoBehaviour
             else if (provinceTarget.buildings.Count >= provinceTarget.buildingCapacity)
             {
                 print("You have reached this provinces building capacity!");
+                CloseBuildingWindow();
             }
             //close creating building window
             if (Input.GetKeyDown(KeyCode.Mouse1))
@@ -204,9 +232,22 @@ public class WindowProvince : MonoBehaviour
     public void CloseMainWindow()
     {
         gameObject.SetActive(false);
+        if (selectedBuilding != null)
+        {
+            selectedBuilding.RefreshColor();
+        }
+        //setting selected building color back to its lieges
+        if (selectedBuilding != null)
+        {
+            selectedBuilding.RefreshColor();
+        }
     }
     public void CloseBuildingInfoWindow()
     {
+        if (selectedBuilding != null)
+        {
+            selectedBuilding.RefreshColor();
+        }
         buildingInfoWindow.SetActive(false);
     }
 
