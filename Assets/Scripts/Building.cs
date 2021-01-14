@@ -58,9 +58,7 @@ public class Building : MonoBehaviour, IClickable
 
         GetComponent<Image>().SetNativeSize();
     }
-
-    [Button]
-    public void RaisePop()
+    public void RaisePop(int popNum)
     {
         //place pops in correct place! (capitals coords)
         if (containingPops.Count == 0)
@@ -70,13 +68,13 @@ public class Building : MonoBehaviour, IClickable
         else
         {
             //setting 1 pop in building to free
-            containingPops[containingPops.Count - 1].gameObject.SetActive(true);
-            containingPops[containingPops.Count - 1].transform.position = transform.position;
-            containingPops.Remove(containingPops[containingPops.Count - 1]);
+            containingPops[popNum].gameObject.SetActive(true);
+            containingPops[popNum].transform.position = transform.position;
+            containingPops.Remove(containingPops[popNum]);
         }
+        CountryManager.instance.windowProvince.SetPops();
     }
 
-    [Button]
     public void DestroyBuilding()
     {
         if (containingPops.Count == 0 && controller.capital != this)
@@ -98,8 +96,7 @@ public class Building : MonoBehaviour, IClickable
     //pop entering building
     public void OnPointerDown()
     {
-
-        if (Input.GetKeyDown(KeyCode.Mouse1) && hovering)
+        if (Input.GetKeyDown(KeyCode.Mouse1) && hovering && CountryManager.instance.selectedPop != null && CountryManager.instance.available == false)
         {
             if (popCanEnter)
             {
@@ -107,29 +104,38 @@ public class Building : MonoBehaviour, IClickable
                 {
                     if (buildingType == BuildingType.Castle)
                     {
-                        //take out of countryManager selected pop and set mouse to visible
-                        containingPops.Add(CountryManager.instance.selectedPop);
-                        RefreshPopState();
-                        CountryManager.instance.VisibleMouse();
+                        MoveIntoBuilding();
                     }
                     else if (buildingType == BuildingType.Farmlands && farmlandsContainable.Contains(CountryManager.instance.selectedPop.popType))
                     {
-                        containingPops.Add(CountryManager.instance.selectedPop);
-                        RefreshPopState();
-                        CountryManager.instance.VisibleMouse();
+                        MoveIntoBuilding();
                     }
                 }
                 else
                 {
                     //***DO BATTLE HERE***\\
                     ChangeBuildingOwnership();
+                    MoveIntoBuilding();
                 }
+                CountryManager.instance.selectedPop = null;
+                CountryManager.instance.VisibleMouse();
             }
             else
             {
                 print("You cannot enter here because you have no military access");
             }
         }
+    }
+
+    public void MoveIntoBuilding()
+    {
+        containingPops.Add(CountryManager.instance.selectedPop);
+        CountryManager.instance.selectedPop.provinceController.pops.Remove(CountryManager.instance.selectedPop);
+        provinceController.pops.Add(CountryManager.instance.selectedPop);
+        CountryManager.instance.available = true;
+        CountryManager.instance.windowProvince.SetPops();
+        CountryManager.instance.windowProvince.Refresh();
+        RefreshPopState();
     }
 
     public void ChangeBuildingOwnership()
@@ -155,6 +161,7 @@ public class Building : MonoBehaviour, IClickable
                 allControlled = false;
             }
         }
+        //do after player selects to end the war!!!!
         if (this == controller.capital || allControlled)
         {
             provinceController.ChangeProvinceOwnership();
@@ -164,7 +171,6 @@ public class Building : MonoBehaviour, IClickable
         controller = CountryManager.instance.playerCountry;
         RefreshPopState();
         RefreshColor();
-        CountryManager.instance.VisibleMouse();
     }
 
     public void OnPointerEnter()
@@ -221,7 +227,6 @@ public class Building : MonoBehaviour, IClickable
         for (int i = 0; i < containingPops.Count; i++)
         {
             containingPops[i].gameObject.SetActive(false);
-            CountryManager.instance.selectedPop = null;
         }
     }
 

@@ -17,6 +17,12 @@ public class Country : MonoBehaviour
     public List<ProvinceScript> ownedProvinces;
     public List<Country> atWar;
     public List<Population> population;
+    public enum Religion { Shimbleworth, Shmoobli }
+    public Religion religion;
+    public enum Culture { Crumbus, Yaboi }
+    public Culture culture;
+    public enum Ideology { Tribe, Feudal }
+    public Ideology ideology;
 
     [Button]
     public void UpgradeTier()

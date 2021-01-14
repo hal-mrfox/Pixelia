@@ -10,7 +10,7 @@ public class Population : MonoBehaviour, IPointerDownHandler
 {
     public enum PopType { Unemployed, Slave, Soldier, Laborer, Farmer, Clerk, Missionary, Knight, Aristocrat};
     public PopType popType;
-    public enum Religion { Shimbleworth, Parkinsins}
+    public enum Religion { Shimbleworth, Shmoobli}
     public Religion religion;
     public enum Culture { Crumbus, Yaboi}
     public Culture culture;
@@ -19,6 +19,7 @@ public class Population : MonoBehaviour, IPointerDownHandler
     public enum Nationality { Sooblian, Idiotlian }
     public Nationality nationality;
     public Country controller;
+    public ProvinceScript provinceController;
     public bool selected;
 
     public void Start()
@@ -34,6 +35,7 @@ public class Population : MonoBehaviour, IPointerDownHandler
         {
             CountryManager.instance.selectedPop = this;
             CountryManager.instance.VisibleMouse();
+            CountryManager.instance.available = false;
         }
         else if (Input.GetKeyDown(KeyCode.Mouse0) && !CountryManager.instance.playerCountry.population.Contains(this))
         {

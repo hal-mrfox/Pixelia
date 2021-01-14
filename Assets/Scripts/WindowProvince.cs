@@ -28,6 +28,7 @@ public class WindowProvince : MonoBehaviour
     //sub windows
     //seeing building info window stuff
     public GameObject buildingInfoWindow;
+    public List<GameObject> buildingPopSlots;
     //creating new buildings stuff
     public GameObject createBuildingMarker;
     public GameObject selectBuildingWindow;
@@ -67,6 +68,7 @@ public class WindowProvince : MonoBehaviour
         int[] religionCounts = new int[System.Enum.GetNames(typeof(Population.Religion)).Length];
         int[] cultureCounts = new int[System.Enum.GetNames(typeof(Population.Culture)).Length];
         int[] ideologyCounts = new int[System.Enum.GetNames(typeof(Population.Ideology)).Length];
+        //int targetReligion = (
 
         for (int i = 0; i < provinceTarget.pops.Count; i++)
         {
@@ -100,12 +102,44 @@ public class WindowProvince : MonoBehaviour
             }
         }
         this.dominantReligion.text = ((Population.Religion)dominantReligion).ToString();
+        if (dominantReligion == (int)CountryManager.instance.playerCountry.religion)
+        {
+            this.dominantReligion.color = CountryManager.instance.green;
+        }
+        else
+        {
+            this.dominantReligion.color = CountryManager.instance.red;
+        }
+
         this.dominantCulture.text = ((Population.Culture)dominantCulture).ToString();
+        if (dominantCulture == (int)CountryManager.instance.playerCountry.culture)
+        {
+            this.dominantCulture.color = CountryManager.instance.green;
+        }
+        else
+        {
+            this.dominantCulture.color = CountryManager.instance.red;
+        }
+
         this.dominantIdeology.text = ((Population.Ideology)dominantIdeology).ToString();
+        if (dominantIdeology == (int)CountryManager.instance.playerCountry.ideology)
+        {
+            this.dominantIdeology.color = CountryManager.instance.green;
+        }
+        else
+        {
+            this.dominantIdeology.color = CountryManager.instance.red;
+        }
     }
+
+    public void RaisePopButton(int popNum)
+    {
+        selectedBuilding.RaisePop(popNum);
+    }
+
     public void BuildingButton(int buildingNumber)
     {
-        if (buildingNumber < provinceTarget.buildings.Count)
+        if (buildingNumber < provinceTarget.buildings.Count && target == CountryManager.instance.playerCountry)
         {
             if (selectedBuilding != null)
             {
@@ -115,10 +149,15 @@ public class WindowProvince : MonoBehaviour
             selectedBuilding = provinceTarget.buildings[buildingNumber];
             buildingName.text = selectedBuilding.name;
             selectedBuilding.GetComponent<Image>().color = CountryManager.instance.yellow;
+            SetPops();
         }
-        else if (buildingNumber == provinceTarget.buildings.Count)
+        else if (buildingNumber == provinceTarget.buildings.Count && target == CountryManager.instance.playerCountry)
         {
             CreateBuildingButton();
+        }
+        else if (target != CountryManager.instance.playerCountry)
+        {
+            print("You cannot edit other countries provinces!");
         }
     }
     //Creating Building Window
@@ -131,7 +170,7 @@ public class WindowProvince : MonoBehaviour
         }
         else
         {
-            print("this aint yo country");
+            print("You cannot edit other countries provinces!");
         }
 
         if (Input.GetKeyDown(KeyCode.Mouse1))
@@ -186,6 +225,20 @@ public class WindowProvince : MonoBehaviour
             else if (i > provinceTarget.buildings.Count)
             {
                 buildingSlots[i].gameObject.SetActive(false);
+            }
+        }
+    }
+    public void SetPops()
+    {
+        for (int i = 0; i < buildingPopSlots.Count; i++)
+        {
+            if (i < selectedBuilding.containingPops.Count)
+            {
+                buildingPopSlots[i].gameObject.SetActive(true);
+            }
+            else
+            {
+                buildingPopSlots[i].gameObject.SetActive(false);
             }
         }
     }

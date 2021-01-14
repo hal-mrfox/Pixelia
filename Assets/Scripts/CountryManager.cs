@@ -32,6 +32,7 @@ public class CountryManager : MonoBehaviour
     public Color blue;
     public Color green;
     public Color yellow;
+    public Color orange;
     public Color tan;
 
     public AudioSource openWindowSound;

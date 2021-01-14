@@ -23,9 +23,25 @@ public class ProvinceScript : MonoBehaviour , IClickable
 
     public void Start()
     {
-        AddPop();
+        pops.Add(Instantiate(CountryManager.instance.popPrefab));
+        pops[pops.Count - 1].transform.parent = popsParent.transform;
+        owner.population.Add(pops[pops.Count - 1]);
+        //adding to capitals containing pops (CHANGE TO RANDOM BUILDING IN PROVINCE)
+        owner.capital.containingPops.Add(pops[pops.Count - 1]);
+        pops[pops.Count - 1].controller = owner;
+        pops[pops.Count - 1].provinceController = owner.capitalProvince;
+        pops[pops.Count - 1].OnChangePopType();
+
+        //randomizing pop beliefs
+        pops[pops.Count - 1].religion = (Population.Religion)Random.Range(0, System.Enum.GetNames(typeof(Population.Religion)).Length);
+        pops[pops.Count - 1].culture = (Population.Culture)Random.Range(0, System.Enum.GetNames(typeof(Population.Culture)).Length);
+        pops[pops.Count - 1].ideology = (Population.Ideology)Random.Range(0, System.Enum.GetNames(typeof(Population.Ideology)).Length);
+        pops[pops.Count - 1].nationality = (Population.Nationality)Random.Range(0, System.Enum.GetNames(typeof(Population.Nationality)).Length);
+        CountryManager.instance.totalPops.Add(pops[pops.Count - 1]);
+        popNameNumber++;
     }
 
+    //migrate add and remove pop to building script
     [Button]
     public void AddPop()
     {
@@ -35,6 +51,7 @@ public class ProvinceScript : MonoBehaviour , IClickable
         //adding to capitals containing pops (CHANGE TO RANDOM BUILDING IN PROVINCE)
         owner.capital.containingPops.Add(pops[pops.Count - 1]);
         pops[pops.Count - 1].controller = owner;
+        pops[pops.Count - 1].provinceController = owner.capitalProvince;
         pops[pops.Count - 1].OnChangePopType();
 
         //randomizing pop beliefs
@@ -43,6 +60,7 @@ public class ProvinceScript : MonoBehaviour , IClickable
         pops[pops.Count - 1].ideology = (Population.Ideology)Random.Range(0, System.Enum.GetNames(typeof(Population.Ideology)).Length);
         pops[pops.Count - 1].nationality = (Population.Nationality)Random.Range(0, System.Enum.GetNames(typeof(Population.Nationality)).Length);
         CountryManager.instance.totalPops.Add(pops[pops.Count - 1]);
+        CountryManager.instance.windowProvince.SetPops();
         popNameNumber++;
     }
 
@@ -58,29 +76,33 @@ public class ProvinceScript : MonoBehaviour , IClickable
             popNameNumber--;
         }
     }
-
     public void OnPointerDown()
     {
         //right click on province to open up diplomacy with owner
-        if (Input.GetKeyDown(KeyCode.Mouse1) && CountryManager.instance.available == true)
+        if (Input.GetKeyDown(KeyCode.Mouse1))
         {
-            CountryManager.instance.openWindowSound.Play();
-            if (CountryManager.instance.selectedPop != null && hovering == true && popCanMove)
+            if (CountryManager.instance.selectedPop != null && hovering == true && popCanMove && CountryManager.instance.available == false)
             {
+                CountryManager.instance.selectedPop.provinceController.pops.Remove(CountryManager.instance.selectedPop);
+                pops.Add(CountryManager.instance.selectedPop);
                 CountryManager.instance.selectedPop.transform.position = Input.mousePosition;
+                CountryManager.instance.selectedPop.provinceController = this;
+                CountryManager.instance.available = true;
                 CountryManager.instance.selectedPop = null;
                 CountryManager.instance.VisibleMouse();
+                CountryManager.instance.windowProvince.Refresh();
             }
-            else if (CountryManager.instance.selectedPop != null && popCanMove == false)
+            else if (CountryManager.instance.selectedPop != null && popCanMove == false && CountryManager.instance.available == true)
             {
                 print("You cannot move here because you have no military access");
             }
-            else if (CountryManager.instance.selectedPop == null)
+            else if (CountryManager.instance.selectedPop == null && CountryManager.instance.available == true)
             {
                 CountryManager.instance.window.target = owner;
                 CountryManager.instance.window.provinceTarget = this;
                 CountryManager.instance.window.gameObject.SetActive(true);
                 CountryManager.instance.window.OnClicked();
+                CountryManager.instance.openWindowSound.Play();
             }
         }
         //left click on province to open up province viewer
