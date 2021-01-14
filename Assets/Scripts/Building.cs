@@ -140,14 +140,6 @@ public class Building : MonoBehaviour, IClickable
 
     public void ChangeBuildingOwnership()
     {
-        //changing ownership of pops -- have option to kill all or add to yours?
-        for (int i = 0; i < containingPops.Count; i++)
-        {
-            containingPops[i].controller = CountryManager.instance.playerCountry;
-        }
-        containingPops.Add(CountryManager.instance.selectedPop);
-
-
         //changing ownership of this buildings province if its either the capital or all buildings in province are owned by player country
         //looping through all buildings to see if all buildings are owned by player country
         for (int i = 0; i < provinceController.buildings.Count; i++)
