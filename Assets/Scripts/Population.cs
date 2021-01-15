@@ -20,6 +20,7 @@ public class Population : MonoBehaviour, IPointerDownHandler
     public Nationality nationality;
     public Country controller;
     public ProvinceScript provinceController;
+    public Building residence;
     public bool selected;
 
     public void Start()

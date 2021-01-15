@@ -10,6 +10,9 @@ public class Window : MonoBehaviour
 {
     public Country target;
     public ProvinceScript provinceTarget;
+    public TextMeshProUGUI countryReligion;
+    public TextMeshProUGUI countryCulture;
+    public TextMeshProUGUI countryIdeology;
     public Button exitButton;
     public TextMeshProUGUI countryName;
     public Button warButton;
@@ -26,11 +29,77 @@ public class Window : MonoBehaviour
     public void OnClicked()
     {
         countryName.text = target.name;
+
+        ////selecting dominant religion, culture, and ideology
+        //int[] religionCounts = new int[System.Enum.GetNames(typeof(Population.Religion)).Length];
+        //int[] cultureCounts = new int[System.Enum.GetNames(typeof(Population.Culture)).Length];
+        //int[] ideologyCounts = new int[System.Enum.GetNames(typeof(Population.Ideology)).Length];
+        //
+        //for (int i = 0; i < target.ownedProvinces.Count; i++)
+        //{
+        //    //religionCounts[(int)target.ownedProvinces[i].]++;
+        //    cultureCounts[(int)provinceTarget.pops[i].culture]++;
+        //    ideologyCounts[(int)provinceTarget.pops[i].ideology]++;
+        //}
+        //
+        //int dominantReligion = 0;
+        //for (int i = 1; i < religionCounts.Length; i++)
+        //{
+        //    if (religionCounts[i] > religionCounts[dominantReligion])
+        //    {
+        //        dominantReligion = i;
+        //    }
+        //}
+        //int dominantCulture = 0;
+        //for (int i = 1; i < cultureCounts.Length; i++)
+        //{
+        //    if (cultureCounts[i] > cultureCounts[dominantCulture])
+        //    {
+        //        dominantCulture = i;
+        //    }
+        //}
+        //int dominantIdeology = 0;
+        //for (int i = 1; i < ideologyCounts.Length; i++)
+        //{
+        //    if (ideologyCounts[i] > ideologyCounts[dominantIdeology])
+        //    {
+        //        dominantIdeology = i;
+        //    }
+        //}
+        //this.countryReligion.text = ((Population.Religion)dominantReligion).ToString();
+        //if (dominantReligion == (int)CountryManager.instance.playerCountry.religion)
+        //{
+        //    this.countryReligion.color = CountryManager.instance.green;
+        //}
+        //else
+        //{
+        //    this.countryReligion.color = CountryManager.instance.red;
+        //}
+        //
+        //this.countryCulture.text = ((Population.Culture)dominantCulture).ToString();
+        //if (dominantCulture == (int)CountryManager.instance.playerCountry.culture)
+        //{
+        //    this.countryCulture.color = CountryManager.instance.green;
+        //}
+        //else
+        //{
+        //    this.countryCulture.color = CountryManager.instance.red;
+        //}
+        //
+        //this.countryIdeology.text = ((Population.Ideology)dominantIdeology).ToString();
+        //if (dominantIdeology == (int)CountryManager.instance.playerCountry.ideology)
+        //{
+        //    this.countryIdeology.color = CountryManager.instance.green;
+        //}
+        //else
+        //{
+        //    this.countryIdeology.color = CountryManager.instance.red;
+        //}
+
         IfPlayer();
         IfAlreadyWar();
 
         CountryManager.instance.crown.anchoredPosition = new Vector2(Mathf.Lerp(0, CountryManager.instance.crownLine.rect.width - CountryManager.instance.crown.rect.width, target.prestige), 0);
-
     }
 
     //Check to see player

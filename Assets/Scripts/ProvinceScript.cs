@@ -10,6 +10,12 @@ public class ProvinceScript : MonoBehaviour , IClickable
 {
     public Country owner;
     public bool hovering;
+    public enum Religion { Shimbleworth, Shmoobli }
+    public Religion provinceReligion;
+    public enum Culture { Crumbus, Yaboi }
+    public Culture provinceCulture;
+    public enum Ideology { Tribe, Feudal }
+    public Ideology provinceIdeology;
     public List<Population> pops;
     public List<Building> buildings;
     public GameObject popsParent;
@@ -23,22 +29,48 @@ public class ProvinceScript : MonoBehaviour , IClickable
 
     public void Start()
     {
-        pops.Add(Instantiate(CountryManager.instance.popPrefab));
-        pops[pops.Count - 1].transform.parent = popsParent.transform;
-        owner.population.Add(pops[pops.Count - 1]);
-        //adding to capitals containing pops (CHANGE TO RANDOM BUILDING IN PROVINCE)
-        owner.capital.containingPops.Add(pops[pops.Count - 1]);
-        pops[pops.Count - 1].controller = owner;
-        pops[pops.Count - 1].provinceController = owner.capitalProvince;
-        pops[pops.Count - 1].OnChangePopType();
+        AddPop();
+        RefreshProvinceValues();
+    }
 
-        //randomizing pop beliefs
-        pops[pops.Count - 1].religion = (Population.Religion)Random.Range(0, System.Enum.GetNames(typeof(Population.Religion)).Length);
-        pops[pops.Count - 1].culture = (Population.Culture)Random.Range(0, System.Enum.GetNames(typeof(Population.Culture)).Length);
-        pops[pops.Count - 1].ideology = (Population.Ideology)Random.Range(0, System.Enum.GetNames(typeof(Population.Ideology)).Length);
-        pops[pops.Count - 1].nationality = (Population.Nationality)Random.Range(0, System.Enum.GetNames(typeof(Population.Nationality)).Length);
-        CountryManager.instance.totalPops.Add(pops[pops.Count - 1]);
-        popNameNumber++;
+    public void RefreshProvinceValues()
+    {
+        int[] religionCounts = new int[System.Enum.GetNames(typeof(Population.Religion)).Length];
+        int[] cultureCounts = new int[System.Enum.GetNames(typeof(Population.Culture)).Length];
+        int[] ideologyCounts = new int[System.Enum.GetNames(typeof(Population.Ideology)).Length];
+        for (int i = 0; i < pops.Count; i++)
+        {
+            religionCounts[(int)pops[i].religion]++;
+            cultureCounts[(int)pops[i].culture]++;
+            ideologyCounts[(int)pops[i].ideology]++;
+        }
+        int dominantReligion = 0;
+        for (int i = 1; i < religionCounts.Length; i++)
+        {
+            if (religionCounts[i] > religionCounts[dominantReligion])
+            {
+                dominantReligion = i;
+            }
+        }
+        int dominantCulture = 0;
+        for (int i = 1; i < cultureCounts.Length; i++)
+        {
+            if (cultureCounts[i] > cultureCounts[dominantCulture])
+            {
+                dominantCulture = i;
+            }
+        }
+        int dominantIdeology = 0;
+        for (int i = 1; i < ideologyCounts.Length; i++)
+        {
+            if (ideologyCounts[i] > ideologyCounts[dominantIdeology])
+            {
+                dominantIdeology = i;
+            }
+        }
+        provinceReligion = (Religion)dominantReligion;
+        provinceCulture = (Culture)dominantCulture;
+        provinceIdeology = (Ideology)dominantIdeology;
     }
 
     //migrate add and remove pop to building script
@@ -48,19 +80,17 @@ public class ProvinceScript : MonoBehaviour , IClickable
         pops.Add(Instantiate(CountryManager.instance.popPrefab));
         pops[pops.Count - 1].transform.parent = popsParent.transform;
         owner.population.Add(pops[pops.Count - 1]);
-        //adding to capitals containing pops (CHANGE TO RANDOM BUILDING IN PROVINCE)
+        //switch this to building when migrating
         owner.capital.containingPops.Add(pops[pops.Count - 1]);
         pops[pops.Count - 1].controller = owner;
         pops[pops.Count - 1].provinceController = owner.capitalProvince;
         pops[pops.Count - 1].OnChangePopType();
-
         //randomizing pop beliefs
         pops[pops.Count - 1].religion = (Population.Religion)Random.Range(0, System.Enum.GetNames(typeof(Population.Religion)).Length);
         pops[pops.Count - 1].culture = (Population.Culture)Random.Range(0, System.Enum.GetNames(typeof(Population.Culture)).Length);
         pops[pops.Count - 1].ideology = (Population.Ideology)Random.Range(0, System.Enum.GetNames(typeof(Population.Ideology)).Length);
         pops[pops.Count - 1].nationality = (Population.Nationality)Random.Range(0, System.Enum.GetNames(typeof(Population.Nationality)).Length);
         CountryManager.instance.totalPops.Add(pops[pops.Count - 1]);
-        CountryManager.instance.windowProvince.SetPops();
         popNameNumber++;
     }
 
@@ -90,7 +120,6 @@ public class ProvinceScript : MonoBehaviour , IClickable
                 CountryManager.instance.available = true;
                 CountryManager.instance.selectedPop = null;
                 CountryManager.instance.VisibleMouse();
-                CountryManager.instance.windowProvince.Refresh();
             }
             else if (CountryManager.instance.selectedPop != null && popCanMove == false && CountryManager.instance.available == true)
             {
@@ -113,6 +142,7 @@ public class ProvinceScript : MonoBehaviour , IClickable
             CountryManager.instance.windowProvince.gameObject.SetActive(true);
             CountryManager.instance.windowProvince.OnClicked();
         }
+        RefreshProvinceValues();
     }
 
     public void IfPopCanMove()
@@ -126,15 +156,6 @@ public class ProvinceScript : MonoBehaviour , IClickable
         {
             popCanMove = false;
             CountryManager.instance.cursorIcon.GetComponent<Image>().color = Color.grey;
-        }
-    }
-
-    public void OnPointerEnter()
-    {
-        hovering = true;
-        if (CountryManager.instance.selectedPop != null)
-        {
-            IfPopCanMove();
         }
     }
 
@@ -169,7 +190,16 @@ public class ProvinceScript : MonoBehaviour , IClickable
         //calculate prestige gain?
         owner.RefreshProvinceColors();
     }
-    
+
+    public void OnPointerEnter()
+    {
+        hovering = true;
+        if (CountryManager.instance.selectedPop != null)
+        {
+            IfPopCanMove();
+        }
+    }
+
     public void OnPointerExit()
     {
         hovering = false;

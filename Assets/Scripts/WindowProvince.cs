@@ -18,9 +18,9 @@ public class WindowProvince : MonoBehaviour
     public TextMeshProUGUI taxText;
     public TextMeshProUGUI unrestText;
     public TextMeshProUGUI supplyLimitText;
-    public TextMeshProUGUI dominantReligion;
-    public TextMeshProUGUI dominantCulture;
-    public TextMeshProUGUI dominantIdeology;
+    public TextMeshProUGUI religionText;
+    public TextMeshProUGUI cultureText;
+    public TextMeshProUGUI ideologyText;
 
     //resources!
     bool isPlayer;
@@ -52,11 +52,11 @@ public class WindowProvince : MonoBehaviour
     public void OnClicked()
     {
         IfPlayer();
-        Refresh();
+        RefreshProvinceValues();
         CloseBuildingInfoWindow();
     }
 
-    public void Refresh()
+    public void RefreshProvinceValues()
     {
         SetBuildings();
         countryName.text = target.name;
@@ -64,71 +64,35 @@ public class WindowProvince : MonoBehaviour
         popsCount.text = provinceTarget.pops.Count.ToString();
 
 
-        //selecting dominant religion, culture, and ideology
-        int[] religionCounts = new int[System.Enum.GetNames(typeof(Population.Religion)).Length];
-        int[] cultureCounts = new int[System.Enum.GetNames(typeof(Population.Culture)).Length];
-        int[] ideologyCounts = new int[System.Enum.GetNames(typeof(Population.Ideology)).Length];
-        //int targetReligion = (
-
-        for (int i = 0; i < provinceTarget.pops.Count; i++)
+        //province religion, culture, and ideology text
+        religionText.text = provinceTarget.provinceReligion.ToString();
+        cultureText.text = provinceTarget.provinceCulture.ToString();
+        ideologyText.text = provinceTarget.provinceIdeology.ToString();
+        if (provinceTarget.provinceReligion == (ProvinceScript.Religion)CountryManager.instance.playerCountry.religion)
         {
-            religionCounts[(int)provinceTarget.pops[i].religion]++;
-            cultureCounts[(int)provinceTarget.pops[i].culture]++;
-            ideologyCounts[(int)provinceTarget.pops[i].ideology]++;
-        }
-
-        int dominantReligion = 0;
-        for (int i = 1; i < religionCounts.Length; i++)
-        {
-            if (religionCounts[i] > religionCounts[dominantReligion])
-            {
-                dominantReligion = i;
-            }
-        }
-        int dominantCulture = 0;
-        for (int i = 1; i < cultureCounts.Length; i++)
-        {
-            if (cultureCounts[i] > cultureCounts[dominantCulture])
-            {
-                dominantCulture = i;
-            }
-        }
-        int dominantIdeology = 0;
-        for (int i = 1; i < ideologyCounts.Length; i++)
-        {
-            if (ideologyCounts[i] > ideologyCounts[dominantIdeology])
-            {
-                dominantIdeology = i;
-            }
-        }
-        this.dominantReligion.text = ((Population.Religion)dominantReligion).ToString();
-        if (dominantReligion == (int)CountryManager.instance.playerCountry.religion)
-        {
-            this.dominantReligion.color = CountryManager.instance.green;
+            religionText.color = CountryManager.instance.green;
         }
         else
         {
-            this.dominantReligion.color = CountryManager.instance.red;
+            religionText.color = CountryManager.instance.red;
         }
 
-        this.dominantCulture.text = ((Population.Culture)dominantCulture).ToString();
-        if (dominantCulture == (int)CountryManager.instance.playerCountry.culture)
+        if (provinceTarget.provinceCulture == (ProvinceScript.Culture)CountryManager.instance.playerCountry.culture)
         {
-            this.dominantCulture.color = CountryManager.instance.green;
+            cultureText.color = CountryManager.instance.green;
         }
         else
         {
-            this.dominantCulture.color = CountryManager.instance.red;
+            cultureText.color = CountryManager.instance.red;
         }
 
-        this.dominantIdeology.text = ((Population.Ideology)dominantIdeology).ToString();
-        if (dominantIdeology == (int)CountryManager.instance.playerCountry.ideology)
+        if (provinceTarget.provinceIdeology == (ProvinceScript.Ideology)CountryManager.instance.playerCountry.ideology)
         {
-            this.dominantIdeology.color = CountryManager.instance.green;
+            ideologyText.color = CountryManager.instance.green;
         }
         else
         {
-            this.dominantIdeology.color = CountryManager.instance.red;
+            ideologyText.color = CountryManager.instance.red;
         }
     }
 
@@ -194,6 +158,7 @@ public class WindowProvince : MonoBehaviour
             print("You have reached this provinces building capacity!");
         }
     }
+    //confirmation of destroying buildings
     public void BuildingDestructionConfirmation()
     {
         destroyBuildingConfirmation.gameObject.SetActive(true);

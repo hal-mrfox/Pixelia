@@ -70,6 +70,7 @@ public class Building : MonoBehaviour, IClickable
             //setting 1 pop in building to free
             containingPops[popNum].gameObject.SetActive(true);
             containingPops[popNum].transform.position = transform.position;
+            containingPops[popNum].residence = null;
             containingPops.Remove(containingPops[popNum]);
         }
         CountryManager.instance.windowProvince.SetPops();
@@ -100,23 +101,12 @@ public class Building : MonoBehaviour, IClickable
         {
             if (popCanEnter)
             {
-                if (!controllersAtWar)
-                {
-                    if (buildingType == BuildingType.Castle)
-                    {
-                        MoveIntoBuilding();
-                    }
-                    else if (buildingType == BuildingType.Farmlands && farmlandsContainable.Contains(CountryManager.instance.selectedPop.popType))
-                    {
-                        MoveIntoBuilding();
-                    }
-                }
-                else
+                if (controllersAtWar)
                 {
                     //***DO BATTLE HERE***\\
                     ChangeBuildingOwnership();
-                    MoveIntoBuilding();
                 }
+                MoveIntoBuilding();
                 CountryManager.instance.selectedPop = null;
                 CountryManager.instance.VisibleMouse();
             }
@@ -129,13 +119,15 @@ public class Building : MonoBehaviour, IClickable
 
     public void MoveIntoBuilding()
     {
+        CountryManager.instance.selectedPop.residence = this;
         containingPops.Add(CountryManager.instance.selectedPop);
         CountryManager.instance.selectedPop.provinceController.pops.Remove(CountryManager.instance.selectedPop);
+        CountryManager.instance.selectedPop.provinceController = provinceController;
         provinceController.pops.Add(CountryManager.instance.selectedPop);
         CountryManager.instance.available = true;
         CountryManager.instance.windowProvince.SetPops();
-        CountryManager.instance.windowProvince.Refresh();
-        RefreshPopState();
+        CountryManager.instance.windowProvince.RefreshProvinceValues();
+        DeactivateContainingPops();
     }
 
     public void ChangeBuildingOwnership()
@@ -161,7 +153,7 @@ public class Building : MonoBehaviour, IClickable
         }
         //changing ownership of this building
         controller = CountryManager.instance.playerCountry;
-        RefreshPopState();
+        DeactivateContainingPops();
         RefreshColor();
     }
 
@@ -213,9 +205,8 @@ public class Building : MonoBehaviour, IClickable
         GetComponent<Image>().color = controller.countryColor;
     }
 
-    public void RefreshPopState()
+    public void DeactivateContainingPops()
     {
-        //sets selectedPop in countrymanager to null so theres nothing selected!
         for (int i = 0; i < containingPops.Count; i++)
         {
             containingPops[i].gameObject.SetActive(false);
