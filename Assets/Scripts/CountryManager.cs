@@ -10,16 +10,24 @@ public class CountryManager : MonoBehaviour
 {
     public static CountryManager instance;
 
+    public Country playerCountry;
+    public int nextCountry;
+    public TextMeshProUGUI playerCountryName;
+
     public List<Country> countries;
     public List<ProvinceScript> provinces;
-    public Country playerCountry;
     public Population selectedPop;
+    public PopInfo popInfo;
     public bool available;
-    public Window window;
+    public WindowCountry window;
     public WindowProvince windowProvince;
+    public PopInfo windowPop;
+    public List<InteractableWindow> openWindows;
 
     public Population popPrefab;
     public Building buildingPrefab;
+    public GameObject popParent;
+    public GameObject buildingParent;
 
     public GameObject cursorIcon;
     public RectTransform crownLine;
@@ -37,6 +45,9 @@ public class CountryManager : MonoBehaviour
 
     public AudioSource openWindowSound;
 
+    public float buildingPrestige;
+    public float popPrestige;
+
     public void Awake()
     {
         instance = this;
@@ -44,9 +55,63 @@ public class CountryManager : MonoBehaviour
 
     public void Start()
     {
+        playerCountryName.text = playerCountry.ToString().Replace("(Country)", "");
+
+        nextCountry = countries.IndexOf(playerCountry) + 1;
+
+        for (int i = 0; i < totalBuildings.Count; i++)
+        {
+            totalBuildings[i].CreatePop(1);
+        }
+
         UpdateColors();
     }
 
+    public void NextTurn()
+    {
+        if (nextCountry >= countries.Count)
+        {
+            nextCountry = 0;
+        }
+        for (int i = 0; i < playerCountry.ownedProvinces.Count; i++)
+        {
+            playerCountry.ownedProvinces[i].highlightedCountry.gameObject.SetActive(false);
+        }
+        playerCountry = countries[nextCountry];
+        for (int i = 0; i < playerCountry.ownedProvinces.Count; i++)
+        {
+            playerCountry.ownedProvinces[i].highlightedCountry.gameObject.SetActive(true);
+        }
+        playerCountryName.text = playerCountry.ToString().Replace("(Country)", "");
+        window.CloseWindow();
+        windowProvince.CloseWindow();
+        windowPop.CloseWindow();
+        selectedPop = null;
+        VisibleMouse();
+        nextCountry++;
+        UpdateColors();
+    }
+
+    public void RefreshPlayerCountry()
+    {
+        for (int i = 0; i < provinces.Count; i++)
+        {
+            if (provinces[i].owner == playerCountry)
+            {
+                provinces[i].highlightedCountry.gameObject.SetActive(true);
+                provinces[i].highlightedCountry.color = playerCountry.countryColor;
+                Color.RGBToHSV(provinces[i].GetComponent<Image>().color, out float h, out float s, out float v);
+                v -= 0.1f;
+                print(v);
+                playerCountry.GetComponent<Image>().color = Color.HSVToRGB(h, s, v);
+            }
+            else
+            {
+                provinces[i].highlightedCountry.gameObject.SetActive(false);
+                provinces[i].GetComponent<Image>().color = playerCountry.countryColor;
+            }
+        }
+    }
 
     //UI\\
 
@@ -56,6 +121,7 @@ public class CountryManager : MonoBehaviour
         {
             Cursor.visible = true;
             cursorIcon.SetActive(false);
+            available = true;
         }
         else
         {
@@ -64,7 +130,11 @@ public class CountryManager : MonoBehaviour
         }
     }
 
-    
+    public void RefreshTabs()
+    {
+
+    }
+
     public void Update()
     {
         //open country menu
@@ -90,13 +160,7 @@ public class CountryManager : MonoBehaviour
             cursorIcon.transform.position = Input.mousePosition;
         }
     }
-
-
-    //Colors\\
-
-
     //refreshing owners of pops and buildings
-    [Button]
     public void RefreshControllers()
     {
         for (int i = 0; i < provinces.Count; i++)

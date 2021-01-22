@@ -10,6 +10,7 @@ public class ProvinceScript : MonoBehaviour , IClickable
 {
     public Country owner;
     public bool hovering;
+    public Image highlightedCountry;
     public enum Religion { Shimbleworth, Shmoobli }
     public Religion provinceReligion;
     public enum Culture { Crumbus, Yaboi }
@@ -18,18 +19,30 @@ public class ProvinceScript : MonoBehaviour , IClickable
     public Ideology provinceIdeology;
     public List<Population> pops;
     public List<Building> buildings;
-    public GameObject popsParent;
     public GameObject buildingsParent;
     public int buildingCapacity;
     [Range(0, 1)] public float unrest;
     public int supplyLimit;
     public float tax;
     bool popCanMove;
-    int popNameNumber;
 
     public void Start()
     {
-        AddPop();
+        highlightedCountry = Instantiate(GetComponent<Image>(), transform.position + new Vector3(0f, 2f), Quaternion.identity, transform);
+        Destroy(highlightedCountry.GetComponent<ProvinceScript>());
+        highlightedCountry.color = owner.countryColor;
+        if (owner == CountryManager.instance.playerCountry)
+        {
+            highlightedCountry.gameObject.SetActive(true);
+        }
+        else
+        {
+            highlightedCountry.gameObject.SetActive(false);
+        }
+    }
+
+    public void Update()
+    {
         RefreshProvinceValues();
     }
 
@@ -73,27 +86,6 @@ public class ProvinceScript : MonoBehaviour , IClickable
         provinceIdeology = (Ideology)dominantIdeology;
     }
 
-    //migrate add and remove pop to building script
-    [Button]
-    public void AddPop()
-    {
-        pops.Add(Instantiate(CountryManager.instance.popPrefab));
-        pops[pops.Count - 1].transform.parent = popsParent.transform;
-        owner.population.Add(pops[pops.Count - 1]);
-        //switch this to building when migrating
-        owner.capital.containingPops.Add(pops[pops.Count - 1]);
-        pops[pops.Count - 1].controller = owner;
-        pops[pops.Count - 1].provinceController = owner.capitalProvince;
-        pops[pops.Count - 1].OnChangePopType();
-        //randomizing pop beliefs
-        pops[pops.Count - 1].religion = (Population.Religion)Random.Range(0, System.Enum.GetNames(typeof(Population.Religion)).Length);
-        pops[pops.Count - 1].culture = (Population.Culture)Random.Range(0, System.Enum.GetNames(typeof(Population.Culture)).Length);
-        pops[pops.Count - 1].ideology = (Population.Ideology)Random.Range(0, System.Enum.GetNames(typeof(Population.Ideology)).Length);
-        pops[pops.Count - 1].nationality = (Population.Nationality)Random.Range(0, System.Enum.GetNames(typeof(Population.Nationality)).Length);
-        CountryManager.instance.totalPops.Add(pops[pops.Count - 1]);
-        popNameNumber++;
-    }
-
     [Button]
     public void RemovePop()
     {
@@ -103,7 +95,6 @@ public class ProvinceScript : MonoBehaviour , IClickable
             owner.population.Remove(pops[pops.Count - 1]);
             CountryManager.instance.totalPops.Remove(pops[pops.Count - 1]);
             pops.Remove(pops[pops.Count - 1]);
-            popNameNumber--;
         }
     }
     public void OnPointerDown()
@@ -137,12 +128,12 @@ public class ProvinceScript : MonoBehaviour , IClickable
         //left click on province to open up province viewer
         if (Input.GetKeyDown(KeyCode.Mouse0) && CountryManager.instance.available == true)
         {
+            CountryManager.instance.windowProvince.buildingInfoWindow.gameObject.SetActive(false);
             CountryManager.instance.windowProvince.target = owner;
             CountryManager.instance.windowProvince.provinceTarget = this;
             CountryManager.instance.windowProvince.gameObject.SetActive(true);
             CountryManager.instance.windowProvince.OnClicked();
         }
-        RefreshProvinceValues();
     }
 
     public void IfPopCanMove()
@@ -183,12 +174,37 @@ public class ProvinceScript : MonoBehaviour , IClickable
         //Ending war for both sides
         owner.atWar.Remove(CountryManager.instance.playerCountry);
         CountryManager.instance.playerCountry.atWar.Remove(owner);
+        //Calculating prestige gain
+        float prestigeGain = 0f;
+        for (int i = 0; i < buildings.Count; i++)
+        {
+            prestigeGain += CountryManager.instance.buildingPrestige;
+        }
+        for (int i = 0; i < pops.Count; i++)
+        {
+            prestigeGain += CountryManager.instance.popPrestige;
+        }
+        //adding and subtracting prestige values
+        CountryManager.instance.playerCountry.prestige += prestigeGain;
+        owner.prestige -= prestigeGain;
+        if (owner.prestige < 0)
+        {
+            owner.prestige -= owner.prestige;
+        }
+        //destroying country if it owns no provinces
+        if (owner.ownedProvinces.Count == 0)
+        {
+            CountryManager.instance.countries.Remove(owner);
+        }
         //Setting new owner to be playerCountry
         owner = CountryManager.instance.playerCountry;
         //Adding Province to new owner
         owner.ownedProvinces.Add(this);
-        //calculate prestige gain?
         owner.RefreshProvinceColors();
+        highlightedCountry.color = owner.countryColor;
+        highlightedCountry.gameObject.SetActive(true);
+        CountryManager.instance.window.CloseWindow();
+        CountryManager.instance.UpdateColors();
     }
 
     public void OnPointerEnter()

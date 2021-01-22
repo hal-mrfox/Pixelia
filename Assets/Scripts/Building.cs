@@ -16,6 +16,7 @@ public class Building : MonoBehaviour, IClickable
     public int popCapacity;
     [Range(0, 1)] public float popGrowthCount;
     public float popGrowth;
+    public float upkeep;
     [ReadOnly]
     public bool hovering;
     public Sprite castle;
@@ -29,7 +30,6 @@ public class Building : MonoBehaviour, IClickable
     public List<Population.PopType> villageContainable;
     bool popCanEnter;
     bool controllersAtWar;
-    bool allControlled;
 
     public void Start()
     {
@@ -70,10 +70,33 @@ public class Building : MonoBehaviour, IClickable
             //setting 1 pop in building to free
             containingPops[popNum].gameObject.SetActive(true);
             containingPops[popNum].transform.position = transform.position;
-            containingPops[popNum].residence = null;
+            containingPops[popNum].containingBuilding = null;
             containingPops.Remove(containingPops[popNum]);
         }
-        CountryManager.instance.windowProvince.SetPops();
+    }
+
+    //pops editing
+    [Button]
+    public void CreatePop(int chosenPopID)
+    {
+        //adding new pop to this, this.provinceController, this.controller and CountryManager totalPops
+        containingPops.Add(Instantiate(CountryManager.instance.popPrefab));
+        provinceController.pops.Add(containingPops[containingPops.Count - 1]);
+        controller.population.Add(containingPops[containingPops.Count - 1]);
+        CountryManager.instance.totalPops.Add(containingPops[containingPops.Count - 1]);
+        //setting pop type
+        containingPops[containingPops.Count - 1].popType = (Population.PopType)chosenPopID;
+        //setting its parent to be the correct one
+        containingPops[containingPops.Count - 1].transform.parent = CountryManager.instance.popParent.transform;
+        //setting new pops controllers
+        containingPops[containingPops.Count - 1].controller = controller;
+        containingPops[containingPops.Count - 1].provinceController = provinceController;
+        containingPops[containingPops.Count - 1].OnChangePopType();
+        //setting pop beliefs/race
+        containingPops[containingPops.Count - 1].religion = (Population.Religion)containingPops[containingPops.Count - 1].controller.religion;
+        containingPops[containingPops.Count - 1].culture = (Population.Culture)containingPops[containingPops.Count - 1].controller.culture;
+        containingPops[containingPops.Count - 1].ideology = (Population.Ideology)containingPops[containingPops.Count - 1].controller.ideology;
+        containingPops[containingPops.Count - 1].nationality = (Population.Nationality)Random.Range(0, System.Enum.GetNames(typeof(Population.Nationality)).Length);
     }
 
     public void DestroyBuilding()
@@ -101,12 +124,20 @@ public class Building : MonoBehaviour, IClickable
         {
             if (popCanEnter)
             {
-                if (controllersAtWar)
+
+                if (containingPops.Count < popCapacity)
                 {
-                    //***DO BATTLE HERE***\\
-                    ChangeBuildingOwnership();
+                    MoveIntoBuilding();
+                    if (controllersAtWar)
+                    {
+                        //***DO BATTLE HERE***\\
+                        ChangeBuildingOwnership();
+                    }
                 }
-                MoveIntoBuilding();
+                else
+                {
+                    print("This building is at maximum capacity");
+                }
                 CountryManager.instance.selectedPop = null;
                 CountryManager.instance.VisibleMouse();
             }
@@ -119,13 +150,12 @@ public class Building : MonoBehaviour, IClickable
 
     public void MoveIntoBuilding()
     {
-        CountryManager.instance.selectedPop.residence = this;
+        CountryManager.instance.selectedPop.containingBuilding = this;
         containingPops.Add(CountryManager.instance.selectedPop);
         CountryManager.instance.selectedPop.provinceController.pops.Remove(CountryManager.instance.selectedPop);
         CountryManager.instance.selectedPop.provinceController = provinceController;
         provinceController.pops.Add(CountryManager.instance.selectedPop);
         CountryManager.instance.available = true;
-        CountryManager.instance.windowProvince.SetPops();
         CountryManager.instance.windowProvince.RefreshProvinceValues();
         DeactivateContainingPops();
     }
@@ -134,19 +164,17 @@ public class Building : MonoBehaviour, IClickable
     {
         //changing ownership of this buildings province if its either the capital or all buildings in province are owned by player country
         //looping through all buildings to see if all buildings are owned by player country
+        int buildingsControlled = 0;
+            //increment up to see how many are controlled
         for (int i = 0; i < provinceController.buildings.Count; i++)
         {
-            if (provinceController.buildings[i].provinceController != provinceController.owner)
+            if (provinceController.buildings[i].controller != controller)
             {
-                allControlled = true;
-            }
-            else
-            {
-                allControlled = false;
+                buildingsControlled++;
             }
         }
         //do after player selects to end the war!!!!
-        if (this == controller.capital || allControlled)
+        if (buildingsControlled == provinceController.buildings.Count - 1)
         {
             provinceController.ChangeProvinceOwnership();
             provinceController.owner = CountryManager.instance.playerCountry;

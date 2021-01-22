@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UnityEngine;
 
-public class Population : MonoBehaviour, IPointerDownHandler
+public class Population : MonoBehaviour, IClickable
 {
     public enum PopType { Unemployed, Slave, Soldier, Laborer, Farmer, Clerk, Missionary, Knight, Aristocrat};
     public PopType popType;
@@ -20,21 +20,22 @@ public class Population : MonoBehaviour, IPointerDownHandler
     public Nationality nationality;
     public Country controller;
     public ProvinceScript provinceController;
-    public Building residence;
+    public Building containingBuilding;
     public bool selected;
 
     public void Start()
     {
-        RefreshColor();
         transform.position = controller.capital.transform.position;
         gameObject.SetActive(false);
     }
 
-    public void OnPointerDown(PointerEventData eventData)
+    public void OnPointerDown()
     {
         if (Input.GetKeyDown(KeyCode.Mouse0) && CountryManager.instance.playerCountry.population.Contains(this))
         {
             CountryManager.instance.selectedPop = this;
+            CountryManager.instance.popInfo.gameObject.SetActive(true);
+            CountryManager.instance.popInfo.Refresh();
             CountryManager.instance.VisibleMouse();
             CountryManager.instance.available = false;
         }
@@ -43,17 +44,46 @@ public class Population : MonoBehaviour, IPointerDownHandler
             print("This isn't your unit");
         }
     }
-
+    public void Update()
+    {
+        RefreshColor();
+    }
     //refresh after taken over
     public void RefreshColor()
     {
-        GetComponent<Image>().color = controller.countryColor;
+        if (CountryManager.instance.selectedPop == this)
+        {
+            CountryManager.instance.selectedPop.GetComponent<Image>().color = CountryManager.instance.yellow;
+        }
+        else
+        {
+            GetComponent<Image>().color = controller.countryColor;
+        }
     }
 
-    [Button]
     public void OnChangePopType()
     {
         name = controller.name + "'s " + popType;
+    }
+
+    public Image GetImage()
+    {
+        return GetComponent<Image>();
+    }
+
+    public void OnPointerEnter()
+    {
+
+    }
+
+    public void OnPointerExit()
+    {
+
+    }
+
+    public bool IsProvince()
+    {
+        return false;
     }
 
     ////different options for moving -- not just being selected
