@@ -3,6 +3,7 @@ using NaughtyAttributes;
 using TMPro;
 using System.Collections.Generic;
 using UnityEngine.EventSystems;
+using System.Linq;
 using UnityEngine.UI;
 using UnityEngine;
 
@@ -24,12 +25,15 @@ public class Country : MonoBehaviour
     public enum Ideology { Tribe, Feudal }
     public Ideology ideology;
 
-    [Button]
+
     public void UpgradeTier()
     {
-
+        if (prestige >= 1)
+        {
+            tier += 1;
+        }
     }
-    [Button]
+
     public void DowngradeTier()
     {
 

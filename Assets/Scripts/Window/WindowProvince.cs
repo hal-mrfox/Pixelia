@@ -12,7 +12,6 @@ public class WindowProvince : InteractableWindow
     public ProvinceScript provinceTarget;
     //UI
     public TextMeshProUGUI popsCount;
-    public TextMeshProUGUI countryName;
     public TextMeshProUGUI provinceName;
     public TextMeshProUGUI taxText;
     public TextMeshProUGUI unrestText;
@@ -20,6 +19,7 @@ public class WindowProvince : InteractableWindow
     public TextMeshProUGUI religionText;
     public TextMeshProUGUI cultureText;
     public TextMeshProUGUI ideologyText;
+    public Image backBar;
     bool isPlayer;
     //move to province
     public int overPopulation;
@@ -65,9 +65,17 @@ public class WindowProvince : InteractableWindow
     public void RefreshProvinceValues()
     {
         SetBuildings();
-        countryName.text = target.name;
         provinceName.text = provinceTarget.name;
         popsCount.text = provinceTarget.pops.Count.ToString();
+        //setting backbar color
+        if (target == CountryManager.instance.playerCountry)
+        {
+            backBar.color = CountryManager.instance.green;
+        }
+        else
+        {
+            backBar.color = CountryManager.instance.red;
+        }
         //seeing if over capacity
         int capacity = 0;
         for (int i = 0; i < provinceTarget.buildings.Count; i++)

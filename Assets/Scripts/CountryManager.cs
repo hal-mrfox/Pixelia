@@ -13,6 +13,7 @@ public class CountryManager : MonoBehaviour
     public Country playerCountry;
     public int nextCountry;
     public TextMeshProUGUI playerCountryName;
+    public RectTransform backgroundPrestige;
 
     public List<Country> countries;
     public List<ProvinceScript> provinces;
@@ -23,6 +24,7 @@ public class CountryManager : MonoBehaviour
     public WindowProvince windowProvince;
     public PopInfo windowPop;
     public List<InteractableWindow> openWindows;
+    public bool altMode;
 
     public Population popPrefab;
     public Building buildingPrefab;
@@ -53,6 +55,16 @@ public class CountryManager : MonoBehaviour
         instance = this;
     }
 
+    public void CreateTitle()
+    {
+        playerCountry.UpgradeTier();
+    }
+
+    public void OnValidate()
+    {
+        RefreshTabs();
+    }
+
     public void Start()
     {
         playerCountryName.text = playerCountry.ToString().Replace("(Country)", "");
@@ -65,6 +77,8 @@ public class CountryManager : MonoBehaviour
         }
 
         UpdateColors();
+
+        RefreshTabs();
     }
 
     public void NextTurn()
@@ -90,6 +104,7 @@ public class CountryManager : MonoBehaviour
         VisibleMouse();
         nextCountry++;
         UpdateColors();
+        RefreshTabs();
     }
 
     public void RefreshPlayerCountry()
@@ -132,11 +147,20 @@ public class CountryManager : MonoBehaviour
 
     public void RefreshTabs()
     {
-
+        backgroundPrestige.sizeDelta = new Vector2(Mathf.Clamp(110 * playerCountry.prestige, 0, 110), backgroundPrestige.sizeDelta.y);
     }
 
     public void Update()
     {
+        if (Input.GetKey(KeyCode.LeftAlt))
+        {
+            altMode = true;
+        }
+        else
+        {
+            altMode = false;
+        }
+
         //open country menu
         if (Input.GetKeyDown(KeyCode.Tab))
         {

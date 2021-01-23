@@ -19,6 +19,7 @@ public class ProvinceScript : MonoBehaviour , IClickable
     public Ideology provinceIdeology;
     public List<Population> pops;
     public List<Building> buildings;
+    public List<Population> occupants;
     public GameObject buildingsParent;
     public int buildingCapacity;
     [Range(0, 1)] public float unrest;
@@ -105,9 +106,16 @@ public class ProvinceScript : MonoBehaviour , IClickable
             if (CountryManager.instance.selectedPop != null && hovering == true && popCanMove && CountryManager.instance.available == false)
             {
                 CountryManager.instance.selectedPop.provinceController.pops.Remove(CountryManager.instance.selectedPop);
-                pops.Add(CountryManager.instance.selectedPop);
+                if (owner == CountryManager.instance.playerCountry)
+                {
+                    pops.Add(CountryManager.instance.selectedPop);
+                    CountryManager.instance.selectedPop.provinceController = this;
+                }
+                else
+                {
+                    occupants.Add(CountryManager.instance.selectedPop);
+                }
                 CountryManager.instance.selectedPop.transform.position = Input.mousePosition;
-                CountryManager.instance.selectedPop.provinceController = this;
                 CountryManager.instance.available = true;
                 CountryManager.instance.selectedPop = null;
                 CountryManager.instance.VisibleMouse();
@@ -205,6 +213,7 @@ public class ProvinceScript : MonoBehaviour , IClickable
         highlightedCountry.gameObject.SetActive(true);
         CountryManager.instance.window.CloseWindow();
         CountryManager.instance.UpdateColors();
+        CountryManager.instance.RefreshTabs();
     }
 
     public void OnPointerEnter()

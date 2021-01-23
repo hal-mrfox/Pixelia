@@ -19,13 +19,18 @@ public class Population : MonoBehaviour, IClickable
     public enum Nationality { Sooblian, Idiotlian }
     public Nationality nationality;
     public Country controller;
+    //energy is what every pop can do each turn
+    public float energy;
     public ProvinceScript provinceController;
     public Building containingBuilding;
     public bool selected;
+    public GameObject details;
+    public TextMeshProUGUI popTypeText;
 
     public void Start()
     {
         transform.position = controller.capital.transform.position;
+        popTypeText.text = popType.ToString();
         gameObject.SetActive(false);
     }
 
@@ -47,6 +52,15 @@ public class Population : MonoBehaviour, IClickable
     public void Update()
     {
         RefreshColor();
+
+        if (CountryManager.instance.altMode)
+        {
+            details.SetActive(true);
+        }
+        else
+        {
+            details.SetActive(false);
+        }
     }
     //refresh after taken over
     public void RefreshColor()
