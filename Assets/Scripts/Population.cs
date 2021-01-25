@@ -36,7 +36,7 @@ public class Population : MonoBehaviour, IClickable
 
     public void OnPointerDown()
     {
-        if (Input.GetKeyDown(KeyCode.Mouse0) && CountryManager.instance.playerCountry.population.Contains(this))
+        if (Input.GetKeyDown(KeyCode.Mouse0) && controller == CountryManager.instance.playerCountry)
         {
             CountryManager.instance.selectedPop = this;
             CountryManager.instance.popInfo.gameObject.SetActive(true);
@@ -44,7 +44,7 @@ public class Population : MonoBehaviour, IClickable
             CountryManager.instance.VisibleMouse();
             CountryManager.instance.available = false;
         }
-        else if (Input.GetKeyDown(KeyCode.Mouse0) && !CountryManager.instance.playerCountry.population.Contains(this))
+        else if (Input.GetKeyDown(KeyCode.Mouse0) && !controller == CountryManager.instance.playerCountry)
         {
             print("This isn't your unit");
         }

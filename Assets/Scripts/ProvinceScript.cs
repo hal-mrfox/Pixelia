@@ -29,17 +29,10 @@ public class ProvinceScript : MonoBehaviour , IClickable
 
     public void Start()
     {
+        GetComponent<Image>().color = owner.countryColor;
         highlightedCountry = Instantiate(GetComponent<Image>(), transform.position + new Vector3(0f, 2f), Quaternion.identity, transform);
         Destroy(highlightedCountry.GetComponent<ProvinceScript>());
-        highlightedCountry.color = owner.countryColor;
-        if (owner == CountryManager.instance.playerCountry)
-        {
-            highlightedCountry.gameObject.SetActive(true);
-        }
-        else
-        {
-            highlightedCountry.gameObject.SetActive(false);
-        }
+        RefreshProvinceColors();
     }
 
     public void Update()
@@ -85,6 +78,27 @@ public class ProvinceScript : MonoBehaviour , IClickable
         provinceReligion = (Religion)dominantReligion;
         provinceCulture = (Culture)dominantCulture;
         provinceIdeology = (Ideology)dominantIdeology;
+    }
+
+    public void RefreshProvinceColors()
+    {
+        if (owner == CountryManager.instance.playerCountry)
+        {
+            highlightedCountry.gameObject.SetActive(true);
+            highlightedCountry.color = owner.countryColor;
+            Color.RGBToHSV(owner.countryColor, out float h, out float s, out float v);
+            v -= 0.3f;
+            if (v < 0)
+            {
+                v = 0;
+            }
+            GetComponent<Image>().color = Color.HSVToRGB(h, s, v);
+        }
+        else
+        {
+            highlightedCountry.gameObject.SetActive(false);
+            GetComponent<Image>().color = owner.countryColor;
+        }
     }
 
     [Button]
@@ -163,7 +177,12 @@ public class ProvinceScript : MonoBehaviour , IClickable
         //changing ownership of pops -- have option to kill all or add to yours?
         for (int i = 0; i < pops.Count; i++)
         {
+            if (pops[i].controller == owner)
+            {
+                CountryManager.instance.playerCountry.population.Add(pops[i]);
+            }
             pops[i].controller = CountryManager.instance.playerCountry;
+            owner.population.Remove(pops[i]);
             pops[i].RefreshColor();
         }
         for (int i = 0; i < buildings.Count; i++)
@@ -173,15 +192,6 @@ public class ProvinceScript : MonoBehaviour , IClickable
         }
         //Removing province from old owner
         owner.ownedProvinces.Remove(this);
-        //Removing pops from old owner and adding new playercountry before playercountry becomes new owner
-        for (int i = 0; i < owner.population.Count; i++)
-        {
-            CountryManager.instance.playerCountry.population.Add(owner.population[i]);
-            owner.population.Remove(owner.population[i]);
-        }
-        //Ending war for both sides
-        owner.atWar.Remove(CountryManager.instance.playerCountry);
-        CountryManager.instance.playerCountry.atWar.Remove(owner);
         //Calculating prestige gain
         float prestigeGain = 0f;
         for (int i = 0; i < buildings.Count; i++)
@@ -199,21 +209,20 @@ public class ProvinceScript : MonoBehaviour , IClickable
         {
             owner.prestige -= owner.prestige;
         }
-        //destroying country if it owns no provinces
+        //destroying country if it owns no provinces & Ending war for both sides if country owns no more provinces
         if (owner.ownedProvinces.Count == 0)
         {
             CountryManager.instance.countries.Remove(owner);
+            owner.atWar.Remove(CountryManager.instance.playerCountry);
+            CountryManager.instance.playerCountry.atWar.Remove(owner);
         }
         //Setting new owner to be playerCountry
         owner = CountryManager.instance.playerCountry;
         //Adding Province to new owner
         owner.ownedProvinces.Add(this);
-        owner.RefreshProvinceColors();
-        highlightedCountry.color = owner.countryColor;
-        highlightedCountry.gameObject.SetActive(true);
+        RefreshProvinceColors();
         CountryManager.instance.window.CloseWindow();
-        CountryManager.instance.UpdateColors();
-        CountryManager.instance.RefreshTabs();
+        //CountryManager.instance.SetUI();
     }
 
     public void OnPointerEnter()

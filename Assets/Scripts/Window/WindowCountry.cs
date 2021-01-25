@@ -19,6 +19,9 @@ public class WindowCountry : InteractableWindow
     public TextMeshProUGUI warButtonText;
     public Button trade;
     public Button offerAlliance;
+    public RectTransform crown;
+    public RectTransform crownLine;
+    public Image crownIcon;
     bool atWar;
 
     public void OnEnable()
@@ -35,6 +38,10 @@ public class WindowCountry : InteractableWindow
     public void OnClicked()
     {
         countryName.text = target.name;
+
+        Sprite crown = CountryManager.instance.crownTiers[(int)target.tier];
+        crownIcon.sprite = crown;
+        crownIcon.SetNativeSize();
 
         ////selecting dominant religion, culture, and ideology
         //int[] religionCounts = new int[System.Enum.GetNames(typeof(Population.Religion)).Length];
@@ -105,7 +112,7 @@ public class WindowCountry : InteractableWindow
         IfPlayer();
         IfAlreadyWar();
 
-        CountryManager.instance.crown.anchoredPosition = new Vector2(Mathf.Lerp(0, CountryManager.instance.crownLine.rect.width - CountryManager.instance.crown.rect.width, target.prestige), 0);
+        this.crown.anchoredPosition = new Vector2(Mathf.Lerp(0, crownLine.rect.width - crown.rect.width, target.prestige), 0);
     }
 
     //Check to see player

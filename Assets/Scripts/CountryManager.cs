@@ -12,6 +12,7 @@ public class CountryManager : MonoBehaviour
 
     public Country playerCountry;
     public int nextCountry;
+    public int turn;
     public TextMeshProUGUI playerCountryName;
     public RectTransform backgroundPrestige;
 
@@ -32,11 +33,12 @@ public class CountryManager : MonoBehaviour
     public GameObject buildingParent;
 
     public GameObject cursorIcon;
-    public RectTransform crownLine;
-    public RectTransform crown;
 
     public List<Building> totalBuildings;
     public List<Population> totalPops;
+
+    public Image crownIcon;
+    public Sprite[] crownTiers;
 
     public Color red;
     public Color blue;
@@ -60,11 +62,6 @@ public class CountryManager : MonoBehaviour
         playerCountry.UpgradeTier();
     }
 
-    public void OnValidate()
-    {
-        RefreshTabs();
-    }
-
     public void Start()
     {
         playerCountryName.text = playerCountry.ToString().Replace("(Country)", "");
@@ -75,10 +72,7 @@ public class CountryManager : MonoBehaviour
         {
             totalBuildings[i].CreatePop(1);
         }
-
-        UpdateColors();
-
-        RefreshTabs();
+        SetUI();
     }
 
     public void NextTurn()
@@ -87,15 +81,7 @@ public class CountryManager : MonoBehaviour
         {
             nextCountry = 0;
         }
-        for (int i = 0; i < playerCountry.ownedProvinces.Count; i++)
-        {
-            playerCountry.ownedProvinces[i].highlightedCountry.gameObject.SetActive(false);
-        }
         playerCountry = countries[nextCountry];
-        for (int i = 0; i < playerCountry.ownedProvinces.Count; i++)
-        {
-            playerCountry.ownedProvinces[i].highlightedCountry.gameObject.SetActive(true);
-        }
         playerCountryName.text = playerCountry.ToString().Replace("(Country)", "");
         window.CloseWindow();
         windowProvince.CloseWindow();
@@ -103,29 +89,12 @@ public class CountryManager : MonoBehaviour
         selectedPop = null;
         VisibleMouse();
         nextCountry++;
-        UpdateColors();
-        RefreshTabs();
-    }
-
-    public void RefreshPlayerCountry()
-    {
+        turn++;
         for (int i = 0; i < provinces.Count; i++)
         {
-            if (provinces[i].owner == playerCountry)
-            {
-                provinces[i].highlightedCountry.gameObject.SetActive(true);
-                provinces[i].highlightedCountry.color = playerCountry.countryColor;
-                Color.RGBToHSV(provinces[i].GetComponent<Image>().color, out float h, out float s, out float v);
-                v -= 0.1f;
-                print(v);
-                playerCountry.GetComponent<Image>().color = Color.HSVToRGB(h, s, v);
-            }
-            else
-            {
-                provinces[i].highlightedCountry.gameObject.SetActive(false);
-                provinces[i].GetComponent<Image>().color = playerCountry.countryColor;
-            }
+            provinces[i].RefreshProvinceColors();
         }
+        //SetUI();
     }
 
     //UI\\
@@ -145,8 +114,12 @@ public class CountryManager : MonoBehaviour
         }
     }
 
-    public void RefreshTabs()
+    public void SetUI()
     {
+        Sprite crown = crownTiers[(int)playerCountry.tier];
+        crownIcon.sprite = crown;
+        crownIcon.SetNativeSize();
+
         backgroundPrestige.sizeDelta = new Vector2(Mathf.Clamp(110 * playerCountry.prestige, 0, 110), backgroundPrestige.sizeDelta.y);
     }
 
@@ -183,6 +156,8 @@ public class CountryManager : MonoBehaviour
         {
             cursorIcon.transform.position = Input.mousePosition;
         }
+
+        SetUI();
     }
     //refreshing owners of pops and buildings
     public void RefreshControllers()
@@ -197,17 +172,6 @@ public class CountryManager : MonoBehaviour
             for (int j = 0; j < provinces[i].buildings.Count; j++)
             {
                 provinces[i].buildings[j].controller = provinces[i].owner;
-            }
-        }
-    }
-    //ALWAYS ONLY SET PROVINCE OWNERSHIP!
-    public void UpdateColors()
-    {
-        for (int i = 0; i < countries.Count; i++)
-        {
-            for (int j = 0; j < countries[i].ownedProvinces.Count; j++)
-            {
-                countries[i].ownedProvinces[j].GetComponent<Image>().color = countries[i].countryColor;
             }
         }
     }

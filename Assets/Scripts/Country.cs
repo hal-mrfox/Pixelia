@@ -25,25 +25,17 @@ public class Country : MonoBehaviour
     public enum Ideology { Tribe, Feudal }
     public Ideology ideology;
 
-
     public void UpgradeTier()
     {
         if (prestige >= 1)
         {
             tier += 1;
+            prestige -= 1;
         }
     }
 
     public void DowngradeTier()
     {
 
-    }
-
-    public void RefreshProvinceColors()
-    {
-        for (int i = 0; i < ownedProvinces.Count; i++)
-        {
-            ownedProvinces[i].GetComponent<Image>().color = countryColor;
-        }
     }
 }

@@ -127,8 +127,11 @@ public class WindowProvince : InteractableWindow
         if (provinceTarget.pops.Count == 0)
         {
             religionText.text = "-";
+            religionText.color = CountryManager.instance.yellow;
             cultureText.text = "-";
+            cultureText.color = CountryManager.instance.yellow;
             ideologyText.text = "-";
+            ideologyText.color = CountryManager.instance.yellow;
         }
     }
     public void BuildingButton(int buildingNumber)

@@ -13,6 +13,7 @@ public class Building : MonoBehaviour, IClickable
     public Country controller;
     public ProvinceScript provinceController;
     public List<Population> containingPops;
+    public List<Population> occupyingPops;
     public int popCapacity;
     [Range(0, 1)] public float popGrowthCount;
     public float popGrowth;
@@ -124,13 +125,13 @@ public class Building : MonoBehaviour, IClickable
         {
             if (popCanEnter)
             {
-
                 if (containingPops.Count < popCapacity)
                 {
                     MoveIntoBuilding();
                     if (controllersAtWar)
                     {
                         //***DO BATTLE HERE***\\
+                        
                         ChangeBuildingOwnership();
                     }
                 }
