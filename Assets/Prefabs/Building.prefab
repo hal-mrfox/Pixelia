@@ -36,7 +36,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 11.76, y: -5.61}
-  m_SizeDelta: {x: 7, y: 9}
+  m_SizeDelta: {x: 8, y: 8}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4838488181550567772
 CanvasRenderer:
@@ -59,14 +59,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 47f2e70d42fbdc64680d0e0b6b66851b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 9dece26cfca821a44bb78992b72f4fea, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -92,9 +92,13 @@ MonoBehaviour:
   controller: {fileID: 0}
   provinceController: {fileID: 0}
   containingPops: []
+  occupyingPops: []
   popCapacity: 0
+  popGrowthCount: 0
+  popGrowth: 0
+  upkeep: 0
   hovering: 0
-  castle: {fileID: 21300000, guid: 47f2e70d42fbdc64680d0e0b6b66851b, type: 3}
+  castle: {fileID: 21300000, guid: 9dece26cfca821a44bb78992b72f4fea, type: 3}
   farmlands: {fileID: 21300000, guid: ba7e85e96200ad847916a57d4501e4bf, type: 3}
   farmlandsContainable: 01000000030000000200000007000000
   loggingCamp: {fileID: 21300000, guid: c99a2c606d07a064e89a0b6f050a04e0, type: 3}

@@ -32,6 +32,14 @@ public class Building : MonoBehaviour, IClickable
     bool popCanEnter;
     bool controllersAtWar;
 
+    [System.Serializable]
+    public struct BuildingSettings
+    {
+        public bool isBuilding;
+        public Sprite buildingSprite;
+        public List<Population.PopType> containable;
+    }
+
     public void Start()
     {
         RefreshColor();

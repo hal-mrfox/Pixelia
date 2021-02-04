@@ -18,6 +18,7 @@ public class Country : MonoBehaviour
     public List<ProvinceScript> ownedProvinces;
     public List<Country> atWar;
     public List<Population> population;
+    public List<Building> buildings;
     public enum Religion { Shimbleworth, Shmoobli }
     public Religion religion;
     public enum Culture { Crumbus, Yaboi }

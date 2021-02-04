@@ -12,12 +12,16 @@ public class BuildingInfoWindow : InteractableWindow
     public TextMeshProUGUI buildingName;
     public TextMeshProUGUI popCapacity;
     public TextMeshProUGUI upkeep;
+    public Image capitolIcon;
     public GameObject selectPopWindow;
     public List<BuildingInfoPops> buildingPopSlots;
 
     public void OnEnable()
     {
         CountryManager.instance.openWindows.Add(this);
+
+        capitolIcon.gameObject.SetActive(windowProvince.selectedBuilding == windowProvince.target.capital);
+
         if (windowProvince.selectedBuilding != null)
         {
             windowProvince.selectedBuilding.RefreshColor();

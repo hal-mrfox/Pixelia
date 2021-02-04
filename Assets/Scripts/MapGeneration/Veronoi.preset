@@ -26,7 +26,19 @@ Preset:
     value: 
     objectReference: {fileID: 0}
   - target: {fileID: 0}
+    propertyPath: provinceParent
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: testList
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
     propertyPath: mapPreview
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: voronoi
     value: 
     objectReference: {fileID: 0}
   - target: {fileID: 0}
@@ -198,10 +210,6 @@ Preset:
     value: 4
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: useVeronoi
-    value: 1
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
     propertyPath: width
     value: 100
     objectReference: {fileID: 0}
@@ -210,35 +218,83 @@ Preset:
     value: 100
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: seed
-    value: 908
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: noiseScale
-    value: 0.286
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: noiseOffset.x
+    propertyPath: jitter
     value: 0
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: noiseOffset.y
+    propertyPath: simplexSettings.voronoi
     value: 0
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: noiseOctaves
-    value: 1
+    propertyPath: simplexSettings.seed
+    value: 61016
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: persistence
-    value: 3
+    propertyPath: simplexSettings.scale
+    value: 0
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: lacunarity
-    value: 2
+    propertyPath: simplexSettings.octaves
+    value: 0
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: heightOffset
+    propertyPath: simplexSettings.persistence
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: simplexSettings.lacunarity
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: simplexSettings.heightOffset
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: simplexSettings.offset.x
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: simplexSettings.offset.y
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: voronoiSettings.voronoi
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: voronoiSettings.seed
+    value: -60918
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: voronoiSettings.scale
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: voronoiSettings.octaves
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: voronoiSettings.persistence
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: voronoiSettings.lacunarity
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: voronoiSettings.heightOffset
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: voronoiSettings.offset.x
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: voronoiSettings.offset.y
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: points
     value: 0
     objectReference: {fileID: 0}
   m_ExcludedProperties: []

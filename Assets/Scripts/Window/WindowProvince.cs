@@ -19,6 +19,7 @@ public class WindowProvince : InteractableWindow
     public TextMeshProUGUI religionText;
     public TextMeshProUGUI cultureText;
     public TextMeshProUGUI ideologyText;
+    public Image capitolIcon;
     public Image backBar;
     bool isPlayer;
     //move to province
@@ -29,6 +30,7 @@ public class WindowProvince : InteractableWindow
     //seeing building info window stuff
     public BuildingInfoWindow buildingInfoWindow;
     //creating new buildings stuff
+    public int snapDistance;
     public GameObject createBuildingMarker;
     public GameObject selectBuildingWindow;
     public int selectedBuildingType;
@@ -68,7 +70,7 @@ public class WindowProvince : InteractableWindow
         provinceName.text = provinceTarget.name;
         popsCount.text = provinceTarget.pops.Count.ToString();
         //setting backbar color
-        if (target == CountryManager.instance.playerCountry)
+        if (isPlayer)
         {
             backBar.color = CountryManager.instance.green;
         }
@@ -76,6 +78,8 @@ public class WindowProvince : InteractableWindow
         {
             backBar.color = CountryManager.instance.red;
         }
+        //set capitol icon active if it is capitol
+        capitolIcon.gameObject.SetActive(provinceTarget == CountryManager.instance.playerCountry.capitalProvince);
         //seeing if over capacity
         int capacity = 0;
         for (int i = 0; i < provinceTarget.buildings.Count; i++)
@@ -144,6 +148,7 @@ public class WindowProvince : InteractableWindow
             }
             buildingInfoWindow.gameObject.SetActive(true);
             selectedBuilding = provinceTarget.buildings[buildingNumber];
+            buildingInfoWindow.OnEnable();
             selectedBuilding.GetComponent<Image>().color = CountryManager.instance.yellow;
         }
         else if (buildingNumber == provinceTarget.buildings.Count && target == CountryManager.instance.playerCountry)
@@ -240,13 +245,16 @@ public class WindowProvince : InteractableWindow
 
         if (markBuildingSpot == true)
         {
+            Vector2 coordinates = Input.mousePosition;
+            coordinates.x = Mathf.Round(coordinates.x / snapDistance) * snapDistance;
+            coordinates.y = Mathf.Round(coordinates.y / snapDistance) * snapDistance;
 
-            createBuildingMarker.transform.position = Input.mousePosition;
+            createBuildingMarker.transform.position = coordinates;
 
             if (Input.GetKeyDown(KeyCode.Mouse0) && provinceTarget.hovering && provinceTarget.buildings.Count < provinceTarget.buildingCapacity)
             {
                 provinceTarget.buildings.Add(Instantiate(CountryManager.instance.buildingPrefab));
-                provinceTarget.buildings[provinceTarget.buildings.Count - 1].gameObject.transform.position = Input.mousePosition;
+                provinceTarget.buildings[provinceTarget.buildings.Count - 1].gameObject.transform.position = coordinates;
                 provinceTarget.buildings[provinceTarget.buildings.Count - 1].transform.parent = provinceTarget.buildingsParent.transform;
                 provinceTarget.buildings[provinceTarget.buildings.Count - 1].provinceController = provinceTarget;
                 provinceTarget.buildings[provinceTarget.buildings.Count - 1].buildingType = (Building.BuildingType)selectedBuildingType;
@@ -255,6 +263,11 @@ public class WindowProvince : InteractableWindow
                 //pop capacity
                 provinceTarget.buildings[provinceTarget.buildings.Count - 1].popCapacity = 6;
                 CountryManager.instance.totalBuildings.Add(provinceTarget.buildings[provinceTarget.buildings.Count - 1]);
+                target.buildings.Add(provinceTarget.buildings[provinceTarget.buildings.Count - 1]);
+                if (target.buildings.Count == 1)
+                {
+                    target.capital = provinceTarget.buildings[provinceTarget.buildings.Count - 1];
+                }
             }
             else if (provinceTarget.buildings.Count >= provinceTarget.buildingCapacity)
             {

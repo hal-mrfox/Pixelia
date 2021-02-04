@@ -12,14 +12,17 @@ using UnityEngine;
 
 public class MapGenerator : MonoBehaviour
 {
+    public CountryManager countryManager;
     public Transform provinceParent;
-    public int testList;
+    public Transform countryParent;
+    public bool generate;
 
     [Space(10)]
     public Image mapPreview;
     public Image voronoi;
+    public Image stoneMap;
+    public Image woodMap;
     public bool autoGenerate;
-    [Range(0, 1)] public float threshold;
     public AnimationCurve falloffCurve;
     public AnimationCurve squareFalloffCurve;
     public int width;
@@ -28,7 +31,10 @@ public class MapGenerator : MonoBehaviour
     //public Gradient colorMap;
     public NoiseSettings simplexSettings;
     public NoiseSettings voronoiSettings;
+    public NoiseSettings stoneSettings;
+    public NoiseSettings woodSettings;
     public int points;
+    int addingNumber;
 
     [System.Serializable]
     public struct NoiseSettings
@@ -38,28 +44,69 @@ public class MapGenerator : MonoBehaviour
         public float scale;
         public int octaves;
         public float persistence;
+        [Range(0, 1)] public float threshold;
         public float lacunarity;
         public float heightOffset;
         public Vector2 offset;
     }
 
+
     [Button]
     public void GenerateMap()
     {
+        addingNumber = 0;
+        if (Application.isPlaying)
+        {
+            for (int i = 0; i < countryManager.provinces.Count; i++)
+            {
+                Destroy(countryManager.provinces[i].gameObject);
+            }
+            for (int i = 0; i < countryManager.countries.Count; i++)
+            {
+                Destroy(countryManager.countries[i].gameObject);
+            }
+        }
+        else
+        {
+            for (int i = 0; i < countryManager.provinces.Count; i++)
+            {
+                DestroyImmediate(countryManager.provinces[i].gameObject);
+            }
+            for (int i = 0; i < countryManager.countries.Count; i++)
+            {
+                DestroyImmediate(countryManager.countries[i].gameObject);
+            }
+        }
+        countryManager.provinces.Clear();
+        countryManager.countries.Clear();
+        //map and provinces
         simplexSettings.seed = Random.Range(-100000, 100000);
         voronoiSettings.seed = Random.Range(-100000, 100000);
-        float[,] noiseMap = ProcessNoiseMap(AddFalloffMap(GenerateNoiseMap(simplexSettings)));
+        //resources
+        stoneSettings.seed = Random.Range(-100000, 100000);
+        woodSettings.seed = Random.Range(-100000, 100000);
+        //generate games heightmap
+        float[,] noiseMap = ProcessNoiseMap(AddFalloffMap(GenerateNoiseMap(simplexSettings)), simplexSettings.threshold);
         mapPreview.sprite = Sprite.Create(GenerateTexture(noiseMap), new Rect(0, 0, width, height), new Vector2(.5f, .5f));
-        float[,] voronoiMap = VoronoiLand(noiseMap, GenerateVoronoi());
-        voronoi.sprite = Sprite.Create(GenerateTexture(voronoiMap), new Rect(0, 0, width, height), new Vector2(.5f, .5f));
+        //creating provinces
+        SeparateVoronoi(VoronoiLandCheck(noiseMap, GenerateNoiseMap(voronoiSettings)));
+        //creating stone resources
+        noiseMap = ProcessNoiseMap(GenerateNoiseMap(stoneSettings), stoneSettings.threshold);
+        stoneMap.sprite = Sprite.Create(GenerateResourceTexture(noiseMap), new Rect(0, 0, width, height), new Vector2(.5f, .5f));
+        //creating wood resources
+        noiseMap = ProcessNoiseMap(GenerateNoiseMap(woodSettings), woodSettings.threshold);
+        woodMap.sprite = Sprite.Create(GenerateResourceTexture(noiseMap), new Rect(0, 0, width, height), new Vector2(.5f, .5f));
 
-        //SeparateVoronoi(voronoiMap);
+        countryManager.playerCountry = countryManager.countries[Random.Range(0, countryManager.countries.Count)];
     }
 
     public void Awake()
     {
         //GenerateVoronoi();
-        GenerateMap();
+        if (generate)
+        {
+            GenerateMap();
+        }
     }
 
     public void OnValidate()
@@ -102,7 +149,20 @@ public class MapGenerator : MonoBehaviour
         return noiseMap;
     }
 
-    public float[,] VoronoiLand(float[,] noiseMap, float[,] voronoiMap)
+    public Color[] CheckLand(Color[] map)
+    {
+        for (int i = 0; i < map.Length; i++)
+        {
+            if (map[i].r == 0)
+            {
+                map[i].a = 0;
+            }
+        }
+
+        return map;
+    }
+
+    public float[,] VoronoiLandCheck(float[,] noiseMap, float[,] map)
     {
         for (int y = 0; y < height; y++)
         {
@@ -110,12 +170,12 @@ public class MapGenerator : MonoBehaviour
             {
                 if (noiseMap[x, y] == 1)
                 {
-                    voronoiMap[x, y] = 1;
+                    map[x, y] = 1;
                 }
             }
         }
 
-        return voronoiMap;
+        return map;
     }
 
     public float[,] GenerateNoiseMap(NoiseSettings noiseSetting)
@@ -208,7 +268,33 @@ public class MapGenerator : MonoBehaviour
         return texture;
     }
 
-    public float[,] ProcessNoiseMap(float[,] noiseMap)
+    public Texture2D GenerateResourceTexture(float[,] heightMap)
+    {
+        Color32[] colorMap = new Color32[width * height];
+
+        for (int y = 0; y < height; y++)
+        {
+            for (int x = 0; x < width; x++)
+            {
+                colorMap[width * y + x] = Color.Lerp(Color.black, Color.white, heightMap[x, y]);
+                if (colorMap[width * y + x].r == 255)
+                {
+                    colorMap[width * y + x].a = 0;
+                }
+                //colorMap[width * y + x] = this.colorMap.Evaluate(heightMap[x, y]);
+            }
+        }
+
+        Texture2D texture = new Texture2D(width, height);
+        texture.filterMode = FilterMode.Point;
+        texture.wrapMode = TextureWrapMode.Clamp;
+        texture.SetPixels32(colorMap);
+        texture.Apply();
+
+        return texture;
+    }
+
+    public float[,] ProcessNoiseMap(float[,] noiseMap, float threshold)
     {
         for (int y = 0; y < height; y++)
         {
@@ -233,20 +319,13 @@ public class MapGenerator : MonoBehaviour
         List<float> values = new List<float>();
         for (int y = 0; y < height; y++)
         {
-            //bool foundValue = false;
             for (int x = 0; x < width; x++)
             {
                 if (noiseMap[x, y] < 1f && !values.Contains(noiseMap[x, y]))
                 {
                     values.Add(noiseMap[x, y]);
-                    //foundValue = true;
-                    //break;
                 }
             }
-            //if (foundValue)
-            //{
-            //    break;
-            //}
         }
 
         for (int i = 0; i < values.Count; i++)
@@ -255,11 +334,35 @@ public class MapGenerator : MonoBehaviour
 
             for (int j = 0; j < textures.Count; j++)
             {
-                //Creating Province
+                //find small provinces?
+                for (int y = 0; y < height; y++)
+                {
+                    for (int x = 0; x < width; x++)
+                    {
+
+                    }
+                }
+                //Creating Province and Country
                 Sprite sprite = Sprite.Create(textures[j], new Rect(0, 0, width, height), new Vector2(.5f, .5f));
                 GameObject province = new GameObject();
+                GameObject country = new GameObject();
+                province.name = "Province " + addingNumber;
+                country.name = "Country " + addingNumber;
+                addingNumber++;
                 province.transform.parent = provinceParent;
+                country.transform.parent = countryParent;
                 province.AddComponent<Image>().sprite = sprite;
+                province.AddComponent<ProvinceScript>();
+                country.AddComponent<Country>();
+                province.GetComponent<ProvinceScript>().owner = country.GetComponent<Country>();
+                province.GetComponent<ProvinceScript>().provinceReligion = (ProvinceScript.Religion)country.GetComponent<Country>().religion;
+                province.GetComponent<ProvinceScript>().provinceCulture = (ProvinceScript.Culture)country.GetComponent<Country>().culture;
+                province.GetComponent<ProvinceScript>().provinceIdeology = (ProvinceScript.Ideology)country.GetComponent<Country>().ideology;
+                province.GetComponent<ProvinceScript>().buildingCapacity = 12;
+                province.GetComponent<ProvinceScript>().buildingsParent = countryManager.buildingParent;
+                country.GetComponent<Country>().capitalProvince = province.GetComponent<ProvinceScript>();
+                countryManager.countries.Add(country.GetComponent<Country>());
+                countryManager.provinces.Add(province.GetComponent<ProvinceScript>());
                 (province.transform as RectTransform).sizeDelta = new Vector2(width, height);
                 province.transform.localPosition = Vector2.zero;
             }
@@ -442,7 +545,32 @@ public class MapGenerator : MonoBehaviour
 
         foreach (var region in voronoiRegions)
         {
+            Vector2Int minCoordinate = new Vector2Int(int.MaxValue, int.MaxValue);
+            Vector2Int maxCoordinate = new Vector2Int(int.MinValue, int.MinValue);
+
+            foreach (Vector2Int coordinate in region.Value)
+            {
+                if (coordinate.x < minCoordinate.x)
+                {
+                    minCoordinate.x = coordinate.x;
+                }
+                else if (coordinate.x > maxCoordinate.x)
+                {
+                    maxCoordinate.x = coordinate.x;
+                }
+
+                if (coordinate.y < minCoordinate.y)
+                {
+                    minCoordinate.y = coordinate.y;
+                }
+                else if (coordinate.y > maxCoordinate.y)
+                {
+                    maxCoordinate.y = coordinate.y;
+                }
+            }
+
             Color32[] regionMap = new Color32[width * height];
+            //Color32[] regionMap = new Color32[(maxCoordinate.x - minCoordinate.x) * (maxCoordinate.y - minCoordinate.y)];
             Color color = Random.ColorHSV(0f, 1f, 0.3f, 1f, 0.5f, 1f);
 
             foreach (Vector2Int coordinate in region.Value)
@@ -516,8 +644,114 @@ public class MapGenerator : MonoBehaviour
             }
         }
 
+        //TriangleNet.Voronoi.StandardVoronoi voronoiMesh = new TriangleNet.Voronoi.StandardVoronoi(mesh);
+        var oldVertices = mesh.vertices.Values.ToArray();
+        Vector3[] vertices = new Vector3[oldVertices.Length];
+        for (int i = 0; i < vertices.Length; i++)
+        {
+            vertices[i] = VertexToVector(oldVertices[i]);
+        }
+        Mesh voronoiMesh = Voronoi.GenerateVoronoiMesh(vertices, Vector3.zero);
+
+        for (int y = 0; y < height; y++)
+        {
+            for (int x = 0; x < width; x++)
+            {
+                int i = 0;
+                for (int j = 0; j < voronoiMesh.triangles.Length; j += 3)
+                {
+                    if (PointInTriangle(new Vector2(x, y), vertices[j], vertices[j + 1], vertices[j + 2]))
+                    {
+                        noiseMap[x, y] = noiseValues[i];
+                    }
+                    i++;
+                }
+            }
+        }
+
         return noiseMap;
     }
+
+    //public static bool IsInConvexPolygon(Point testPoint, Polygon polygon)
+    //{
+    //    //Check if a triangle or higher n-gon
+    //    Debug.Assert(polygon.Length >= 3);
+    //
+    //    //n>2 Keep track of cross product sign changes
+    //    var pos = 0;
+    //    var neg = 0;
+    //
+    //    for (var i = 0; i < polygon.Count; i++)
+    //    {
+    //        //If point is in the polygon
+    //        if (polygon[i] == testPoint)
+    //            return true;
+    //
+    //        //Form a segment between the i'th point
+    //        var x1 = polygon[i].X;
+    //        var y1 = polygon[i].Y;
+    //
+    //        //And the i+1'th, or if i is the last, with the first point
+    //        var i2 = i < polygon.Count - 1 ? i + 1 : 0;
+    //
+    //        var x2 = polygon[i2].X;
+    //        var y2 = polygon[i2].Y;
+    //
+    //        var x = testPoint.X;
+    //        var y = testPoint.Y;
+    //
+    //        //Compute the cross product
+    //        var d = (x - x1)(y2 - y1) - (y - y1)(x2 - x1);
+    //
+    //        if (d > 0) pos++;
+    //        if (d < 0) neg++;
+    //
+    //        //If the sign changes, then point is outside
+    //        if (pos > 0 && neg > 0)
+    //            return false;
+    //    }
+    //
+    //    //If no change in direction, then on same side of all segments, and thus inside
+    //    return true;
+    //}
+
+    //    bool inside_convex_polygon(Vector2 point,Vector2[] vertices)
+    //    {
+    //        previous_side = None
+    //        int n_vertices = vertices.Length;
+    //        for (int i = 0; i < length; i++)
+    //        {
+    //            Vector2 a = vertices[i];
+    //            Vector2 b = vertices[(i + 1) % n_vertices];
+    //            affine_segment = v_sub(b, a)
+    //            affine_point = v_sub(point, a)
+    //            current_side = get_side(affine_segment, affine_point)
+    //            if current_side is None:
+    //                return False #outside or over an edge
+    //            elif previous_side is None: #first segment
+    //                previous_side = current_side
+    //            elif previous_side != current_side:
+    //            return False
+    //        }
+    //    for n in xrange(n_vertices) :
+    //        
+    //    return True
+    //    }
+    //
+    //def get_side(a, b) :
+    //    x = cosine_sign(a, b)
+    //    if x< 0:
+    //        return LEFT
+    //    elif x> 0: 
+    //        return RIGHT
+    //    else:
+    //        return None
+    //
+    //def v_sub(a, b) :
+    //    return (a[0]-b[0], a[1]-b[1])
+    //
+    //def cosine_sign(a, b):
+    //    return a[0] b[1]-a[1] b[0]
 
     public Vector2 VertexToVector(Vertex vertex)
     {
