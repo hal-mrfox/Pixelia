@@ -37,7 +37,7 @@ public class PopInfo : InteractableWindow
         ideology.text = CountryManager.instance.selectedPop.ideology.ToString();
         nationality.text = CountryManager.instance.selectedPop.nationality.ToString();
 
-        if (CountryManager.instance.selectedPop.religion == (Population.Religion)CountryManager.instance.playerCountry.religion)
+        if (CountryManager.instance.selectedPop.religion == CountryManager.instance.playerCountry.religion)
         {
             religion.color = CountryManager.instance.green;
         }
@@ -45,7 +45,7 @@ public class PopInfo : InteractableWindow
         {
             religion.color = CountryManager.instance.red;
         }
-        if (CountryManager.instance.selectedPop.culture == (Population.Culture)CountryManager.instance.playerCountry.culture)
+        if (CountryManager.instance.selectedPop.culture == CountryManager.instance.playerCountry.culture)
         {
             culture.color = CountryManager.instance.green;
         }
@@ -53,7 +53,7 @@ public class PopInfo : InteractableWindow
         {
             culture.color = CountryManager.instance.red;
         }
-        if (CountryManager.instance.selectedPop.ideology == (Population.Ideology)CountryManager.instance.playerCountry.ideology)
+        if (CountryManager.instance.selectedPop.ideology == CountryManager.instance.playerCountry.ideology)
         {
             ideology.color = CountryManager.instance.green;
         }

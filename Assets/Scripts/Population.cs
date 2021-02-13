@@ -10,14 +10,20 @@ public class Population : MonoBehaviour, IClickable
 {
     public enum PopType { Unemployed, Slave, Soldier, Laborer, Farmer, Clerk, Missionary, Knight, Aristocrat};
     public PopType popType;
-    public enum Religion { Shimbleworth, Shmoobli}
-    public Religion religion;
-    public enum Culture { Crumbus, Yaboi}
-    public Culture culture;
-    public enum Ideology { Tribe, Feudal}
-    public Ideology ideology;
-    public enum Nationality { Sooblian, Idiotlian }
-    public Nationality nationality;
+    //public enum Religion { Shimbleworth, Shmoobli}
+    //public Religion religion;
+    //public enum Culture { Crumbus, Yaboi}
+    //public Culture culture;
+    //public enum Ideology { Tribe, Feudal}
+    //public Ideology ideology;
+    //public enum Nationality { Sooblian, Idiotlian }
+    //public Nationality nationality;
+
+    public BeliefsManager.Religion religion;
+    public BeliefsManager.Culture culture;
+    public BeliefsManager.Ideology ideology;
+    public BeliefsManager.Nationality nationality;
+
     public Country controller;
     //energy is what every pop can do each turn
     public float energy;

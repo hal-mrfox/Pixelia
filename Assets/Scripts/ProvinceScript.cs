@@ -11,12 +11,17 @@ public class ProvinceScript : MonoBehaviour , IClickable
     public Country owner;
     public bool hovering;
     public Image highlightedCountry;
-    public enum Religion { Shimbleworth, Shmoobli }
-    public Religion provinceReligion;
-    public enum Culture { Crumbus, Yaboi }
-    public Culture provinceCulture;
-    public enum Ideology { Tribe, Feudal }
-    public Ideology provinceIdeology;
+    //public enum Religion { Shimbleworth, Shmoobli }
+    //public Religion provinceReligion;
+    //public enum Culture { Crumbus, Yaboi }
+    //public Culture provinceCulture;
+    //public enum Ideology { Tribe, Feudal }
+    //public Ideology provinceIdeology;
+    public BeliefsManager.Religion religion;
+    public BeliefsManager.Culture culture;
+    public BeliefsManager.Ideology ideology;
+    public BeliefsManager.Nationality nationality;
+
     public List<Population> pops;
     public List<Building> buildings;
     public List<Population> occupants;
@@ -42,14 +47,14 @@ public class ProvinceScript : MonoBehaviour , IClickable
 
     public void RefreshProvinceValues()
     {
-        int[] religionCounts = new int[System.Enum.GetNames(typeof(Population.Religion)).Length];
-        int[] cultureCounts = new int[System.Enum.GetNames(typeof(Population.Culture)).Length];
-        int[] ideologyCounts = new int[System.Enum.GetNames(typeof(Population.Ideology)).Length];
+        int[] religionCounts = new int[BeliefsManager.instance.religions.Count];
+        int[] cultureCounts = new int[BeliefsManager.instance.cultures.Count];
+        int[] ideologyCounts = new int[BeliefsManager.instance.ideologies.Count];
         for (int i = 0; i < pops.Count; i++)
         {
-            religionCounts[(int)pops[i].religion]++;
-            cultureCounts[(int)pops[i].culture]++;
-            ideologyCounts[(int)pops[i].ideology]++;
+            religionCounts[i]++;
+            cultureCounts[i]++;
+            ideologyCounts[i]++;
         }
         int dominantReligion = 0;
         for (int i = 1; i < religionCounts.Length; i++)
@@ -75,9 +80,9 @@ public class ProvinceScript : MonoBehaviour , IClickable
                 dominantIdeology = i;
             }
         }
-        provinceReligion = (Religion)dominantReligion;
-        provinceCulture = (Culture)dominantCulture;
-        provinceIdeology = (Ideology)dominantIdeology;
+        religion = BeliefsManager.instance.religions[dominantReligion];
+        culture = BeliefsManager.instance.cultures[dominantCulture];
+        ideology = BeliefsManager.instance.ideologies[dominantIdeology];
     }
 
     public void RefreshProvinceColors()

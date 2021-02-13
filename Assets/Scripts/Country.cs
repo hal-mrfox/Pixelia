@@ -19,12 +19,17 @@ public class Country : MonoBehaviour
     public List<Country> atWar;
     public List<Population> population;
     public List<Building> buildings;
-    public enum Religion { Shimbleworth, Shmoobli }
-    public Religion religion;
-    public enum Culture { Crumbus, Yaboi }
-    public Culture culture;
-    public enum Ideology { Tribe, Feudal }
-    public Ideology ideology;
+    //public enum Religion { Shimbleworth, Shmoobli }
+    //public Religion religion;
+    //public enum Culture { Crumbus, Yaboi }
+    //public Culture culture;
+    //public enum Ideology { Tribe, Feudal }
+    //public Ideology ideology;
+
+    public BeliefsManager.Religion religion;
+    public BeliefsManager.Culture culture;
+    public BeliefsManager.Ideology ideology;
+    public BeliefsManager.Nationality nationality;
 
     public void UpgradeTier()
     {

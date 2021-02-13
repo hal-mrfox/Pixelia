@@ -102,10 +102,10 @@ public class Building : MonoBehaviour, IClickable
         containingPops[containingPops.Count - 1].provinceController = provinceController;
         containingPops[containingPops.Count - 1].OnChangePopType();
         //setting pop beliefs/race
-        containingPops[containingPops.Count - 1].religion = (Population.Religion)containingPops[containingPops.Count - 1].controller.religion;
-        containingPops[containingPops.Count - 1].culture = (Population.Culture)containingPops[containingPops.Count - 1].controller.culture;
-        containingPops[containingPops.Count - 1].ideology = (Population.Ideology)containingPops[containingPops.Count - 1].controller.ideology;
-        containingPops[containingPops.Count - 1].nationality = (Population.Nationality)Random.Range(0, System.Enum.GetNames(typeof(Population.Nationality)).Length);
+        containingPops[containingPops.Count - 1].religion = containingPops[containingPops.Count - 1].controller.religion;
+        containingPops[containingPops.Count - 1].culture = containingPops[containingPops.Count - 1].controller.culture;
+        containingPops[containingPops.Count - 1].ideology = containingPops[containingPops.Count - 1].controller.ideology;
+        containingPops[containingPops.Count - 1].nationality = containingPops[containingPops.Count - 1].controller.nationality;
     }
 
     public void DestroyBuilding()

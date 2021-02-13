@@ -98,10 +98,10 @@ public class WindowProvince : InteractableWindow
         }
 
         //province religion, culture, and ideology text
-        religionText.text = provinceTarget.provinceReligion.ToString();
-        cultureText.text = provinceTarget.provinceCulture.ToString();
-        ideologyText.text = provinceTarget.provinceIdeology.ToString();
-        if (provinceTarget.provinceReligion == (ProvinceScript.Religion)CountryManager.instance.playerCountry.religion)
+        religionText.text = provinceTarget.religion.ToString();
+        cultureText.text = provinceTarget.culture.ToString();
+        ideologyText.text = provinceTarget.ideology.ToString();
+        if (provinceTarget.religion == CountryManager.instance.playerCountry.religion)
         {
             religionText.color = CountryManager.instance.green;
         }
@@ -110,7 +110,7 @@ public class WindowProvince : InteractableWindow
             religionText.color = CountryManager.instance.red;
         }
 
-        if (provinceTarget.provinceCulture == (ProvinceScript.Culture)CountryManager.instance.playerCountry.culture)
+        if (provinceTarget.culture == CountryManager.instance.playerCountry.culture)
         {
             cultureText.color = CountryManager.instance.green;
         }
@@ -119,7 +119,7 @@ public class WindowProvince : InteractableWindow
             cultureText.color = CountryManager.instance.red;
         }
 
-        if (provinceTarget.provinceIdeology == (ProvinceScript.Ideology)CountryManager.instance.playerCountry.ideology)
+        if (provinceTarget.ideology == CountryManager.instance.playerCountry.ideology)
         {
             ideologyText.color = CountryManager.instance.green;
         }
