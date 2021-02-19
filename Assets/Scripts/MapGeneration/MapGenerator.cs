@@ -355,9 +355,9 @@ public class MapGenerator : MonoBehaviour
                 province.AddComponent<ProvinceScript>();
                 country.AddComponent<Country>();
                 province.GetComponent<ProvinceScript>().owner = country.GetComponent<Country>();
-                province.GetComponent<ProvinceScript>().provinceReligion = (ProvinceScript.Religion)country.GetComponent<Country>().religion;
-                province.GetComponent<ProvinceScript>().provinceCulture = (ProvinceScript.Culture)country.GetComponent<Country>().culture;
-                province.GetComponent<ProvinceScript>().provinceIdeology = (ProvinceScript.Ideology)country.GetComponent<Country>().ideology;
+                province.GetComponent<ProvinceScript>().religion = country.GetComponent<Country>().religion;
+                province.GetComponent<ProvinceScript>().culture = country.GetComponent<Country>().culture;
+                province.GetComponent<ProvinceScript>().ideology = country.GetComponent<Country>().ideology;
                 province.GetComponent<ProvinceScript>().buildingCapacity = 12;
                 province.GetComponent<ProvinceScript>().buildingsParent = countryManager.buildingParent;
                 country.GetComponent<Country>().capitalProvince = province.GetComponent<ProvinceScript>();

@@ -19,9 +19,9 @@ public class Population : MonoBehaviour, IClickable
     //public enum Nationality { Sooblian, Idiotlian }
     //public Nationality nationality;
 
-    public BeliefsManager.Religion religion;
-    public BeliefsManager.Culture culture;
-    public BeliefsManager.Ideology ideology;
+    public Religion religion;
+    public Culture culture;
+    public Ideology ideology;
     public BeliefsManager.Nationality nationality;
 
     public Country controller;

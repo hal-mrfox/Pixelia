@@ -17,9 +17,9 @@ public class ProvinceScript : MonoBehaviour , IClickable
     //public Culture provinceCulture;
     //public enum Ideology { Tribe, Feudal }
     //public Ideology provinceIdeology;
-    public BeliefsManager.Religion religion;
-    public BeliefsManager.Culture culture;
-    public BeliefsManager.Ideology ideology;
+    public Religion religion;
+    public Culture culture;
+    public Ideology ideology;
     public BeliefsManager.Nationality nationality;
 
     public List<Population> pops;
@@ -50,6 +50,8 @@ public class ProvinceScript : MonoBehaviour , IClickable
         int[] religionCounts = new int[BeliefsManager.instance.religions.Count];
         int[] cultureCounts = new int[BeliefsManager.instance.cultures.Count];
         int[] ideologyCounts = new int[BeliefsManager.instance.ideologies.Count];
+        print(pops.Count);
+        print(ideologyCounts.Length);
         for (int i = 0; i < pops.Count; i++)
         {
             religionCounts[i]++;

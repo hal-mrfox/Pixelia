@@ -1,9 +1,4 @@
-﻿using System.Collections;
-using NaughtyAttributes;
-using TMPro;
-using System.Collections.Generic;
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
+﻿using System.Collections.Generic;
 using UnityEngine;
 public class BeliefsManager : MonoBehaviour
 {
@@ -12,23 +7,9 @@ public class BeliefsManager : MonoBehaviour
     public List<Religion> religions;
     public List<Culture> cultures;
     public List<Ideology> ideologies;
+
     public List<Nationality> nationalities;
 
-    [System.Serializable]
-    public class Religion
-    {
-        public string name;
-    }
-    [System.Serializable]
-    public class Culture
-    {
-        public string name;
-    }
-    [System.Serializable]
-    public class Ideology
-    {
-        public string name;
-    }
     [System.Serializable]
     public class Nationality
     {

@@ -26,9 +26,9 @@ public class Country : MonoBehaviour
     //public enum Ideology { Tribe, Feudal }
     //public Ideology ideology;
 
-    public BeliefsManager.Religion religion;
-    public BeliefsManager.Culture culture;
-    public BeliefsManager.Ideology ideology;
+    public Religion religion;
+    public Culture culture;
+    public Ideology ideology;
     public BeliefsManager.Nationality nationality;
 
     public void UpgradeTier()
