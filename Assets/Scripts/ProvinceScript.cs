@@ -50,8 +50,6 @@ public class ProvinceScript : MonoBehaviour , IClickable
         int[] religionCounts = new int[BeliefsManager.instance.religions.Count];
         int[] cultureCounts = new int[BeliefsManager.instance.cultures.Count];
         int[] ideologyCounts = new int[BeliefsManager.instance.ideologies.Count];
-        print(pops.Count);
-        print(ideologyCounts.Length);
         for (int i = 0; i < pops.Count; i++)
         {
             religionCounts[i]++;
