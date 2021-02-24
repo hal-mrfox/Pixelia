@@ -9,6 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 68733e8c1eec8bf4181a6a38beaafbf4, type: 3}
-  m_Name: Tribal
+  m_Script: {fileID: 11500000, guid: 4fe0b53a1fc1c45428ab47744bb40d95, type: 3}
+  m_Name: Culture2
   m_EditorClassIdentifier: 
+  cultureName: Culture2

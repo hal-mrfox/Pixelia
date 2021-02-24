@@ -11,19 +11,13 @@ public class ProvinceScript : MonoBehaviour , IClickable
     public Country owner;
     public bool hovering;
     public Image highlightedCountry;
-    //public enum Religion { Shimbleworth, Shmoobli }
-    //public Religion provinceReligion;
-    //public enum Culture { Crumbus, Yaboi }
-    //public Culture provinceCulture;
-    //public enum Ideology { Tribe, Feudal }
-    //public Ideology provinceIdeology;
     public Religion religion;
     public Culture culture;
     public Ideology ideology;
     public BeliefsManager.Nationality nationality;
 
     public List<Population> pops;
-    public List<Building> buildings;
+    public List<OldBuilding> buildings;
     public List<Population> occupants;
     public GameObject buildingsParent;
     public int buildingCapacity;
@@ -52,9 +46,9 @@ public class ProvinceScript : MonoBehaviour , IClickable
         int[] ideologyCounts = new int[BeliefsManager.instance.ideologies.Count];
         for (int i = 0; i < pops.Count; i++)
         {
-            religionCounts[i]++;
-            cultureCounts[i]++;
-            ideologyCounts[i]++;
+            religionCounts[BeliefsManager.instance.religions.IndexOf(pops[i].religion)]++;
+            cultureCounts[BeliefsManager.instance.cultures.IndexOf(pops[i].culture)]++;
+            ideologyCounts[BeliefsManager.instance.ideologies.IndexOf(pops[i].ideology)]++;
         }
         int dominantReligion = 0;
         for (int i = 1; i < religionCounts.Length; i++)
