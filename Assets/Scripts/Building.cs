@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UnityEngine;
 
-public class OldBuilding : MonoBehaviour, IClickable
+public class Building : MonoBehaviour, IClickable
 {
     public enum BuildingType { Castle, Farmlands, Logging_Camp, Mines, Village }
     public BuildingType buildingType;
@@ -14,14 +14,12 @@ public class OldBuilding : MonoBehaviour, IClickable
     public ProvinceScript provinceController;
     public List<Population> containingPops;
     public List<Population> occupyingPops;
-    //public Resource
     public int popCapacity;
     [Range(0, 1)] public float popGrowthCount;
     public float popGrowth;
     public float upkeep;
     [ReadOnly]
     public bool hovering;
-    public List<Buildings> buildings;
     public Sprite castle;
     public Sprite farmlands;
     public List<Population.PopType> farmlandsContainable;
@@ -33,12 +31,6 @@ public class OldBuilding : MonoBehaviour, IClickable
     public List<Population.PopType> villageContainable;
     bool popCanEnter;
     bool controllersAtWar;
-
-    [System.Serializable]
-    public struct Buildings
-    {
-        public OldBuilding building;
-    }
 
     [System.Serializable]
     public struct BuildingSettings
@@ -93,6 +85,7 @@ public class OldBuilding : MonoBehaviour, IClickable
     }
 
     //pops editing
+    [Button]
     public void CreatePop(int chosenPopID)
     {
         //adding new pop to this, this.provinceController, this.controller and CountryManager totalPops

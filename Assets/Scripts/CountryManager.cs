@@ -15,8 +15,6 @@ public class CountryManager : MonoBehaviour
     public int turn;
     public TextMeshProUGUI playerCountryName;
     public RectTransform backgroundPrestige;
-    public TextMeshProUGUI woodText;
-    public TextMeshProUGUI stoneText;
 
     public List<Country> countries;
     public List<ProvinceScript> provinces;
@@ -30,13 +28,13 @@ public class CountryManager : MonoBehaviour
     public bool altMode;
 
     public Population popPrefab;
-    public OldBuilding buildingPrefab;
+    public Building buildingPrefab;
     public GameObject popParent;
     public GameObject buildingParent;
 
     public GameObject cursorIcon;
 
-    public List<OldBuilding> totalBuildings;
+    public List<Building> totalBuildings;
     public List<Population> totalPops;
 
     public Image crownIcon;
@@ -54,7 +52,6 @@ public class CountryManager : MonoBehaviour
     public float buildingPrestige;
     public float popPrestige;
 
-
     public void Awake()
     {
         instance = this;
@@ -68,8 +65,6 @@ public class CountryManager : MonoBehaviour
     public void Start()
     {
         playerCountryName.text = playerCountry.ToString().Replace("(Country)", "");
-        woodText.text = playerCountry.wood.ToString();
-        stoneText.text = playerCountry.stone.ToString();
 
         nextCountry = countries.IndexOf(playerCountry) + 1;
 
@@ -88,8 +83,6 @@ public class CountryManager : MonoBehaviour
         }
         playerCountry = countries[nextCountry];
         playerCountryName.text = playerCountry.ToString().Replace("(Country)", "");
-        woodText.text = playerCountry.wood.ToString();
-        stoneText.text = playerCountry.stone.ToString();
         window.CloseWindow();
         windowProvince.CloseWindow();
         windowPop.CloseWindow();
@@ -101,7 +94,6 @@ public class CountryManager : MonoBehaviour
         {
             provinces[i].RefreshProvinceColors();
         }
-
         //SetUI();
     }
 
