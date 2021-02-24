@@ -5,5 +5,5 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Ideology", menuName = "Ideology")]
 public class Ideology : ScriptableObject
 {
-
+    public string ideologyName;
 }

@@ -28,7 +28,7 @@ public class Population : MonoBehaviour, IClickable
     //energy is what every pop can do each turn
     public float energy;
     public ProvinceScript provinceController;
-    public Building containingBuilding;
+    public OldBuilding containingBuilding;
     public bool selected;
     public GameObject details;
     public TextMeshProUGUI popTypeText;

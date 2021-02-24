@@ -5,5 +5,5 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Culture", menuName = "Culture")]
 public class Culture : ScriptableObject
 {
-
+    public string cultureName;
 }

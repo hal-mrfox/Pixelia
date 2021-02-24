@@ -10,5 +10,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4fe0b53a1fc1c45428ab47744bb40d95, type: 3}
-  m_Name: Eboodle
+  m_Name: Culture1
   m_EditorClassIdentifier: 
+  cultureName: Culture1

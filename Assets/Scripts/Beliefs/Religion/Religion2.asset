@@ -9,6 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4fe0b53a1fc1c45428ab47744bb40d95, type: 3}
-  m_Name: Jumba
+  m_Script: {fileID: 11500000, guid: c53c7307c3f18b64a9d45f877fec6adb, type: 3}
+  m_Name: Religion2
   m_EditorClassIdentifier: 
+  religionName: Religion2

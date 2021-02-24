@@ -26,7 +26,7 @@ public class WindowProvince : InteractableWindow
     public int overPopulation;
     public List<Button> buildingSlots;
     //sub windows
-    public Building selectedBuilding;
+    public OldBuilding selectedBuilding;
     //seeing building info window stuff
     public BuildingInfoWindow buildingInfoWindow;
     //creating new buildings stuff
@@ -98,9 +98,9 @@ public class WindowProvince : InteractableWindow
         }
 
         //province religion, culture, and ideology text
-        religionText.text = provinceTarget.religion.ToString();
-        cultureText.text = provinceTarget.culture.ToString();
-        ideologyText.text = provinceTarget.ideology.ToString();
+        religionText.text = provinceTarget.religion.religionName;
+        cultureText.text = provinceTarget.culture.cultureName;
+        ideologyText.text = provinceTarget.ideology.ideologyName;
         if (provinceTarget.religion == CountryManager.instance.playerCountry.religion)
         {
             religionText.color = CountryManager.instance.green;
@@ -257,7 +257,7 @@ public class WindowProvince : InteractableWindow
                 provinceTarget.buildings[provinceTarget.buildings.Count - 1].gameObject.transform.position = coordinates;
                 provinceTarget.buildings[provinceTarget.buildings.Count - 1].transform.parent = provinceTarget.buildingsParent.transform;
                 provinceTarget.buildings[provinceTarget.buildings.Count - 1].provinceController = provinceTarget;
-                provinceTarget.buildings[provinceTarget.buildings.Count - 1].buildingType = (Building.BuildingType)selectedBuildingType;
+                provinceTarget.buildings[provinceTarget.buildings.Count - 1].buildingType = (OldBuilding.BuildingType)selectedBuildingType;
                 provinceTarget.buildings[provinceTarget.buildings.Count - 1].name = provinceTarget.name + "'s " + provinceTarget.buildings[provinceTarget.buildings.Count - 1].buildingType;
                 provinceTarget.buildings[provinceTarget.buildings.Count - 1].controller = provinceTarget.owner;
                 //pop capacity
