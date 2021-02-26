@@ -27,7 +27,7 @@ public class Population : MonoBehaviour, IClickable
     public Country controller;
     //energy is what every pop can do each turn
     public float energy;
-    public ProvinceScript provinceController;
+    public Province provinceController;
     public OldBuilding containingBuilding;
     public bool selected;
     public GameObject details;
@@ -35,7 +35,6 @@ public class Population : MonoBehaviour, IClickable
 
     public void Start()
     {
-        transform.position = controller.capital.transform.position;
         popTypeText.text = popType.ToString();
         gameObject.SetActive(false);
     }

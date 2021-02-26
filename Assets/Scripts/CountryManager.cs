@@ -19,7 +19,7 @@ public class CountryManager : MonoBehaviour
     public TextMeshProUGUI stoneText;
 
     public List<Country> countries;
-    public List<ProvinceScript> provinces;
+    public List<Province> provinces;
     public Population selectedPop;
     public PopInfo popInfo;
     public bool available;
@@ -75,7 +75,7 @@ public class CountryManager : MonoBehaviour
 
         for (int i = 0; i < totalBuildings.Count; i++)
         {
-            totalBuildings[i].CreatePop(1);
+            //totalBuildings[i].CreatePop(1);
         }
         SetUI();
     }
@@ -175,11 +175,6 @@ public class CountryManager : MonoBehaviour
             for (int j = 0; j < provinces[i].pops.Count; j++)
             {
                 provinces[i].pops[j].controller = provinces[i].owner;
-            }
-
-            for (int j = 0; j < provinces[i].buildings.Count; j++)
-            {
-                provinces[i].buildings[j].controller = provinces[i].owner;
             }
         }
     }

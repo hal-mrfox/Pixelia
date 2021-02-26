@@ -17,9 +17,8 @@ public class Country : MonoBehaviour
     public Ideology ideology;
     public BeliefsManager.Nationality nationality;
     public Color countryColor;
-    public ProvinceScript capitalProvince;
-    public OldBuilding capital;
-    public List<ProvinceScript> ownedProvinces;
+    public Province capitalProvince;
+    public List<Province> ownedProvinces;
     public List<Country> atWar;
     public List<Population> population;
     public List<OldBuilding> buildings;

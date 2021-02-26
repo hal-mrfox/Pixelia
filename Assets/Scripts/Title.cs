@@ -8,5 +8,5 @@ using UnityEngine;
 
 public class Title : MonoBehaviour
 {
-    public ProvinceScript[] requiredProvinces;
+    public Province[] requiredProvinces;
 }

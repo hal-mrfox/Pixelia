@@ -9,7 +9,7 @@ using UnityEngine;
 public class WindowCountry : InteractableWindow
 {
     public Country target;
-    public ProvinceScript provinceTarget;
+    public Province provinceTarget;
     public TextMeshProUGUI countryReligion;
     public TextMeshProUGUI countryCulture;
     public TextMeshProUGUI countryIdeology;

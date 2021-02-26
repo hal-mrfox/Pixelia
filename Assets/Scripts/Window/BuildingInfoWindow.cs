@@ -20,63 +20,33 @@ public class BuildingInfoWindow : InteractableWindow
     {
         CountryManager.instance.openWindows.Add(this);
 
-        capitolIcon.gameObject.SetActive(windowProvince.selectedBuilding == windowProvince.target.capital);
-
-        if (windowProvince.selectedBuilding != null)
-        {
-            windowProvince.selectedBuilding.RefreshColor();
-        }
+        //capitolIcon.gameObject.SetActive(windowProvince.selectedHolding == windowProvince.target.capital);
     }
 
     public void OnDisable()
     {
         CountryManager.instance.openWindows.Remove(this);
-        if (windowProvince.selectedBuilding != null)
-        {
-            windowProvince.selectedBuilding.RefreshColor();
-        }
-    }
-
-    //RaisePop from building at popNum
-    public void RaisePopButton(int popNum)
-    {
-        windowProvince.selectedBuilding.RaisePop(popNum);
     }
 
     public void CreatePop()
     {
         selectPopWindow.SetActive(true);
     }
-    public void PopCreation(int popID)
-    {
-        //if selected buildings pop growth count is 100% do this
-        if (windowProvince.selectedBuilding.containingPops.Count < windowProvince.selectedBuilding.popCapacity)
-        {
-            windowProvince.selectedBuilding.CreatePop(popID);
-        }
-        else
-        {
-            print("You have reached this buildings pop capacity!");
-        }
-        selectPopWindow.gameObject.SetActive(false);
-    }
 
     public override void Update()
     {
-        buildingName.text = windowProvince.selectedBuilding.name;
-        popCapacity.text = windowProvince.selectedBuilding.popCapacity.ToString();
-        upkeep.text = windowProvince.selectedBuilding.upkeep.ToString();
-        for (int i = 0; i < buildingPopSlots.Count; i++)
-        {
-            if (i < windowProvince.selectedBuilding.containingPops.Count)
-            {
-                buildingPopSlots[i].gameObject.SetActive(true);
-                buildingPopSlots[i].popType.text = windowProvince.selectedBuilding.containingPops[i].popType.ToString();
-            }
-            else
-            {
-                buildingPopSlots[i].gameObject.SetActive(false);
-            }
-        }
+        //upkeep.text = windowProvince.selectedHolding.upkeep.ToString();
+        //for (int i = 0; i < buildingPopSlots.Count; i++)
+        //{
+        //    if (i < windowProvince.selectedHolding.containingPops.Count)
+        //    {
+        //        buildingPopSlots[i].gameObject.SetActive(true);
+        //        buildingPopSlots[i].popType.text = windowProvince.selectedHolding.containingPops[i].popType.ToString();
+        //    }
+        //    else
+        //    {
+        //        buildingPopSlots[i].gameObject.SetActive(false);
+        //    }
+        //}
     }
 }

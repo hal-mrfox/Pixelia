@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UnityEngine;
 
-public class ProvinceScript : MonoBehaviour , IClickable
+public class Province : MonoBehaviour , IClickable
 {
     public Country owner;
     public bool hovering;
@@ -17,20 +17,38 @@ public class ProvinceScript : MonoBehaviour , IClickable
     public BeliefsManager.Nationality nationality;
 
     public List<Population> pops;
-    public List<OldBuilding> buildings;
+    [BoxGroup("Improvements")]
+    public List<Holding> holdings;
     public List<Population> occupants;
     public GameObject buildingsParent;
     public int buildingCapacity;
-    [Range(0, 1)] public float unrest;
     public int supplyLimit;
     public float tax;
     bool popCanMove;
+
+    #region Holdings & Buildings
+    [System.Serializable]
+    public class Holding
+    {
+        public enum HoldingType { HoldingType1, HoldingType2 }
+        public HoldingType holdingType;
+
+        public List<Building> buildings;
+
+        [System.Serializable]
+        public class Building
+        {
+            public enum BuildingType { BuildingType1, BuildingType2 }
+            public BuildingType buildingType;
+        }
+    }
+    #endregion
 
     public void Start()
     {
         GetComponent<Image>().color = owner.countryColor;
         highlightedCountry = Instantiate(GetComponent<Image>(), transform.position + new Vector3(0f, 2f), Quaternion.identity, transform);
-        Destroy(highlightedCountry.GetComponent<ProvinceScript>());
+        Destroy(highlightedCountry.GetComponent<Province>());
         RefreshProvinceColors();
     }
 
@@ -184,16 +202,11 @@ public class ProvinceScript : MonoBehaviour , IClickable
             owner.population.Remove(pops[i]);
             pops[i].RefreshColor();
         }
-        for (int i = 0; i < buildings.Count; i++)
-        {
-            buildings[i].controller = CountryManager.instance.playerCountry;
-            buildings[i].RefreshColor();
-        }
         //Removing province from old owner
         owner.ownedProvinces.Remove(this);
         //Calculating prestige gain
         float prestigeGain = 0f;
-        for (int i = 0; i < buildings.Count; i++)
+        for (int i = 0; i < holdings.Count; i++)
         {
             prestigeGain += CountryManager.instance.buildingPrestige;
         }

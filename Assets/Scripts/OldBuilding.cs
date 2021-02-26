@@ -11,7 +11,7 @@ public class OldBuilding : MonoBehaviour, IClickable
     public enum BuildingType { Castle, Farmlands, Logging_Camp, Mines, Village }
     public BuildingType buildingType;
     public Country controller;
-    public ProvinceScript provinceController;
+    public Province provinceController;
     public List<Population> containingPops;
     public List<Population> occupyingPops;
     //public Resource
@@ -115,24 +115,6 @@ public class OldBuilding : MonoBehaviour, IClickable
         containingPops[containingPops.Count - 1].nationality = containingPops[containingPops.Count - 1].controller.nationality;
     }
 
-    public void DestroyBuilding()
-    {
-        if (containingPops.Count == 0 && controller.capital != this)
-        {
-            CountryManager.instance.totalBuildings.Remove(this);
-            provinceController.buildings.Remove(this);
-            Destroy(gameObject);
-        }
-        else if (controller.capital == this)
-        {
-            print("You cannot destroy your capital");
-        }
-        else if (containingPops.Count > 0)
-        {
-            print("You still have pops in this building!");
-        }
-    }
-
     //pop entering building
     public void OnPointerDown()
     {
@@ -180,17 +162,17 @@ public class OldBuilding : MonoBehaviour, IClickable
     {
         //changing ownership of this buildings province if its either the capital or all buildings in province are owned by player country
         //looping through all buildings to see if all buildings are owned by player country
-        int buildingsControlled = 0;
+        //int buildingsControlled = 0;
             //increment up to see how many are controlled
-        for (int i = 0; i < provinceController.buildings.Count; i++)
-        {
-            if (provinceController.buildings[i].controller != controller)
-            {
-                buildingsControlled++;
-            }
-        }
+        //for (int i = 0; i < provinceController.buildings.Count; i++)
+        //{
+        //    if (provinceController.buildings[i].controller != controller)
+        //    {
+        //        buildingsControlled++;
+        //    }
+        //}
         //do after player selects to end the war!!!!
-        if (buildingsControlled == provinceController.buildings.Count - 1)
+        //if (buildingsControlled == provinceController.buildings.Count - 1)
         {
             provinceController.ChangeProvinceOwnership();
             provinceController.owner = CountryManager.instance.playerCountry;
