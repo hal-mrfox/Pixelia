@@ -34,6 +34,9 @@ public class WindowProvince : InteractableWindow
     //local
     bool markBuildingSpot;
 
+    [Space(20)]
+    public List<HoldingUI> holdings = new List<HoldingUI>();
+
     public void Awake()
     {
         createBuildingMarker.SetActive(false);

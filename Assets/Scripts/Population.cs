@@ -8,7 +8,7 @@ using UnityEngine;
 
 public class Population : MonoBehaviour, IClickable
 {
-    public enum PopType { Unemployed, Slave, Soldier, Laborer, Farmer, Clerk, Missionary, Knight, Aristocrat};
+    public enum PopType { Unemployed, Slave, Soldier, Laborer, Farmer, Clerk, Missionary, Knight, Aristocrat };
     public PopType popType;
     //public enum Religion { Shimbleworth, Shmoobli}
     //public Religion religion;

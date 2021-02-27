@@ -359,7 +359,6 @@ public class MapGenerator : MonoBehaviour
                 province.GetComponent<Province>().culture = country.GetComponent<Country>().culture;
                 province.GetComponent<Province>().ideology = country.GetComponent<Country>().ideology;
                 province.GetComponent<Province>().buildingCapacity = 12;
-                province.GetComponent<Province>().buildingsParent = countryManager.buildingParent;
                 country.GetComponent<Country>().capitalProvince = province.GetComponent<Province>();
                 Color color = Random.ColorHSV(0f, 1f, 0.3f, 1f, 0.5f, 1f);
                 country.GetComponent<Country>().countryColor = color;

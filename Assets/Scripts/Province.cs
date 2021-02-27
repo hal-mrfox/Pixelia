@@ -6,30 +6,48 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UnityEngine;
 
-public class Province : MonoBehaviour , IClickable
+public class Province : MonoBehaviour, IClickable
 {
     public Country owner;
-    public bool hovering;
+    #region Beliefs
     public Image highlightedCountry;
+    [BoxGroup("Beliefs")]
     public Religion religion;
+    [BoxGroup("Beliefs")]
     public Culture culture;
+    [BoxGroup("Beliefs")]
     public Ideology ideology;
+    [BoxGroup("Beliefs")]
     public BeliefsManager.Nationality nationality;
-
+    #endregion
+    #region Statistics
+    [BoxGroup("Stats")]
     public List<Population> pops;
+    [BoxGroup("Stats")]
+    public int holdingCapacity;
+    [BoxGroup("Stats")]
+    public int buildingCapacity;
+    [BoxGroup("Stats")]
+    public int supplyLimit;
+    [BoxGroup("Stats")]
+    public float tax;
+    #endregion
+    #region General
+    [BoxGroup("General")]
+    bool popCanMove;
+    [BoxGroup("General")]
+    public bool hovering;
+    #endregion
+    #region Improvements
     [BoxGroup("Improvements")]
     public List<Holding> holdings;
-    public List<Population> occupants;
-    public GameObject buildingsParent;
-    public int buildingCapacity;
-    public int supplyLimit;
-    public float tax;
-    bool popCanMove;
-
-    #region Holdings & Buildings
+    #endregion
+    #region Holdings, Buildings & Pops
     [System.Serializable]
     public class Holding
     {
+
+
         public enum HoldingType { HoldingType1, HoldingType2 }
         public HoldingType holdingType;
 
@@ -40,7 +58,32 @@ public class Province : MonoBehaviour , IClickable
         {
             public enum BuildingType { BuildingType1, BuildingType2 }
             public BuildingType buildingType;
+
+            public List<Pop> pops;
+
+            //for building values
+            //public static int GetBuildingCapacity(BuildingType type)
+            //{
+            //    switch (type)
+            //    {
+            //        case BuildingType.BuildingType1:
+            //            return 
+            //        case BuildingType.BuildingType2:
+            //            break;
+            //        default:
+            //            break;
+            //    }
+            //}
         }
+
+        [System.Serializable]
+        public class Pop
+        {
+            public enum PopType { Worker, Soldier }
+            public PopType popType;
+        }
+
+
     }
     #endregion
 
@@ -141,10 +184,6 @@ public class Province : MonoBehaviour , IClickable
                 {
                     pops.Add(CountryManager.instance.selectedPop);
                     CountryManager.instance.selectedPop.provinceController = this;
-                }
-                else
-                {
-                    occupants.Add(CountryManager.instance.selectedPop);
                 }
                 CountryManager.instance.selectedPop.transform.position = Input.mousePosition;
                 CountryManager.instance.available = true;
