@@ -46,8 +46,6 @@ public class Province : MonoBehaviour, IClickable
     [System.Serializable]
     public class Holding
     {
-
-
         public enum HoldingType { HoldingType1, HoldingType2 }
         public HoldingType holdingType;
 

@@ -9198,7 +9198,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 431957835}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6a160d838ff8b4b4693ac20007e008c7, type: 3}
   m_Name: 
@@ -39351,13 +39351,25 @@ MonoBehaviour:
   m_Interactable: 1
   m_TargetGraphic: {fileID: 1088107474}
   m_HandleRect: {fileID: 1088107473}
-  m_Direction: 3
+  m_Direction: 2
   m_Value: 0
   m_Size: 0.2
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5608714600697448459}
+        m_TargetAssemblyTypeName: HoldingUI, Assembly-CSharp
+        m_MethodName: ScrollBuildings
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1741857705
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -47803,6 +47815,16 @@ PrefabInstance:
       propertyPath: m_Volume
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 3921501283901232831, guid: 717f226c045f48d459a125c4dd46bab7,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 10.969922
+      objectReference: {fileID: 0}
+    - target: {fileID: 3921501283901232831, guid: 717f226c045f48d459a125c4dd46bab7,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -6.530017
+      objectReference: {fileID: 0}
     - target: {fileID: 3921501283918189119, guid: 717f226c045f48d459a125c4dd46bab7,
         type: 3}
       propertyPath: m_Volume
@@ -47812,6 +47834,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Volume
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3921501284036684577, guid: 717f226c045f48d459a125c4dd46bab7,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 10.97
+      objectReference: {fileID: 0}
+    - target: {fileID: 3921501284036684577, guid: 717f226c045f48d459a125c4dd46bab7,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -2.87
       objectReference: {fileID: 0}
     - target: {fileID: 3921501284036684589, guid: 717f226c045f48d459a125c4dd46bab7,
         type: 3}
@@ -47858,6 +47890,16 @@ PrefabInstance:
       propertyPath: m_Volume
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 3921501284934586377, guid: 717f226c045f48d459a125c4dd46bab7,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 10.9699955
+      objectReference: {fileID: 0}
+    - target: {fileID: 3921501284934586377, guid: 717f226c045f48d459a125c4dd46bab7,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -10.280033
+      objectReference: {fileID: 0}
     - target: {fileID: 3921501284934586389, guid: 717f226c045f48d459a125c4dd46bab7,
         type: 3}
       propertyPath: m_Volume
@@ -47877,6 +47919,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Volume
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3921501285310455935, guid: 717f226c045f48d459a125c4dd46bab7,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 10.9699955
+      objectReference: {fileID: 0}
+    - target: {fileID: 3921501285310455935, guid: 717f226c045f48d459a125c4dd46bab7,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -14.540028
       objectReference: {fileID: 0}
     - target: {fileID: 3921501285358933159, guid: 717f226c045f48d459a125c4dd46bab7,
         type: 3}
@@ -48615,6 +48667,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5608714600697448565}
+  - component: {fileID: 5608714600697448459}
   m_Layer: 5
   m_Name: Holding
   m_TagString: Untagged
@@ -48622,6 +48675,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &5608714600697448459
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5608714600697448458}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9796b2bd3d0fbd42937402ab6881946, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buildingScroller: {fileID: 5608714602107136525}
 --- !u!224 &5608714600697448565
 RectTransform:
   m_ObjectHideFlags: 0

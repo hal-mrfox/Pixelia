@@ -1,20 +1,20 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class HoldingUI : MonoBehaviour
 {
-    public const float ProductionPreviewWidth = 93.575f;
-    public const float ProductionPopoutHeight = 39.1496f;
-    public const float PopsPopoutWidth = 116.31f;
+    public RectTransform buildingScroller;
+    const float Top = -12f;
+    const float Bot = -120f;
 
-    public RectTransform productionPreview;
-    public RectTransform productionPopuout;
-    public RectTransform popsPopout;
+    public void ScrollBuildings(float value)
+    {
+        buildingScroller.anchoredPosition = new Vector2(buildingScroller.anchoredPosition.x, Mathf.Lerp(Top, Bot, value));
+    }
 
-    bool buildingsExpanded;
+    //bool buildingsExpanded;
 
-    public List<RectTransform> buildings = new List<RectTransform>();
+    //public List<RectTransform> buildings = new List<RectTransform>();
 
     //public void PopoutBuildings()
     //{
