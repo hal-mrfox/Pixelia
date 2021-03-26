@@ -10,6 +10,7 @@ using UnityEngine;
 public class Province : MonoBehaviour, IClickable
 {
     public Country owner;
+    public WindowProvince windowProvince;
     public static Recipes recipes;
     public static BuildingManager buildingManager;
     public static HoldingManager holdingManager;
@@ -40,14 +41,12 @@ public class Province : MonoBehaviour, IClickable
     [BoxGroup("Improvements")]
     public List<ProvinceHolding> holdings;
     #region Improvements Serializing
-
-
     [System.Serializable]
     public class ProvinceHolding
     {
         public HoldingType holdingType;
 
-        public List<ProvinceBuilding> buildings;
+        public List<ProvinceBuilding> buildings = new List<ProvinceBuilding>();
 
         [System.Serializable]
         public class ProvinceBuilding
@@ -56,11 +55,14 @@ public class Province : MonoBehaviour, IClickable
 
             public float efficiency;
 
-            public List<ProvinceResource> resourceOutput;
-            public List<ProvinceResource> resourceInput;
+            public List<ProvinceResource> resourceOutput = new List<ProvinceResource>();
+            public List<ProvinceResource> resourceInput = new List<ProvinceResource>();
 
-            public List<Population> pops;
+            public List<Population> pops = new List<Population>();
 
+
+            
+            #region Refresh
             public void RefreshBuilding()
             {
                 resourceInput.Clear();
@@ -76,6 +78,7 @@ public class Province : MonoBehaviour, IClickable
                     }
                 }
             }
+            #endregion
         }
     }
     #endregion
@@ -122,6 +125,23 @@ public class Province : MonoBehaviour, IClickable
         RefreshProvinceValues();
         RefreshProvinceColors();
     }
+
+    #region Create Holding
+    public void CreateHolding(int holdingType)
+    {
+        holdings.Add(new ProvinceHolding());
+        holdings[holdings.Count - 1].holdingType = (HoldingType)holdingType;
+        
+    }
+    #endregion
+
+    #region Create Building
+    public void CreateBuilding(int holding, int buildingType)
+    {
+        holdings[holding].buildings.Add(new ProvinceHolding.ProvinceBuilding());
+        holdings[holding].buildings[holdings[holding].buildings.Count - 1].buildingType = (BuildingType)buildingType;
+    }
+    #endregion
 
     #region Refreshing
     public void RefreshProvinceValues()

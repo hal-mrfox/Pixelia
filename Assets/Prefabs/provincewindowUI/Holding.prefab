@@ -400,6 +400,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   provinceWindow: {fileID: 0}
   holdingTypeText: {fileID: 2743224708155379149}
+  createHoldingButton: {fileID: 7876654818371627024}
   buildingScroller: {fileID: 2743224707984750280}
   buildings:
   - {fileID: 4564092199961699261}
@@ -722,13 +723,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 1
+      - m_Target: {fileID: 2743224706579256526}
+        m_TargetAssemblyTypeName: HoldingUI, Assembly-CSharp
+        m_MethodName: CreateHolding
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 

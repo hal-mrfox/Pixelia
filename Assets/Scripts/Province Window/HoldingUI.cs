@@ -8,12 +8,21 @@ public class HoldingUI : MonoBehaviour
     [Space(10)]
 
     public TextMeshProUGUI holdingTypeText;
+    public Button createHoldingButton;
 
-    public Image createBuildingWindow;
-
-    public void Refresh(int holding)
+    public void Refresh(int holding, bool active)
     {
-        holdingTypeText.text = provinceWindow.provinceTarget.holdings[holding].holdingType.ToString();
+        if (active)
+        {
+            holdingTypeText.text = provinceWindow.provinceTarget.holdings[holding].holdingType.ToString();
+            createHoldingButton.gameObject.SetActive(false);
+        }
+        else
+        {
+            createHoldingButton.gameObject.SetActive(true);
+            createHoldingButton.onClick.RemoveAllListeners();
+            createHoldingButton.onClick.AddListener(() => provinceWindow.provinceTarget.CreateHolding(0));
+        }
     }
 
     #region Scrolling
@@ -28,12 +37,6 @@ public class HoldingUI : MonoBehaviour
         buildingScroller.anchoredPosition = new Vector2(buildingScroller.anchoredPosition.x, Mathf.Lerp(Top, Bot, value));
     }
     #endregion
-
-    public void BuildingButton(int buildingNumber)
-    {
-        
-    }
-
     //bool buildingsExpanded;
 
     //public List<RectTransform> buildings = new List<RectTransform>();

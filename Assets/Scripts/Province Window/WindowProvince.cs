@@ -177,12 +177,11 @@ public class WindowProvince : InteractableWindow
         #region Holdings and Buildings
         for (int i = 0; i < holdings.Length; i++)
         {
-            //setting holdings active
             holdings[i].gameObject.SetActive(false);
             if (i < provinceTarget.holdings.Count)
             {
                 holdings[i].gameObject.SetActive(true);
-                holdings[i].Refresh(i);
+                holdings[i].Refresh(i, true);
 
                 for (int j = 0; j < holdings[i].buildings.Length; j++)
                 {
@@ -191,8 +190,23 @@ public class WindowProvince : InteractableWindow
                     if (j < provinceTarget.holdings[i].buildings.Count)
                     {
                         holdings[i].buildings[j].gameObject.SetActive(true);
-                        holdings[i].buildings[j].Refresh(i, j);
+                        holdings[i].buildings[j].Refresh(i, j, true);
                     }
+                    if (j == provinceTarget.holdings[i].buildings.Count)
+                    {
+                        holdings[i].buildings[j].gameObject.SetActive(true);
+                        holdings[i].buildings[j].Refresh(i, j, false);
+                    }
+                }
+            }
+            //show create holding ui (not a real holding)
+            if (i == provinceTarget.holdings.Count)
+            {
+                holdings[i].gameObject.SetActive(true);
+                holdings[i].Refresh(i, false);
+                for (int j = 0; j < holdings[i].buildings.Length; j++)
+                {
+                    holdings[i].buildings[j].gameObject.SetActive(false);
                 }
             }
         }

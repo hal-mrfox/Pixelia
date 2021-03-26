@@ -16839,6 +16839,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1238172412}
     m_Modifications:
+    - target: {fileID: 112725608618889171, guid: abacc3bfe3b1c5845af34eafdd7146df,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -0.00002670288
+      objectReference: {fileID: 0}
     - target: {fileID: 127075512595295707, guid: abacc3bfe3b1c5845af34eafdd7146df,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -17917,6 +17922,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1238172412}
     m_Modifications:
+    - target: {fileID: 112725608618889171, guid: abacc3bfe3b1c5845af34eafdd7146df,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -0.00002670288
+      objectReference: {fileID: 0}
     - target: {fileID: 127075512595295707, guid: abacc3bfe3b1c5845af34eafdd7146df,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -28113,31 +28123,6 @@ MonoBehaviour:
       efficiency: 0
       resourceOutput:
       - resource: {fileID: 11400000, guid: 3dee1f524513f6c4db617fd4c3699770, type: 2}
-        resourceCount: 0
-      resourceInput: []
-      pops: []
-    - buildingType: 0
-      efficiency: 0
-      resourceOutput:
-      - resource: {fileID: 11400000, guid: fcaf4aee498ffb1428296b46bbc4c972, type: 2}
-        resourceCount: 0
-      resourceInput: []
-      pops: []
-  - holdingType: 0
-    buildings:
-    - buildingType: 0
-      efficiency: 0
-      resourceOutput:
-      - resource: {fileID: 11400000, guid: 6a921899f45dcd843b3dac8b3a9a70c5, type: 2}
-        resourceCount: 0
-      - resource: {fileID: 11400000, guid: b9ab2146badb2fb409fe5106e851f37e, type: 2}
-        resourceCount: 0
-      resourceInput: []
-      pops: []
-    - buildingType: 0
-      efficiency: 0
-      resourceOutput:
-      - resource: {fileID: 11400000, guid: 1a37182f2d3c3f2479dd99fb3c20cd90, type: 2}
         resourceCount: 0
       resourceInput: []
       pops: []
@@ -38564,6 +38549,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1238172412}
     m_Modifications:
+    - target: {fileID: 112725608618889171, guid: abacc3bfe3b1c5845af34eafdd7146df,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -0.00002670288
+      objectReference: {fileID: 0}
     - target: {fileID: 127075512595295707, guid: abacc3bfe3b1c5845af34eafdd7146df,
         type: 3}
       propertyPath: m_AnchorMax.y

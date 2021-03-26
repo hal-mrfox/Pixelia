@@ -13,7 +13,10 @@ public class BuildingUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     public Image highlight;
     public AudioSource audioSource;
     public RectTransform rectTransform;
+    public UnityEngine.UI.Button createBuildingButton;
+
     bool hovering;
+
     [Space(10)]
 
     #region Output
@@ -70,79 +73,89 @@ public class BuildingUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         }
     }
 
-    public void Refresh(int holding, int building)
+    public void Refresh(int holding, int building, bool active)
     {
-        #region Pops
-        int pops = provinceWindow.provinceTarget.holdings[holding].buildings[building].pops.Count;
-        for (int i = 0; i < popIcons.Count; i++)
+        if (active)
         {
-            if (i < pops)
+            createBuildingButton.gameObject.SetActive(false);
+            #region Pops
+            int pops = provinceWindow.provinceTarget.holdings[holding].buildings[building].pops.Count;
+            for (int i = 0; i < popIcons.Count; i++)
             {
-                popIcons[i].color = filled;
-                popIcons[i].GetComponent<soundtest>().lower = false;
+                if (i < pops)
+                {
+                    popIcons[i].color = filled;
+                    popIcons[i].GetComponent<soundtest>().lower = false;
+                }
+                else
+                {
+                    popIcons[i].color = empty;
+                    popIcons[i].GetComponent<soundtest>().lower = true;
+                }
             }
-            else
+            #endregion
+            #region Efficiency
+            textEfficiency.text = provinceWindow.provinceTarget.holdings[holding].buildings[building].efficiency.ToString("00") + "%";
+            #endregion
+            #region Name
+            buildingTypeName.text = provinceWindow.provinceTarget.holdings[holding].buildings[building].buildingType.ToString();
+            #endregion
+            #region Resources
+            #region Output
+            for (int i = 0; i < provinceWindow.provinceTarget.holdings[holding].buildings[building].resourceOutput.Count; i++)
             {
-                popIcons[i].color = empty;
-                popIcons[i].GetComponent<soundtest>().lower = true;
+                resourceOutputUI[i] = new ResourceUI(provinceWindow.provinceTarget.holdings[holding].buildings[building].resourceOutput[i].resource.icon, provinceWindow.provinceTarget.holdings[holding].buildings[building].resourceOutput[i].resourceCount);
             }
+            for (int i = 0; i < outputUI.Length; i++)
+            {
+                if (i < provinceWindow.provinceTarget.holdings[holding].buildings[building].resourceOutput.Count)
+                {
+                    outputUI[i].icon.gameObject.SetActive(true);
+                    outputUI[i].icon.sprite = provinceWindow.provinceTarget.holdings[holding].buildings[building].resourceOutput[i].resource.icon;
+                    outputUI[i].icon.SetNativeSize();
+                    outputUI[i].amount.text = resourceOutputUI[i].resourceCount.ToString();
+                }
+                else
+                {
+                    outputUI[i].icon.gameObject.SetActive(false);
+                    outputUI[i].icon.sprite = null;
+                    outputUI[i].amount.text = null;
+                }
+            }
+            #endregion
+            #region Input
+            for (int i = 0; i < provinceWindow.provinceTarget.holdings[holding].buildings[building].resourceInput.Count; i++)
+            {
+                resourceInputUI[i] = new ResourceUI(provinceWindow.provinceTarget.holdings[holding].buildings[building].resourceInput[i].resource.icon, provinceWindow.provinceTarget.holdings[holding].buildings[building].resourceInput[i].resourceCount);
+            }
+            for (int i = 0; i < inputUI.Length; i++)
+            {
+                if (i < provinceWindow.provinceTarget.holdings[holding].buildings[building].resourceInput.Count)
+                {
+                    inputUI[i].icon.gameObject.SetActive(true);
+                    inputUI[i].icon.sprite = provinceWindow.provinceTarget.holdings[holding].buildings[building].resourceInput[i].resource.icon;
+                    inputUI[i].icon.SetNativeSize();
+                    inputUI[i].outline.gameObject.SetActive(true);
+                    inputUI[i].outline.sprite = provinceWindow.provinceTarget.holdings[holding].buildings[building].resourceInput[i].resource.outline;
+                    inputUI[i].outline.SetNativeSize();
+                }
+                else
+                {
+                    inputUI[i].icon.gameObject.SetActive(false);
+                    inputUI[i].outline.gameObject.SetActive(false);
+                    inputUI[i].icon.sprite = null;
+                    inputUI[i].outline.sprite = null;
+                }
+            }
+            #endregion
+            #endregion
         }
-        #endregion
-        #region Efficiency
-        textEfficiency.text = provinceWindow.provinceTarget.holdings[holding].buildings[building].efficiency.ToString("00") + "%";
-        #endregion
-        #region Name
-        buildingTypeName.text = provinceWindow.provinceTarget.holdings[holding].buildings[building].buildingType.ToString();
-        #endregion
-        #region Resources
-        #region Output
-        for (int i = 0; i < provinceWindow.provinceTarget.holdings[holding].buildings[building].resourceOutput.Count; i++)
+        else
         {
-            resourceOutputUI[i] = new ResourceUI(provinceWindow.provinceTarget.holdings[holding].buildings[building].resourceOutput[i].resource.icon, provinceWindow.provinceTarget.holdings[holding].buildings[building].resourceOutput[i].resourceCount);
+            createBuildingButton.gameObject.SetActive(true);
+            createBuildingButton.onClick.RemoveAllListeners();
+            createBuildingButton.onClick.AddListener(() => provinceWindow.provinceTarget.CreateBuilding(holding, 0));
         }
-        for (int i = 0; i < outputUI.Length; i++)
-        {
-            if (i < provinceWindow.provinceTarget.holdings[holding].buildings[building].resourceOutput.Count)
-            {
-                outputUI[i].icon.gameObject.SetActive(true);
-                outputUI[i].icon.sprite = provinceWindow.provinceTarget.holdings[holding].buildings[building].resourceOutput[i].resource.icon;
-                outputUI[i].icon.SetNativeSize();
-                outputUI[i].amount.text = resourceOutputUI[i].resourceCount.ToString();
-            }
-            else
-            {
-                outputUI[i].icon.gameObject.SetActive(false);
-                outputUI[i].icon.sprite = null;
-                outputUI[i].amount.text = null;
-            }
-        }
-        #endregion
-        #region Input
-        for (int i = 0; i < provinceWindow.provinceTarget.holdings[holding].buildings[building].resourceInput.Count; i++)
-        {
-            resourceInputUI[i] = new ResourceUI(provinceWindow.provinceTarget.holdings[holding].buildings[building].resourceInput[i].resource.icon, provinceWindow.provinceTarget.holdings[holding].buildings[building].resourceInput[i].resourceCount);
-        }
-        for (int i = 0; i < inputUI.Length; i++)
-        {
-            if (i < provinceWindow.provinceTarget.holdings[holding].buildings[building].resourceInput.Count)
-            {
-                inputUI[i].icon.gameObject.SetActive(true);
-                inputUI[i].icon.sprite = provinceWindow.provinceTarget.holdings[holding].buildings[building].resourceInput[i].resource.icon;
-                inputUI[i].icon.SetNativeSize();
-                inputUI[i].outline.gameObject.SetActive(true);
-                inputUI[i].outline.sprite = provinceWindow.provinceTarget.holdings[holding].buildings[building].resourceInput[i].resource.outline;
-                inputUI[i].outline.SetNativeSize();
-            }
-            else
-            {
-                inputUI[i].icon.gameObject.SetActive(false);
-                inputUI[i].outline.gameObject.SetActive(false);
-                inputUI[i].icon.sprite = null;
-                inputUI[i].outline.sprite = null;
-            }
-        }
-        #endregion
-        #endregion
     }
 
     public void Update()
