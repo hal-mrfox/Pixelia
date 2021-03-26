@@ -1810,6 +1810,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: {fileID: 108892569}
+  windowProvince: {fileID: 791904169}
   highlightedCountry: {fileID: 0}
   religion: {fileID: 0}
   culture: {fileID: 0}
@@ -15523,6 +15524,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: {fileID: 605382681}
+  windowProvince: {fileID: 791904169}
   highlightedCountry: {fileID: 0}
   religion: {fileID: 0}
   culture: {fileID: 0}
@@ -19054,6 +19056,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: {fileID: 41549782}
+  windowProvince: {fileID: 791904169}
   highlightedCountry: {fileID: 0}
   religion: {fileID: 0}
   culture: {fileID: 0}
@@ -23849,6 +23852,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: {fileID: 1544237073}
+  windowProvince: {fileID: 791904169}
   highlightedCountry: {fileID: 0}
   religion: {fileID: 0}
   culture: {fileID: 0}
@@ -25186,6 +25190,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: {fileID: 551782973}
+  windowProvince: {fileID: 791904169}
   highlightedCountry: {fileID: 0}
   religion: {fileID: 0}
   culture: {fileID: 0}
@@ -28105,6 +28110,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: {fileID: 1637428449}
+  windowProvince: {fileID: 791904169}
   highlightedCountry: {fileID: 0}
   religion: {fileID: 0}
   culture: {fileID: 0}
@@ -28116,16 +28122,7 @@ MonoBehaviour:
   buildingCapacity: 7
   supplyLimit: 0
   tax: 0
-  holdings:
-  - holdingType: 0
-    buildings:
-    - buildingType: 0
-      efficiency: 0
-      resourceOutput:
-      - resource: {fileID: 11400000, guid: 3dee1f524513f6c4db617fd4c3699770, type: 2}
-        resourceCount: 0
-      resourceInput: []
-      pops: []
+  holdings: []
   ownedResources: []
   rawResources:
   - resource: {fileID: 11400000, guid: cb4aefd37b1bfde43a8ec613ead33cba, type: 2}
@@ -28224,6 +28221,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: {fileID: 1131585594}
+  windowProvince: {fileID: 791904169}
   highlightedCountry: {fileID: 0}
   religion: {fileID: 0}
   culture: {fileID: 0}
@@ -38471,6 +38469,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: {fileID: 1414261933}
+  windowProvince: {fileID: 791904169}
   highlightedCountry: {fileID: 0}
   religion: {fileID: 0}
   culture: {fileID: 0}

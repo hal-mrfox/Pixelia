@@ -131,7 +131,7 @@ public class Province : MonoBehaviour, IClickable
     {
         holdings.Add(new ProvinceHolding());
         holdings[holdings.Count - 1].holdingType = (HoldingType)holdingType;
-        
+        windowProvince.RefreshWindow();
     }
     #endregion
 
@@ -140,6 +140,7 @@ public class Province : MonoBehaviour, IClickable
     {
         holdings[holding].buildings.Add(new ProvinceHolding.ProvinceBuilding());
         holdings[holding].buildings[holdings[holding].buildings.Count - 1].buildingType = (BuildingType)buildingType;
+        windowProvince.RefreshWindow();
     }
     #endregion
 

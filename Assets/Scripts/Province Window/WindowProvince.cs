@@ -190,12 +190,14 @@ public class WindowProvince : InteractableWindow
                     if (j < provinceTarget.holdings[i].buildings.Count)
                     {
                         holdings[i].buildings[j].gameObject.SetActive(true);
-                        holdings[i].buildings[j].Refresh(i, j, true);
+                        holdings[i].buildings[j].active = true;
+                        holdings[i].buildings[j].Refresh(i, j);
                     }
                     if (j == provinceTarget.holdings[i].buildings.Count)
                     {
                         holdings[i].buildings[j].gameObject.SetActive(true);
-                        holdings[i].buildings[j].Refresh(i, j, false);
+                        holdings[i].buildings[j].active = false;
+                        holdings[i].buildings[j].Refresh(i, j);
                     }
                 }
             }

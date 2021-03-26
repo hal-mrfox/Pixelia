@@ -14,6 +14,7 @@ public class BuildingUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     public AudioSource audioSource;
     public RectTransform rectTransform;
     public UnityEngine.UI.Button createBuildingButton;
+    public bool active;
 
     bool hovering;
 
@@ -73,7 +74,7 @@ public class BuildingUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         }
     }
 
-    public void Refresh(int holding, int building, bool active)
+    public void Refresh(int holding, int building)
     {
         if (active)
         {
@@ -160,15 +161,22 @@ public class BuildingUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     public void Update()
     {
-        if (Input.GetKeyDown(KeyCode.LeftAlt) && hovering)
+        if (active && hovering)
         {
-            audioSource.Play();
-            rectTransform.SetAsLastSibling();
-        }
+            if (Input.GetKeyDown(KeyCode.LeftAlt))
+            {
+                audioSource.Play();
+                rectTransform.SetAsLastSibling();
+            }
 
-        if (Input.GetKey(KeyCode.LeftAlt) && hovering)
-        {
-            highlight.gameObject.SetActive(true);
+            if (Input.GetKey(KeyCode.LeftAlt))
+            {
+                highlight.gameObject.SetActive(true);
+            }
+            else
+            {
+                highlight.gameObject.SetActive(false);
+            }
         }
         else
         {
