@@ -15,6 +15,7 @@ public class CountryManager : MonoBehaviour
     public int turn;
     public TextMeshProUGUI playerCountryName;
     public RectTransform backgroundPrestige;
+    public TextMeshProUGUI moneyText;
     public TextMeshProUGUI woodText;
     public TextMeshProUGUI stoneText;
 
@@ -48,6 +49,8 @@ public class CountryManager : MonoBehaviour
     public Color yellow;
     public Color orange;
     public Color tan;
+    public Color niceGreen;
+    public Color niceRed;
 
     public AudioSource openWindowSound;
 
@@ -102,7 +105,7 @@ public class CountryManager : MonoBehaviour
             provinces[i].RefreshProvinceColors();
         }
 
-        //SetUI();
+        SetUI();
     }
 
     //UI\\
@@ -127,6 +130,7 @@ public class CountryManager : MonoBehaviour
         Sprite crown = crownTiers[(int)playerCountry.tier];
         crownIcon.sprite = crown;
         crownIcon.SetNativeSize();
+        moneyText.text = playerCountry.money.ToString();
 
         backgroundPrestige.sizeDelta = new Vector2(Mathf.Clamp(110 * playerCountry.prestige, 0, 110), backgroundPrestige.sizeDelta.y);
     }

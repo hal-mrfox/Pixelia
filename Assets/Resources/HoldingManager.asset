@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2f457d4215f98e4caa7e4ce8d8c8456, type: 3}
+  m_Name: HoldingManager
+  m_EditorClassIdentifier: 
+  holdings:
+  - holdingType: 0
+    buildCost:
+      moneyCost: 0
+      resourceCost: []
+    upkeepCost:
+      moneyCost: 0
+      resourceCost: []
+    holdables: 0000000001000000020000000300000004000000
+  - holdingType: 1
+    buildCost:
+      moneyCost: 0
+      resourceCost: []
+    upkeepCost:
+      moneyCost: 0
+      resourceCost: []
+    holdables: 050000000600000007000000
+  - holdingType: 2
+    buildCost:
+      moneyCost: 0
+      resourceCost: []
+    upkeepCost:
+      moneyCost: 0
+      resourceCost: []
+    holdables: 010000000800000009000000
+  - holdingType: 3
+    buildCost:
+      moneyCost: 0
+      resourceCost: []
+    upkeepCost:
+      moneyCost: 0
+      resourceCost: []
+    holdables: 0100000008000000

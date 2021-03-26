@@ -154,7 +154,7 @@ public class OldBuilding : MonoBehaviour, IClickable
         CountryManager.instance.selectedPop.provinceController = provinceController;
         provinceController.pops.Add(CountryManager.instance.selectedPop);
         CountryManager.instance.available = true;
-        CountryManager.instance.windowProvince.RefreshProvinceValues();
+        CountryManager.instance.windowProvince.RefreshWindow();
         DeactivateContainingPops();
     }
 

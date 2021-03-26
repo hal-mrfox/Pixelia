@@ -8,28 +8,41 @@ using UnityEngine;
 
 public class Population : MonoBehaviour, IClickable
 {
-    public enum PopType { Unemployed, Slave, Soldier, Laborer, Farmer, Clerk, Missionary, Knight, Aristocrat };
-    public PopType popType;
-    //public enum Religion { Shimbleworth, Shmoobli}
-    //public Religion religion;
-    //public enum Culture { Crumbus, Yaboi}
-    //public Culture culture;
-    //public enum Ideology { Tribe, Feudal}
-    //public Ideology ideology;
-    //public enum Nationality { Sooblian, Idiotlian }
-    //public Nationality nationality;
+    #region Pop Type
+    public enum PopType 
+    { 
 
+        //I
+        Unemployed, Slave, Laborer, Farmer, Soldier,
+
+        //II
+        Artist, FactoryWorker, Missionary,
+
+        //III
+        Minister, Officer, Researcher,
+        
+        //IV
+        Aristrocrat, Leader
+
+    };
+
+    public PopType popType;
+    #endregion
+    #region Beliefs
     public Religion religion;
     public Culture culture;
     public Ideology ideology;
     public BeliefsManager.Nationality nationality;
-
+    #endregion
+    #region Controllers and Details
     public Country controller;
-    //energy is what every pop can do each turn
-    public float energy;
     public Province provinceController;
-    public OldBuilding containingBuilding;
+
     public bool selected;
+    #endregion
+    #region Needs
+    #endregion
+    public OldBuilding containingBuilding;
     public GameObject details;
     public TextMeshProUGUI popTypeText;
 

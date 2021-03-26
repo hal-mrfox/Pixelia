@@ -1,0 +1,53 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53163601eee577b4686fbd5bae4873fd, type: 3}
+  m_Name: Recipes
+  m_EditorClassIdentifier: 
+  resourceRecipes:
+  - type: {fileID: 11400000, guid: cb4aefd37b1bfde43a8ec613ead33cba, type: 2}
+    building: 2
+    requiredResources: []
+  - type: {fileID: 11400000, guid: 3ffb63fdf28f17247a4c08f682b6dfd1, type: 2}
+    building: 0
+    requiredResources: []
+  - type: {fileID: 11400000, guid: 3dee1f524513f6c4db617fd4c3699770, type: 2}
+    building: 0
+    requiredResources: []
+  - type: {fileID: 11400000, guid: fcaf4aee498ffb1428296b46bbc4c972, type: 2}
+    building: 7
+    requiredResources:
+    - resource: {fileID: 11400000, guid: b35878d2163d4a14aad2c79a4ad73609, type: 2}
+      amount: 1
+    - resource: {fileID: 11400000, guid: 3dee1f524513f6c4db617fd4c3699770, type: 2}
+      amount: 1
+  - type: {fileID: 11400000, guid: b9ab2146badb2fb409fe5106e851f37e, type: 2}
+    building: 0
+    requiredResources: []
+  - type: {fileID: 11400000, guid: e9a9a6eb829a730489d54ae84e7c5ff7, type: 2}
+    building: 0
+    requiredResources: []
+  - type: {fileID: 11400000, guid: 7cfb003adb14cda4bbe2e566c4803988, type: 2}
+    building: 1
+    requiredResources: []
+  - type: {fileID: 11400000, guid: 1a37182f2d3c3f2479dd99fb3c20cd90, type: 2}
+    building: 6
+    requiredResources:
+    - resource: {fileID: 11400000, guid: fcaf4aee498ffb1428296b46bbc4c972, type: 2}
+      amount: 1
+    - resource: {fileID: 11400000, guid: 3dee1f524513f6c4db617fd4c3699770, type: 2}
+      amount: 1
+  - type: {fileID: 11400000, guid: b35878d2163d4a14aad2c79a4ad73609, type: 2}
+    building: 0
+    requiredResources: []
+  - type: {fileID: 11400000, guid: 6a921899f45dcd843b3dac8b3a9a70c5, type: 2}
+    building: 0
+    requiredResources: []
