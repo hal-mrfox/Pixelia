@@ -19,7 +19,6 @@ public class BuildingUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     bool hovering;
 
     [Space(10)]
-
     #region Output
     [Header("Output")]
     public ResourceUI[] resourceOutputUI;
@@ -32,9 +31,7 @@ public class BuildingUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         public TextMeshProUGUI amount;
     }
     #endregion
-
     [Space(10)]
-
     #region Input
     [Header("Input")]
     public ResourceUI[] resourceInputUI;
