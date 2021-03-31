@@ -50,6 +50,13 @@ public class WindowProvince : InteractableWindow
     //move to province
     public int overPopulation;
     public int snapDistance;
+
+    #region Create Building
+    public Image createBuildingWindow;
+    public ButtonSound[] options;
+    #endregion
+
+    #region old building making stuff
     public GameObject createBuildingMarker;
     public GameObject selectBuildingWindow;
     public int selectedBuildingType;
@@ -58,6 +65,7 @@ public class WindowProvince : InteractableWindow
     public GameObject destroyBuildingConfirmation;
     //local
     bool markBuildingSpot;
+    #endregion
 
     [Space(20)]
     public HoldingUI[] holdings;
@@ -77,7 +85,6 @@ public class WindowProvince : InteractableWindow
 
     public void Awake()
     {
-        createBuildingMarker.SetActive(false);
         gameObject.SetActive(false);
     }
 
@@ -101,10 +108,10 @@ public class WindowProvince : InteractableWindow
         for (int i = 0; i < commodities.Length; i++)
         {
             commodities[i].gameObject.SetActive(false);
-            if (i < provinceTarget.rawResources.Count)
+            if (i < provinceTarget.storedResources.Count)
             {
                 //switch to finding the buildings output
-                commodities[i].Refresh(ResourceManager.instance.resources[i].icon, ResourceManager.instance.resources[i].icon, ResourceManager.instance.resources[i].outline, provinceTarget.rawResources[i].resourceCount);
+                commodities[i].Refresh(provinceTarget.storedResources[i].resource.icon, provinceTarget.storedResources[i].resource.icon, provinceTarget.storedResources[i].resource.outline, provinceTarget.storedResources[i].resourceCount);
                 commodities[i].gameObject.SetActive(true);
             }
         }
@@ -113,7 +120,7 @@ public class WindowProvince : InteractableWindow
             rawResources[i].gameObject.SetActive(false);
             if (i < provinceTarget.rawResources.Count)
             {
-                rawResources[i].Refresh(ResourceManager.instance.resources[i].icon, provinceTarget.rawResources[i].resourceCount);
+                rawResources[i].Refresh(provinceTarget.rawResources[i].resource.icon, provinceTarget.rawResources[i].resourceCount);
                 rawResources[i].gameObject.SetActive(true);
             }
         }
@@ -181,6 +188,7 @@ public class WindowProvince : InteractableWindow
             if (i < provinceTarget.holdings.Count)
             {
                 holdings[i].gameObject.SetActive(true);
+                holdings[i].holdingCounterpart = i;
                 holdings[i].Refresh(i, true);
 
                 for (int j = 0; j < holdings[i].buildings.Length; j++)
@@ -191,6 +199,9 @@ public class WindowProvince : InteractableWindow
                     {
                         holdings[i].buildings[j].gameObject.SetActive(true);
                         holdings[i].buildings[j].active = true;
+                        holdings[i].buildings[j].holdingCounterpart = i;
+                        holdings[i].buildings[j].buildingCounterpart = j;
+                        holdings[i].buildings[j].buildingType = provinceTarget.holdings[i].buildings[j].buildingType;
                         holdings[i].buildings[j].Refresh(i, j);
                     }
                     if (j == provinceTarget.holdings[i].buildings.Count)

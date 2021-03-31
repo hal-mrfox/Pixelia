@@ -51,3 +51,20 @@ MonoBehaviour:
   - type: {fileID: 11400000, guid: 6a921899f45dcd843b3dac8b3a9a70c5, type: 2}
     building: 0
     requiredResources: []
+  - type: {fileID: 11400000, guid: a19910d51f96ca247870c6d54e4a58b0, type: 2}
+    building: 6
+    requiredResources:
+    - resource: {fileID: 11400000, guid: b9ab2146badb2fb409fe5106e851f37e, type: 2}
+      amount: 0
+    - resource: {fileID: 11400000, guid: 3dee1f524513f6c4db617fd4c3699770, type: 2}
+      amount: 0
+  - type: {fileID: 11400000, guid: 7191db1027490574cbc93ac8ddd480fe, type: 2}
+    building: 6
+    requiredResources:
+    - resource: {fileID: 11400000, guid: 6a921899f45dcd843b3dac8b3a9a70c5, type: 2}
+      amount: 0
+    - resource: {fileID: 11400000, guid: 3dee1f524513f6c4db617fd4c3699770, type: 2}
+      amount: 0
+  - type: {fileID: 11400000, guid: e977f1736bb1ffb46b63e2574fb0c64d, type: 2}
+    building: 0
+    requiredResources: []

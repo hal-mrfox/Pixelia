@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2708242bc1c07494badffdc113a5f458, type: 3}
-  m_Name: Heavy Metal Ore
+  m_Name: Luxury Gem
   m_EditorClassIdentifier: 
-  Type: 9
-  icon: {fileID: 21300000, guid: b0ae6ac36071adf45a41dee1a669206a, type: 3}
-  outline: {fileID: 21300000, guid: 3afad453c9f55f2449a4354f2c7cd6b2, type: 3}
+  Type: 12
+  icon: {fileID: 21300000, guid: 3a7999cdf4c3d8e4f9cb7c23efcbc5f6, type: 3}
+  outline: {fileID: 21300000, guid: 861d41d415dc99e4488897ebedc1e878, type: 3}

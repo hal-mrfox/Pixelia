@@ -4,16 +4,29 @@ using UnityEngine.EventSystems;
 using NaughtyAttributes;
 using UnityEngine;
 using TMPro;
+using System.Linq;
 using Pigeon;
 using UnityEngine.UI;
 
-public class BuildingUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class BuildingUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler
 {
     public WindowProvince provinceWindow;
+    public BuildingType buildingType;
+    public int holdingCounterpart;
+    public int buildingCounterpart;
     public Image highlight;
     public AudioSource audioSource;
     public RectTransform rectTransform;
     public UnityEngine.UI.Button createBuildingButton;
+    #region Resource Selection
+    [Space(10)]
+    [Header("Resource Selection")]
+    public Image selectResourceWindow;
+    public GridLayoutGroup resourceSelectionLayout;
+    public List<OptionUI> resourceOptions;
+    public Color grayblue;
+    [Space(10)]
+    #endregion
     public bool active;
 
     bool hovering;
@@ -22,14 +35,14 @@ public class BuildingUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     #region Output
     [Header("Output")]
     public ResourceUI[] resourceOutputUI;
-    public OutputUI[] outputUI;
+    public OutputUIButton[] outputUI;
 
-    [System.Serializable]
-    public class OutputUI
-    {
-        public Image icon;
-        public TextMeshProUGUI amount;
-    }
+    //[System.Serializable]
+    //public class OutputUI
+    //{
+    //    public Image icon;
+    //    public TextMeshProUGUI amount;
+    //}
     #endregion
     [Space(10)]
     #region Input
@@ -71,6 +84,11 @@ public class BuildingUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         }
     }
 
+    public void Awake()
+    {
+        provinceWindow = FindObjectOfType<WindowProvince>();
+    }
+
     public void Refresh(int holding, int building)
     {
         if (active)
@@ -83,12 +101,12 @@ public class BuildingUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
                 if (i < pops)
                 {
                     popIcons[i].color = filled;
-                    popIcons[i].GetComponent<soundtest>().lower = false;
+                    popIcons[i].GetComponent<ButtonSound>().lower = false;
                 }
                 else
                 {
                     popIcons[i].color = empty;
-                    popIcons[i].GetComponent<soundtest>().lower = true;
+                    popIcons[i].GetComponent<ButtonSound>().lower = true;
                 }
             }
             #endregion
@@ -111,12 +129,14 @@ public class BuildingUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
                     outputUI[i].icon.gameObject.SetActive(true);
                     outputUI[i].icon.sprite = provinceWindow.provinceTarget.holdings[holding].buildings[building].resourceOutput[i].resource.icon;
                     outputUI[i].icon.SetNativeSize();
+                    outputUI[i].icon.color = Color.white;
                     outputUI[i].amount.text = resourceOutputUI[i].resourceCount.ToString();
                 }
                 else
                 {
-                    outputUI[i].icon.gameObject.SetActive(false);
+                    outputUI[i].icon.gameObject.SetActive(true);
                     outputUI[i].icon.sprite = null;
+                    outputUI[i].icon.color = grayblue;
                     outputUI[i].amount.text = null;
                 }
             }
@@ -153,6 +173,85 @@ public class BuildingUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             createBuildingButton.gameObject.SetActive(true);
             createBuildingButton.onClick.RemoveAllListeners();
             createBuildingButton.onClick.AddListener(() => provinceWindow.provinceTarget.CreateBuilding(holding, 0));
+        }
+    }
+
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        if (Input.GetKeyDown(KeyCode.Mouse1) && selectResourceWindow == true)
+        {
+            selectResourceWindow.gameObject.SetActive(false);
+        }
+    }
+
+    public void OpenResourceSelection(int outputValue, bool create)
+    {
+        if (create
+            && 
+            provinceWindow.provinceTarget.holdings[holdingCounterpart].buildings[buildingCounterpart].resourceOutput.Count <= outputValue
+            &&
+            outputValue < Resources.Load<BuildingManager>("BuildingManager").buildings[(int)provinceWindow.provinceTarget.holdings[holdingCounterpart].buildings[buildingCounterpart].buildingType].outputCapacity)
+        {
+            for (int i = 0; i < resourceOptions.Count; i++)
+            {
+                if (i < provinceWindow.provinceTarget.rawResources.Count && Resources.Load<BuildingManager>("BuildingManager").buildings[(int)buildingType].creatableResources.Contains(provinceWindow.provinceTarget.rawResources[i].resource))
+                {
+                    resourceOptions[i].resource = provinceWindow.provinceTarget.rawResources[i].resource;
+                    if (provinceWindow.provinceTarget.holdings[holdingCounterpart].buildings[buildingCounterpart].resourceOutput.Count > 0)
+                    {
+                        for (int j = 0; j < provinceWindow.provinceTarget.holdings[holdingCounterpart].buildings[buildingCounterpart].resourceOutput.Count; j++)
+                        {
+                            resourceOptions[i].GetComponent<Image>().sprite = resourceOptions[i].resource.icon;
+                            resourceOptions[i].GetComponent<Image>().SetNativeSize();
+                            resourceOptions[i].outputValue = outputValue;
+                            if (provinceWindow.provinceTarget.holdings[holdingCounterpart].buildings[buildingCounterpart].resourceOutput[j].resource == resourceOptions[i].resource)
+                            {
+                                resourceOptions[i].gameObject.SetActive(false);
+                                break;
+                            }
+                            else
+                            {
+                                resourceOptions[i].gameObject.SetActive(true);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        resourceOptions[i].GetComponent<Image>().sprite = resourceOptions[i].resource.icon;
+                        resourceOptions[i].GetComponent<Image>().SetNativeSize();
+                        resourceOptions[i].outputValue = outputValue;
+                        resourceOptions[i].gameObject.SetActive(true);
+                    }
+                }
+                else
+                {
+                    resourceOptions[i].gameObject.SetActive(false);
+                }
+                provinceWindow.provinceTarget.RefreshProvinceValues();
+                provinceWindow.RefreshWindow();
+                selectResourceWindow.gameObject.SetActive(true);
+            }
+        }
+        else if (!create && outputValue < provinceWindow.provinceTarget.holdings[holdingCounterpart].buildings[buildingCounterpart].resourceOutput.Count)
+        {
+            provinceWindow.provinceTarget.holdings[holdingCounterpart].buildings[buildingCounterpart].resourceOutput.Remove(provinceWindow.provinceTarget.holdings[holdingCounterpart].buildings[buildingCounterpart].resourceOutput[outputValue]);
+            provinceWindow.provinceTarget.RefreshProvinceValues();
+            provinceWindow.RefreshWindow();
+        }
+    }
+
+    public void SetResourceButtons(Resource resource, bool create, int outputValue)
+    {
+        if (create )
+        {
+            provinceWindow.provinceTarget.holdings[holdingCounterpart].buildings[buildingCounterpart].resourceOutput.Add(new Province.ProvinceResource(resource, 0));
+            selectResourceWindow.gameObject.SetActive(false);
+            provinceWindow.provinceTarget.RefreshProvinceValues();
+            provinceWindow.RefreshWindow();
+        }
+        else
+        {
+            selectResourceWindow.gameObject.SetActive(false);
         }
     }
 

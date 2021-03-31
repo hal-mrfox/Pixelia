@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class HoldingUI : MonoBehaviour
 {
     public WindowProvince provinceWindow;
+    public int holdingCounterpart;
     [Space(10)]
 
     public TextMeshProUGUI holdingTypeText;
@@ -23,6 +24,11 @@ public class HoldingUI : MonoBehaviour
             createHoldingButton.onClick.RemoveAllListeners();
             createHoldingButton.onClick.AddListener(() => provinceWindow.provinceTarget.CreateHolding(0));
         }
+    }
+
+    public void Awake()
+    {
+        provinceWindow = FindObjectOfType<WindowProvince>();
     }
 
     #region Scrolling

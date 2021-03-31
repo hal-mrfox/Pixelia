@@ -6,7 +6,7 @@ using UnityEngine;
 public enum BuildingType
 {
 
-    Mine, Farm, Logging, Plantation, OilRig,
+    Mine, Farm, Logging, OilRig,
 
     GoodsFactory, AssemblyFactory, Smeltery,
 
@@ -26,6 +26,7 @@ public class BuildingManager : ScriptableObject
 
         public HoldingType holder;
 
+        public int outputCapacity;
         public Resource[] creatableResources;
 
         [Space(10)]

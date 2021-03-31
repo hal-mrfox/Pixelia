@@ -85,7 +85,7 @@ public class Province : MonoBehaviour, IClickable
     #endregion
     #region Resources
     [BoxGroup("Resources")]
-    public List<ProvinceResource> ownedResources;
+    public List<ProvinceResource> storedResources;
     [BoxGroup("Resources")]
     public List<ProvinceResource> rawResources;
     #region ProvinceResource
