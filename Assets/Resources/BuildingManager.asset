@@ -63,9 +63,10 @@ MonoBehaviour:
       moneyCost: 0
       resourceCost: []
   - buildingType: 4
-    holder: 0
-    outputCapacity: 0
-    creatableResources: []
+    holder: 1
+    outputCapacity: 1
+    creatableResources:
+    - {fileID: 11400000, guid: 8805dd0abce03f347b1543be89f57892, type: 2}
     buildCost:
       moneyCost: 0
       resourceCost: []

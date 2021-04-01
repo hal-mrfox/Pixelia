@@ -18,36 +18,41 @@ public class BuildingUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     public AudioSource audioSource;
     public RectTransform rectTransform;
     public UnityEngine.UI.Button createBuildingButton;
-    #region Resource Selection
-    [Space(10)]
-    [Header("Resource Selection")]
-    public Image selectResourceWindow;
-    public GridLayoutGroup resourceSelectionLayout;
-    public List<OptionUI> resourceOptions;
-    public Color grayblue;
-    [Space(10)]
-    #endregion
     public bool active;
 
     bool hovering;
 
-    [Space(10)]
+    #region Resource Selection
+
+    [BoxGroup("Resource Selection")]
+    public Image selectResourceWindow;
+
+    [BoxGroup("Resource Selection")]
+    public GridLayoutGroup resourceSelectionLayout;
+
+    [BoxGroup("Resource Selection")]
+    public List<OptionUI> resourceOptions;
+
+    [BoxGroup("Resource Selection")]
+    public Color grayblue;
+
+    #endregion
+
     #region Output
-    [Header("Output")]
+
+    [BoxGroup("Output")]
     public ResourceUI[] resourceOutputUI;
+
+    [BoxGroup("Output")]
     public OutputUIButton[] outputUI;
 
-    //[System.Serializable]
-    //public class OutputUI
-    //{
-    //    public Image icon;
-    //    public TextMeshProUGUI amount;
-    //}
-    #endregion
-    [Space(10)]
+    #endregion 
+
     #region Input
-    [Header("Input")]
+    [BoxGroup("Input")]
     public ResourceUI[] resourceInputUI;
+
+    [BoxGroup("Input")]
     public InputUI[] inputUI;
 
     [System.Serializable]
@@ -56,19 +61,39 @@ public class BuildingUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         public Image icon;
         public Image outline;
     }
+
+    [Space(5)]
+
     #endregion
 
+    #region Storage
+
+    [BoxGroup("Storage")]
+    public ResourceUI[] resourceStorageUI;
+
+    [BoxGroup("Storage")]
+    public OutputUIButton[] storageUI;
+
+    #endregion 
+
     #region General
-    [Space(10)]
+
     public TextMeshProUGUI textEfficiency;
+
     public TextMeshProUGUI buildingTypeName;
+
     public List<Graphic> popIcons;
+
+    [Space(5)]
+
     #region Colors
-    [BoxGroup("Color")]
+
     public Color filled;
-    [BoxGroup("Color")]
+
     public Color empty;
+
     #endregion
+
     #endregion
 
     [System.Serializable]
@@ -171,6 +196,7 @@ public class BuildingUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         else
         {
             createBuildingButton.gameObject.SetActive(true);
+            provinceWindow.selectBuildingWindow.SetActive(true);
             createBuildingButton.onClick.RemoveAllListeners();
             createBuildingButton.onClick.AddListener(() => provinceWindow.provinceTarget.CreateBuilding(holding, 0));
         }
