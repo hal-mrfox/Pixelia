@@ -51,8 +51,15 @@ public class WindowProvince : InteractableWindow
     public int overPopulation;
     public int snapDistance;
 
+    #region Create Holding
+    [BoxGroup("Holding Creation")]
+    public Image createHoldingWindow;
+    #endregion
+
     #region Create Building
+    [BoxGroup("Building Creation")]
     public Image createBuildingWindow;
+    [BoxGroup("Building Creation")]
     public ButtonSound[] options;
     #endregion
 

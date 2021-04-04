@@ -18,14 +18,10 @@ MonoBehaviour:
     requiredResources: []
   - type: {fileID: 11400000, guid: 3ffb63fdf28f17247a4c08f682b6dfd1, type: 2}
     building: 0
-    requiredResources:
-    - resource: {fileID: 11400000, guid: 8805dd0abce03f347b1543be89f57892, type: 2}
-      amount: 0
+    requiredResources: []
   - type: {fileID: 11400000, guid: 3dee1f524513f6c4db617fd4c3699770, type: 2}
     building: 0
-    requiredResources:
-    - resource: {fileID: 11400000, guid: 8805dd0abce03f347b1543be89f57892, type: 2}
-      amount: 0
+    requiredResources: []
   - type: {fileID: 11400000, guid: fcaf4aee498ffb1428296b46bbc4c972, type: 2}
     building: 7
     requiredResources:
@@ -35,14 +31,10 @@ MonoBehaviour:
       amount: 1
   - type: {fileID: 11400000, guid: b9ab2146badb2fb409fe5106e851f37e, type: 2}
     building: 0
-    requiredResources:
-    - resource: {fileID: 11400000, guid: 8805dd0abce03f347b1543be89f57892, type: 2}
-      amount: 0
+    requiredResources: []
   - type: {fileID: 11400000, guid: e9a9a6eb829a730489d54ae84e7c5ff7, type: 2}
     building: 0
-    requiredResources:
-    - resource: {fileID: 11400000, guid: 8805dd0abce03f347b1543be89f57892, type: 2}
-      amount: 0
+    requiredResources: []
   - type: {fileID: 11400000, guid: 7cfb003adb14cda4bbe2e566c4803988, type: 2}
     building: 1
     requiredResources: []
@@ -55,14 +47,10 @@ MonoBehaviour:
       amount: 1
   - type: {fileID: 11400000, guid: b35878d2163d4a14aad2c79a4ad73609, type: 2}
     building: 0
-    requiredResources:
-    - resource: {fileID: 11400000, guid: 8805dd0abce03f347b1543be89f57892, type: 2}
-      amount: 0
+    requiredResources: []
   - type: {fileID: 11400000, guid: 6a921899f45dcd843b3dac8b3a9a70c5, type: 2}
     building: 0
-    requiredResources:
-    - resource: {fileID: 11400000, guid: 8805dd0abce03f347b1543be89f57892, type: 2}
-      amount: 0
+    requiredResources: []
   - type: {fileID: 11400000, guid: a19910d51f96ca247870c6d54e4a58b0, type: 2}
     building: 6
     requiredResources:
@@ -79,9 +67,7 @@ MonoBehaviour:
       amount: 0
   - type: {fileID: 11400000, guid: e977f1736bb1ffb46b63e2574fb0c64d, type: 2}
     building: 0
-    requiredResources:
-    - resource: {fileID: 11400000, guid: 8805dd0abce03f347b1543be89f57892, type: 2}
-      amount: 0
+    requiredResources: []
   - type: {fileID: 11400000, guid: 8805dd0abce03f347b1543be89f57892, type: 2}
     building: 4
     requiredResources: []

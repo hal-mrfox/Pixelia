@@ -268,9 +268,9 @@ public class BuildingUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     public void SetResourceButtons(Resource resource, bool create, int outputValue)
     {
-        if (create )
+        if (create)
         {
-            provinceWindow.provinceTarget.holdings[holdingCounterpart].buildings[buildingCounterpart].resourceOutput.Add(new Province.ProvinceResource(resource, 0));
+            provinceWindow.provinceTarget.holdings[holdingCounterpart].buildings[buildingCounterpart].resourceOutput.Add(new Province.ProvinceResource(resource, resource.baseAmount));
             selectResourceWindow.gameObject.SetActive(false);
             provinceWindow.provinceTarget.RefreshProvinceValues();
             provinceWindow.RefreshWindow();

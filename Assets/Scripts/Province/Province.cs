@@ -65,6 +65,15 @@ public class Province : MonoBehaviour, IClickable
             #region Refresh
             public void RefreshBuilding()
             {
+                if (resourceOutput.Count > 0)
+                {
+                    efficiency = pops.Count / 18f * 100f;
+                }
+                else
+                {
+                    efficiency = 0;
+                }
+
                 resourceInput.Clear();
                 for (int i = 0; i < resourceOutput.Count; i++)
                 {
@@ -76,6 +85,7 @@ public class Province : MonoBehaviour, IClickable
                             resourceInput.Add(new ProvinceResource(recipes.resourceRecipes[outputInt].requiredResources[j].resource, recipes.resourceRecipes[outputInt].requiredResources[j].amount));
                         }
                     }
+                    //resourceOutput[i].resourceCount = resourceOutput[i].resource.baseAmount * efficiency;
                 }
             }
             #endregion
@@ -200,23 +210,6 @@ public class Province : MonoBehaviour, IClickable
         }
         #endregion
 
-        #region Production Efficiency Calculation
-        for (int i = 0; i < holdings.Count; i++)
-        {
-            for (int j = 0; j < holdings[i].buildings.Count; j++)
-            {
-                if (holdings[i].buildings[j].resourceOutput.Count > 0)
-                {
-                    holdings[i].buildings[j].efficiency = holdings[i].buildings[j].pops.Count;
-                }
-                else
-                {
-                    holdings[i].buildings[j].efficiency = 0;
-                }
-            }
-        }
-        #endregion
-
         //Refresh
         for (int i = 0; i < holdings.Count; i++)
         {
@@ -227,6 +220,7 @@ public class Province : MonoBehaviour, IClickable
         }
     }
 
+    #region Province Color
     public void RefreshProvinceColors()
     {
         if (owner == CountryManager.instance.playerCountry)
@@ -247,6 +241,8 @@ public class Province : MonoBehaviour, IClickable
             GetComponent<Image>().color = owner.countryColor;
         }
     }
+    #endregion
+
     #endregion
 
     #region Removing Pop
