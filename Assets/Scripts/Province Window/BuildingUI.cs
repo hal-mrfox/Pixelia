@@ -45,6 +45,27 @@ public class BuildingUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     #endregion
 
+    #region Input and Output
+
+    public OutputUIButton hoveredOutput;
+
+    public void HoveringOutput()
+    {
+        for (int i = 0; i < outputUI.Length; i++)
+        {
+            if (hoveredOutput == outputUI[i])
+            {
+                outputUI[i].outline.gameObject.SetActive(true);
+                outputUI[i].altMode = true;
+            }
+            else
+            {
+                outputUI[i].outline.gameObject.SetActive(false);
+                outputUI[i].altMode = false;
+            }
+        }
+    }
+
     #region Output
 
     [BoxGroup("Output")]
@@ -78,6 +99,9 @@ public class BuildingUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     [Space(5)]
 
     #endregion
+
+    #endregion
+
 
     #region Storage
 

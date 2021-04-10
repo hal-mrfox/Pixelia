@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine.UI;
 using UnityEngine;
@@ -77,15 +78,16 @@ public class OutputUIButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     public void Update()
     {
-        if (Input.GetKey(KeyCode.LeftAlt) && hovering)
+        if (Input.GetKey(KeyCode.LeftAlt) && hovering && buildingUI.provinceWindow.holdings[buildingUI.holdingCounterpart].buildings[buildingUI.buildingCounterpart].resourceOutputUI[outputValue].resourceIcon != null)
         {
-            outline.gameObject.SetActive(true);
-            altMode = true;
+            buildingUI.hoveredOutput = this;
+            buildingUI.HoveringOutput();
         }
-        else
+        else if (!Input.GetKey(KeyCode.LeftAlt))
         {
-            outline.gameObject.SetActive(false);
-            altMode = false;
+            ProvinceManager.instance.selectedResource = null;
+            buildingUI.hoveredOutput = null;
+            buildingUI.HoveringOutput();
         }
     }
 }
