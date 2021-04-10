@@ -79,6 +79,33 @@ public class WindowProvince : InteractableWindow
 
     #endregion
 
+    #region Building Hover UI
+    public OutputUIButton hoveredOutput;
+
+    public void HoveringOutput()
+    {
+        for (int i = 0; i < holdings.Length; i++)
+        {
+            for (int j = 0; j < holdings[i].buildings.Length; j++)
+            {
+                for (int k = 0; k < holdings[i].buildings[j].outputUI.Length; k++)
+                {
+                    if (hoveredOutput == holdings[i].buildings[j].outputUI[k])
+                    {
+                        holdings[i].buildings[j].outputUI[k].outline.gameObject.SetActive(true);
+                        holdings[i].buildings[j].outputUI[k].altMode = true;
+                    }
+                    else
+                    {
+                        holdings[i].buildings[j].outputUI[k].outline.gameObject.SetActive(false);
+                        holdings[i].buildings[j].outputUI[k].altMode = false;
+                    }
+                }
+            }
+        }
+    }
+    #endregion
+
     #region old building making stuff
     public GameObject createBuildingMarker;
     public GameObject selectBuildingWindow;

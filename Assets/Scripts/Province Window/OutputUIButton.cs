@@ -80,14 +80,14 @@ public class OutputUIButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     {
         if (Input.GetKey(KeyCode.LeftAlt) && hovering && buildingUI.provinceWindow.holdings[buildingUI.holdingCounterpart].buildings[buildingUI.buildingCounterpart].resourceOutputUI[outputValue].resourceIcon != null)
         {
-            buildingUI.hoveredOutput = this;
-            buildingUI.HoveringOutput();
+            buildingUI.provinceWindow.hoveredOutput = this;
+            buildingUI.provinceWindow.HoveringOutput();
         }
         else if (!Input.GetKey(KeyCode.LeftAlt))
         {
             ProvinceManager.instance.selectedResource = null;
-            buildingUI.hoveredOutput = null;
-            buildingUI.HoveringOutput();
+            buildingUI.provinceWindow.hoveredOutput = null;
+            buildingUI.provinceWindow.HoveringOutput();
         }
     }
 }
