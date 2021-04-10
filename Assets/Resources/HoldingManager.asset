@@ -28,7 +28,7 @@ MonoBehaviour:
     upkeepCost:
       moneyCost: 0
       resourceCost: []
-    holdables: 0500000006000000
+    holdables: 050000000600000004000000
   - holdingType: 2
     buildCost:
       moneyCost: 0

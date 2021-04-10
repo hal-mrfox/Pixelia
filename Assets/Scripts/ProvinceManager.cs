@@ -6,6 +6,10 @@ using UnityEngine.EventSystems;
 
 public class ProvinceManager : MonoBehaviour
 {
+    public Province.ProvinceResource selectedResource;
+
+    public static ProvinceManager instance;
+
     public GraphicRaycaster raycaster;
 
     public EventSystem eventSystem;
@@ -13,6 +17,11 @@ public class ProvinceManager : MonoBehaviour
     public bool clickableQ;
 
     public static IClickable selectedClickable;
+
+    public void Awake()
+    {
+        instance = this;
+    }
 
     public void Update()
     {

@@ -51,16 +51,32 @@ public class WindowProvince : InteractableWindow
     public int overPopulation;
     public int snapDistance;
 
+    #region Create Improvements
+
     #region Create Holding
     [BoxGroup("Holding Creation")]
-    public Image createHoldingWindow;
+    public CreateImprovement createHolding;
     #endregion
 
     #region Create Building
     [BoxGroup("Building Creation")]
     public Image createBuildingWindow;
     [BoxGroup("Building Creation")]
-    public ButtonSound[] options;
+    public PopupOption[] createBuildingOptions;
+    #endregion
+
+    [BoxGroup("Icons")]
+    public Sprite[] buildingIcons;
+
+    [System.Serializable]
+    public class CreateImprovement
+    {
+        public Image window;
+        public ButtonSound[] options;
+    }
+
+    int holdingIndex;
+
     #endregion
 
     #region old building making stuff
@@ -98,6 +114,8 @@ public class WindowProvince : InteractableWindow
     public void OnEnable()
     {
         CountryManager.instance.openWindows.Add(this);
+        createHolding.window.gameObject.SetActive(false);
+        createBuildingWindow.gameObject.SetActive(false);
         OnClicked();
     }
 
@@ -106,7 +124,6 @@ public class WindowProvince : InteractableWindow
     {
         IfPlayer();
         RefreshWindow();
-
     }
 
     public void RefreshWindow()
@@ -211,8 +228,9 @@ public class WindowProvince : InteractableWindow
                         holdings[i].buildings[j].buildingType = provinceTarget.holdings[i].buildings[j].buildingType;
                         holdings[i].buildings[j].Refresh(i, j);
                     }
-                    if (j == provinceTarget.holdings[i].buildings.Count)
+                    if (j == provinceTarget.holdings[i].buildings.Count && provinceTarget.owner == CountryManager.instance.playerCountry)
                     {
+                        holdings[i].buildings[j].holdingCounterpart = i;
                         holdings[i].buildings[j].gameObject.SetActive(true);
                         holdings[i].buildings[j].active = false;
                         holdings[i].buildings[j].Refresh(i, j);
@@ -220,7 +238,7 @@ public class WindowProvince : InteractableWindow
                 }
             }
             //show create holding ui (not a real holding)
-            if (i == provinceTarget.holdings.Count)
+            if (i == provinceTarget.holdings.Count && provinceTarget.owner == CountryManager.instance.playerCountry)
             {
                 holdings[i].gameObject.SetActive(true);
                 holdings[i].Refresh(i, false);
@@ -231,6 +249,27 @@ public class WindowProvince : InteractableWindow
             }
         }
         #endregion
+    }
+
+    public void SetHoldingIndex(int holdingIndex)
+    {
+        this.holdingIndex = holdingIndex;
+    }
+
+    public void CreateHolding(int holdingType)
+    {
+        provinceTarget.CreateHolding(holdingType);
+        createHolding.window.gameObject.SetActive(false);
+        provinceTarget.RefreshProvinceValues();
+        RefreshWindow();
+    }
+
+    public void CreateBuilding(BuildingType buildingType)
+    {
+        provinceTarget.CreateBuilding(holdingIndex, buildingType);
+        createBuildingWindow.gameObject.SetActive(false);
+        provinceTarget.RefreshProvinceValues();
+        RefreshWindow();
     }
 
     #region old building stuff to get rid of

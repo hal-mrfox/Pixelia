@@ -10,5 +10,5 @@ public class Resource : ScriptableObject
     public Sprite icon;
     public Sprite outline;
     [Range(0, 1)]public float acquisitionDifficulty;
-    public int baseAmount;
+    public AudioClip sound;
 }

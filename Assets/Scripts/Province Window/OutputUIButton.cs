@@ -9,46 +9,83 @@ public class OutputUIButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 {
     public BuildingUI buildingUI;
     public Image highlight;
-    public Color hovering;
+    bool hovering;
+    public Color hoverColor;
     public Color clicked;
     [Range(1, 2)] public float pitch;
-    public AudioSource sound;
+    public AudioSource audioSource;
+    public AudioClip audioClip;
 
     public Resource resource;
+    public Image outline;
     public Image icon;
     public TextMeshProUGUI amount;
     public int outputValue;
+    public bool altMode;
 
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        highlight.color = clicked;
-        sound.Play();
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+        if (buildingUI.provinceWindow.target == CountryManager.instance.playerCountry)
         {
-            buildingUI.OpenResourceSelection(outputValue, true);
-        }
-        else if (Input.GetKeyDown(KeyCode.Mouse1))
-        {
-            buildingUI.OpenResourceSelection(outputValue, false);
+            highlight.color = clicked;
+            audioSource.PlayOneShot(audioClip);
+            if (Input.GetKeyDown(KeyCode.Mouse0) && !altMode)
+            {
+                buildingUI.OpenResourceSelection(outputValue, true);
+            }
+            else if (Input.GetKeyDown(KeyCode.Mouse1) && !altMode)
+            {
+                buildingUI.OpenResourceSelection(outputValue, false);
+            }
+
+            if (Input.GetKeyDown(KeyCode.Mouse0) && altMode)
+            {
+                ProvinceManager.instance.selectedResource = buildingUI.provinceWindow.provinceTarget.holdings[buildingUI.holdingCounterpart].buildings[buildingUI.buildingCounterpart].resourceOutput[outputValue];
+            }
         }
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        highlight.color = hovering;
+        if (buildingUI.provinceWindow.target == CountryManager.instance.playerCountry)
+        {
+            highlight.color = hoverColor;
+        }
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        highlight.color = hovering;
-        highlight.gameObject.SetActive(true);
-        sound.pitch = pitch;
-        sound.Play();
+        if (buildingUI.provinceWindow.target == CountryManager.instance.playerCountry)
+        {
+            hovering = true;
+            highlight.color = hoverColor;
+            highlight.gameObject.SetActive(true);
+            audioSource.pitch = pitch;
+            audioSource.PlayOneShot(audioClip);
+        }
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        highlight.gameObject.SetActive(false);
+        if (buildingUI.provinceWindow.target == CountryManager.instance.playerCountry)
+        {
+            hovering = false;
+            highlight.gameObject.SetActive(false);
+        }
+    }
+
+    public void Update()
+    {
+        if (Input.GetKey(KeyCode.LeftAlt) && hovering)
+        {
+            outline.gameObject.SetActive(true);
+            altMode = true;
+        }
+        else
+        {
+            outline.gameObject.SetActive(false);
+            altMode = false;
+        }
     }
 }

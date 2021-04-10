@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum HoldingType { RawResourceGathering, Manufactory, City, Castle}
+public enum HoldingType { RawResourceGathering, Manufactury, City, Castle}
 
 [CreateAssetMenu(fileName = "HoldingManager", menuName = "HoldingManager")]
 public class HoldingManager : ScriptableObject

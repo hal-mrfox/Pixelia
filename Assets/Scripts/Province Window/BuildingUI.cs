@@ -15,7 +15,14 @@ public class BuildingUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     public int holdingCounterpart;
     public int buildingCounterpart;
     public Image highlight;
+    public Image overlay;
+    public ButtonSound toggleBuilding;
+    #region Sounds
+    [BoxGroup("Sounds")]
     public AudioSource audioSource;
+    [BoxGroup("Sounds")]
+    public AudioSource resourceBasedSource;
+    #endregion
     public RectTransform rectTransform;
     public UnityEngine.UI.Button createBuildingButton;
     public bool active;
@@ -46,6 +53,9 @@ public class BuildingUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     [BoxGroup("Output")]
     public OutputUIButton[] outputUI;
 
+    [BoxGroup("Output")]
+    public Image[] backgroundUI;
+
     #endregion 
 
     #region Input
@@ -54,6 +64,9 @@ public class BuildingUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     [BoxGroup("Input")]
     public InputUI[] inputUI;
+
+    [BoxGroup("Input")]
+    public TextMeshProUGUI[] inputText;
 
     [System.Serializable]
     public class InputUI
@@ -136,7 +149,7 @@ public class BuildingUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             }
             #endregion
             #region Efficiency
-            textEfficiency.text = provinceWindow.provinceTarget.holdings[holding].buildings[building].efficiency.ToString("00") + "%";
+            textEfficiency.text = provinceWindow.provinceTarget.holdings[holding].buildings[building].efficiency.ToString("0") + "%";
             #endregion
             #region Name
             buildingTypeName.text = provinceWindow.provinceTarget.holdings[holding].buildings[building].buildingType.ToString();
@@ -152,17 +165,25 @@ public class BuildingUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
                 if (i < provinceWindow.provinceTarget.holdings[holding].buildings[building].resourceOutput.Count)
                 {
                     outputUI[i].icon.gameObject.SetActive(true);
+                    backgroundUI[i].gameObject.SetActive(true);
                     outputUI[i].icon.sprite = provinceWindow.provinceTarget.holdings[holding].buildings[building].resourceOutput[i].resource.icon;
                     outputUI[i].icon.SetNativeSize();
                     outputUI[i].icon.color = Color.white;
                     outputUI[i].amount.text = resourceOutputUI[i].resourceCount.ToString();
                 }
-                else
+                else if (i < Resources.Load<BuildingManager>("BuildingManager").buildings[(int)provinceWindow.provinceTarget.holdings[holding].buildings[building].buildingType].outputCapacity)
                 {
                     outputUI[i].icon.gameObject.SetActive(true);
+                    backgroundUI[i].gameObject.SetActive(true);
                     outputUI[i].icon.sprite = null;
+                    outputUI[i].icon.GetComponent<RectTransform>().sizeDelta = new Vector2(16, 16);
                     outputUI[i].icon.color = grayblue;
                     outputUI[i].amount.text = null;
+                }
+                else
+                {
+                    outputUI[i].icon.gameObject.SetActive(false);
+                    backgroundUI[i].gameObject.SetActive(false);
                 }
             }
             #endregion
@@ -180,10 +201,23 @@ public class BuildingUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
                     inputUI[i].icon.SetNativeSize();
                     inputUI[i].outline.gameObject.SetActive(true);
                     inputUI[i].outline.sprite = provinceWindow.provinceTarget.holdings[holding].buildings[building].resourceInput[i].resource.outline;
+                    inputText[i].text = provinceWindow.provinceTarget.holdings[holding].buildings[building].resourceInput[i].resourceNeedsCount.ToString();
+                    inputText[i].gameObject.SetActive(true);
+
+                    if (provinceWindow.provinceTarget.holdings[holding].buildings[building].resourceInput[i].resourceCount < provinceWindow.provinceTarget.holdings[holding].buildings[building].resourceInput[i].resourceNeedsCount)
+                    {
+                        inputUI[i].outline.color = CountryManager.instance.niceRed;
+                    }
+                    else
+                    {
+                        inputUI[i].outline.color = CountryManager.instance.niceGreen;
+                    }
+
                     inputUI[i].outline.SetNativeSize();
                 }
                 else
                 {
+                    inputText[i].gameObject.SetActive(false);
                     inputUI[i].icon.gameObject.SetActive(false);
                     inputUI[i].outline.gameObject.SetActive(false);
                     inputUI[i].icon.sprite = null;
@@ -196,9 +230,41 @@ public class BuildingUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         else
         {
             createBuildingButton.gameObject.SetActive(true);
-            provinceWindow.selectBuildingWindow.SetActive(true);
-            createBuildingButton.onClick.RemoveAllListeners();
-            createBuildingButton.onClick.AddListener(() => provinceWindow.provinceTarget.CreateBuilding(holding, 0));
+        }
+    }
+
+    public void ToggleBuilding(bool on)
+    {
+        if (on)
+        {
+            provinceWindow.provinceTarget.holdings[holdingCounterpart].buildings[buildingCounterpart].on = true;
+            overlay.gameObject.SetActive(false);
+        }
+        else
+        {
+            provinceWindow.provinceTarget.holdings[holdingCounterpart].buildings[buildingCounterpart].on = false;
+            overlay.gameObject.SetActive(true);
+        }
+        provinceWindow.provinceTarget.RefreshProvinceValues();
+        provinceWindow.RefreshWindow();
+    }
+
+    public void OpenCreationWindow()
+    {
+        provinceWindow.createBuildingWindow.gameObject.SetActive(true);
+        for (int i = 0; i < provinceWindow.createBuildingOptions.Length; i++)
+        {
+            if (i >= Resources.Load<HoldingManager>("HoldingManager").holdings[(int)provinceWindow.provinceTarget.holdings[holdingCounterpart].holdingType].holdables.Length)
+            {
+                provinceWindow.createBuildingOptions[i].gameObject.SetActive(false);
+            }
+            else
+            {
+                provinceWindow.createBuildingOptions[i].gameObject.SetActive(true);
+                provinceWindow.createBuildingOptions[i].buildingType = Resources.Load<HoldingManager>("HoldingManager").holdings[(int)provinceWindow.provinceTarget.holdings[holdingCounterpart].holdingType].holdables[i];
+                provinceWindow.createBuildingOptions[i].icon.sprite = provinceWindow.buildingIcons[(int)Resources.Load<HoldingManager>("HoldingManager").holdings[(int)provinceWindow.provinceTarget.holdings[holdingCounterpart].holdingType].holdables[i]];
+                provinceWindow.SetHoldingIndex(holdingCounterpart);
+            }
         }
     }
 
@@ -220,39 +286,62 @@ public class BuildingUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         {
             for (int i = 0; i < resourceOptions.Count; i++)
             {
-                if (i < provinceWindow.provinceTarget.rawResources.Count && Resources.Load<BuildingManager>("BuildingManager").buildings[(int)buildingType].creatableResources.Contains(provinceWindow.provinceTarget.rawResources[i].resource))
+                #region Raw Resource Gathering Holding Type
+                if (provinceWindow.provinceTarget.holdings[holdingCounterpart].holdingType == HoldingType.RawResourceGathering)
                 {
-                    resourceOptions[i].resource = provinceWindow.provinceTarget.rawResources[i].resource;
-                    if (provinceWindow.provinceTarget.holdings[holdingCounterpart].buildings[buildingCounterpart].resourceOutput.Count > 0)
+                    if (i < provinceWindow.provinceTarget.rawResources.Count && Resources.Load<BuildingManager>("BuildingManager").buildings[(int)buildingType].creatableResources.Contains(provinceWindow.provinceTarget.rawResources[i].resource))
                     {
-                        for (int j = 0; j < provinceWindow.provinceTarget.holdings[holdingCounterpart].buildings[buildingCounterpart].resourceOutput.Count; j++)
+                        resourceOptions[i].resource = provinceWindow.provinceTarget.rawResources[i].resource;
+                        if (provinceWindow.provinceTarget.holdings[holdingCounterpart].buildings[buildingCounterpart].resourceOutput.Count > 0)
+                        {
+                            for (int j = 0; j < provinceWindow.provinceTarget.holdings[holdingCounterpart].buildings[buildingCounterpart].resourceOutput.Count; j++)
+                            {
+                                resourceOptions[i].GetComponent<Image>().sprite = resourceOptions[i].resource.icon;
+                                resourceOptions[i].GetComponent<Image>().SetNativeSize();
+                                resourceOptions[i].outputValue = outputValue;
+                                if (provinceWindow.provinceTarget.holdings[holdingCounterpart].buildings[buildingCounterpart].resourceOutput[j].resource == resourceOptions[i].resource)
+                                {
+                                    resourceOptions[i].gameObject.SetActive(false);
+                                    break;
+                                }
+                                else
+                                {
+                                    resourceOptions[i].gameObject.SetActive(true);
+                                }
+                            }
+                        }
+                        else
                         {
                             resourceOptions[i].GetComponent<Image>().sprite = resourceOptions[i].resource.icon;
                             resourceOptions[i].GetComponent<Image>().SetNativeSize();
                             resourceOptions[i].outputValue = outputValue;
-                            if (provinceWindow.provinceTarget.holdings[holdingCounterpart].buildings[buildingCounterpart].resourceOutput[j].resource == resourceOptions[i].resource)
-                            {
-                                resourceOptions[i].gameObject.SetActive(false);
-                                break;
-                            }
-                            else
-                            {
-                                resourceOptions[i].gameObject.SetActive(true);
-                            }
+                            resourceOptions[i].gameObject.SetActive(true);
                         }
                     }
                     else
                     {
+                        resourceOptions[i].gameObject.SetActive(false);
+                    }
+                }
+                #endregion
+                #region Manufactory Holding Type
+                else if (provinceWindow.provinceTarget.holdings[holdingCounterpart].holdingType == HoldingType.Manufactury)
+                {
+                    if (i < Resources.Load<BuildingManager>("BuildingManager").buildings[(int)buildingType].creatableResources.Length)
+                    {
+                        resourceOptions[i].resource = Resources.Load<BuildingManager>("BuildingManager").buildings[(int)buildingType].creatableResources[i];
                         resourceOptions[i].GetComponent<Image>().sprite = resourceOptions[i].resource.icon;
                         resourceOptions[i].GetComponent<Image>().SetNativeSize();
                         resourceOptions[i].outputValue = outputValue;
                         resourceOptions[i].gameObject.SetActive(true);
                     }
+                    else
+                    {
+                        resourceOptions[i].gameObject.SetActive(false);
+                    }
                 }
-                else
-                {
-                    resourceOptions[i].gameObject.SetActive(false);
-                }
+                #endregion
+
                 provinceWindow.provinceTarget.RefreshProvinceValues();
                 provinceWindow.RefreshWindow();
                 selectResourceWindow.gameObject.SetActive(true);
@@ -270,10 +359,11 @@ public class BuildingUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     {
         if (create)
         {
-            provinceWindow.provinceTarget.holdings[holdingCounterpart].buildings[buildingCounterpart].resourceOutput.Add(new Province.ProvinceResource(resource, resource.baseAmount));
+            provinceWindow.provinceTarget.holdings[holdingCounterpart].buildings[buildingCounterpart].resourceOutput.Add(new Province.ProvinceResource(resource, 0, 0));
             selectResourceWindow.gameObject.SetActive(false);
             provinceWindow.provinceTarget.RefreshProvinceValues();
             provinceWindow.RefreshWindow();
+            //resourceBasedSource.PlayOneShot(provinceWindow.provinceTarget.holdings[holdingCounterpart].buildings[buildingCounterpart].resourceOutput[outputValue].resource.sound);
         }
         else
         {
@@ -283,11 +373,11 @@ public class BuildingUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     public void Update()
     {
-        if (active && hovering)
+        if (active && hovering && provinceWindow.target == CountryManager.instance.playerCountry)
         {
+            #region Connections Mode (Alt Mode)
             if (Input.GetKeyDown(KeyCode.LeftAlt))
             {
-                audioSource.Play();
                 rectTransform.SetAsLastSibling();
             }
 
@@ -298,6 +388,30 @@ public class BuildingUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             else
             {
                 highlight.gameObject.SetActive(false);
+            }
+            #endregion
+
+            //Destroy Building
+            if (Input.GetKeyDown(KeyCode.Delete))
+            {
+                provinceWindow.provinceTarget.holdings[holdingCounterpart].buildings.Remove(provinceWindow.provinceTarget.holdings[holdingCounterpart].buildings[buildingCounterpart]);
+                
+                provinceWindow.provinceTarget.RefreshProvinceValues();
+                provinceWindow.RefreshWindow();
+            }
+
+            if (Input.GetKeyDown(KeyCode.KeypadPlus) && provinceWindow.provinceTarget.holdings[holdingCounterpart].buildings[buildingCounterpart].pops.Count < 18)
+            {
+                provinceWindow.provinceTarget.holdings[holdingCounterpart].buildings[buildingCounterpart].pops.Add(new Population());
+                provinceWindow.provinceTarget.RefreshProvinceValues();
+                provinceWindow.RefreshWindow();
+            }
+
+            if (Input.GetKeyDown(KeyCode.KeypadMinus) && provinceWindow.provinceTarget.holdings[holdingCounterpart].buildings[buildingCounterpart].pops.Count > 0)
+            {
+                provinceWindow.provinceTarget.holdings[holdingCounterpart].buildings[buildingCounterpart].pops.Remove(provinceWindow.provinceTarget.holdings[holdingCounterpart].buildings[buildingCounterpart].pops[provinceWindow.provinceTarget.holdings[holdingCounterpart].buildings[buildingCounterpart].pops.Count - 1]);
+                provinceWindow.provinceTarget.RefreshProvinceValues();
+                provinceWindow.RefreshWindow();
             }
         }
         else

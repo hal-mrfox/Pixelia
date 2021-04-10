@@ -7,8 +7,11 @@ using UnityEngine.Events;
 
 public class ButtonSound : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler
 {
-    public AudioSource sound;
+    public BuildingUI buildingUI;
+    public AudioSource audioSource;
+    public AudioClip sound;
     public Image image;
+    public Image highlight;
     public enum ButtonType { click, toggle }
     public ButtonType buttonType;
     public bool toggled;
@@ -21,74 +24,153 @@ public class ButtonSound : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     public UnityEvent onClick;
 
-    public void OnPointerDown(PointerEventData eventData)
+    public virtual void OnPointerDown(PointerEventData eventData)
     {
-        if (interactable)
+        if (buildingUI == null)
         {
-            if (buttonType == ButtonType.click)
+            if (interactable)
             {
-                image.color = clicked;
-                sound.Play();
-                if (Input.GetKeyDown(KeyCode.Mouse0))
+                if (buttonType == ButtonType.click)
                 {
-                    image.color = clicked;
-                }
-                onClick?.Invoke();
-            }
-            else if(buttonType == ButtonType.toggle)
-            {
-                if (Input.GetKeyDown(KeyCode.Mouse0))
-                {
-                    toggled = !toggled;
-                    if (toggled)
+                    audioSource.PlayOneShot(sound);
+                    if (Input.GetKeyDown(KeyCode.Mouse0))
                     {
                         image.color = clicked;
                     }
-                    else
+                    onClick?.Invoke();
+                }
+                else if (buttonType == ButtonType.toggle)
+                {
+                    if (Input.GetKeyDown(KeyCode.Mouse0))
                     {
-                        image.color = hovering;
+                        toggled = !toggled;
+                        if (toggled)
+                        {
+                            image.color = clicked;
+                            buildingUI.ToggleBuilding(toggled);
+                        }
+                        else
+                        {
+                            image.color = hovering;
+                            buildingUI.ToggleBuilding(toggled);
+                        }
+                        audioSource.PlayOneShot(sound);
+                    }
+                }
+            }
+        }
+        else
+        {
+            if (interactable && buildingUI.provinceWindow.target == CountryManager.instance.playerCountry)
+            {
+                if (buttonType == ButtonType.click)
+                {
+                    audioSource.PlayOneShot(sound);
+                    if (Input.GetKeyDown(KeyCode.Mouse0))
+                    {
+                        image.color = clicked;
+                    }
+                    onClick?.Invoke();
+                }
+                else if (buttonType == ButtonType.toggle)
+                {
+                    if (Input.GetKeyDown(KeyCode.Mouse0))
+                    {
+                        toggled = !toggled;
+                        if (toggled)
+                        {
+                            image.color = clicked;
+                            buildingUI.ToggleBuilding(toggled);
+                        }
+                        else
+                        {
+                            image.color = hovering;
+                            buildingUI.ToggleBuilding(toggled);
+                        }
+                        audioSource.PlayOneShot(sound);
                     }
                 }
             }
         }
     }
-    public void OnPointerUp(PointerEventData eventData)
+    public virtual void OnPointerUp(PointerEventData eventData)
     {
-        if (interactable)
+        if (buildingUI == null)
         {
-            if (hover)
+            if (interactable)
             {
-                image.color = hovering;
+                if (hover)
+                {
+                    image.color = hovering;
+                }
+                else
+                {
+                    image.color = normal;
+                }
             }
-            else
-            {
-                image.color = normal;
-            }
-        }
-    }
-
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        hover = true;
-        sound.Play();
-        if (lower)
-        {
-            sound.pitch = 1.6f;
-            sound.Play();
         }
         else
         {
-            sound.pitch = 2f;
-            sound.Play();
-        }
-
-        if (image != null)
-        {
-            image.color = hovering;
+            if (interactable && buildingUI.provinceWindow.target == CountryManager.instance.playerCountry)
+            {
+                if (hover)
+                {
+                    image.color = hovering;
+                }
+                else
+                {
+                    image.color = normal;
+                }
+            }
         }
     }
 
-    public void OnPointerExit(PointerEventData eventData)
+    public virtual void OnPointerEnter(PointerEventData eventData)
+    {
+        if (buildingUI == null)
+        {
+            hover = true;
+            if (lower)
+            {
+                audioSource.pitch = 1.7f;
+                audioSource.PlayOneShot(sound);
+            }
+            else
+            {
+                audioSource.pitch = 2f;
+                audioSource.PlayOneShot(sound);
+            }
+
+            if (image != null)
+            {
+                image.color = hovering;
+            }
+        }
+        else
+        {
+            if (buildingUI.provinceWindow.target == CountryManager.instance.playerCountry)
+            {
+                hover = true;
+                if (lower)
+                {
+                    audioSource.pitch = 1.7f;
+                    audioSource.PlayOneShot(sound);
+                }
+                else
+                {
+                    audioSource.pitch = 2f;
+                    audioSource.PlayOneShot(sound);
+                }
+
+                if (image != null)
+                {
+                    image.color = hovering;
+                }
+            }
+        }
+    }
+
+    public virtual void OnPointerExit(PointerEventData eventData)
     {
         if (!toggled)
         {
@@ -107,4 +189,11 @@ public class ButtonSound : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         hover = false;
     }
 
+    //public virtual void Update()
+    //{
+    //    if (buildingUI != null && hover && buildingUI.provinceW)
+    //    {
+    //
+    //    }
+    //}
 }

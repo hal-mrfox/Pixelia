@@ -53,6 +53,8 @@ public class Province : MonoBehaviour, IClickable
         {
             public BuildingType buildingType;
 
+            public bool on;
+
             public float efficiency;
 
             public List<ProvinceResource> resourceOutput = new List<ProvinceResource>();
@@ -60,32 +62,53 @@ public class Province : MonoBehaviour, IClickable
 
             public List<Population> pops = new List<Population>();
 
-
-            
-            #region Refresh
+            #region Refresh Building
             public void RefreshBuilding()
             {
-                if (resourceOutput.Count > 0)
-                {
-                    efficiency = pops.Count / 18f * 100f;
-                }
-                else
-                {
-                    efficiency = 0;
-                }
+                //Efficiency Calculation
+                Mathf.FloorToInt(efficiency = pops.Count / 18f * 100f);
 
                 resourceInput.Clear();
                 for (int i = 0; i < resourceOutput.Count; i++)
                 {
+                    //Resource Output Value Calculation and setting
+                    resourceOutput[i].resourceCount = Mathf.CeilToInt(efficiency / Mathf.Lerp(6, 26, resourceOutput[i].resource.acquisitionDifficulty) / resourceOutput.Count);
                     int outputInt = ResourceManager.instance.resources.IndexOf(resourceOutput[i].resource);
                     if (recipes.resourceRecipes[outputInt].requiredResources.Length > 0)
                     {
                         for (int j = 0; j < recipes.resourceRecipes[outputInt].requiredResources.Length; j++)
                         {
-                            resourceInput.Add(new ProvinceResource(recipes.resourceRecipes[outputInt].requiredResources[j].resource, recipes.resourceRecipes[outputInt].requiredResources[j].amount));
+                            resourceInput.Add(new ProvinceResource(recipes.resourceRecipes[outputInt].requiredResources[j].resource, 0, recipes.resourceRecipes[outputInt].requiredResources[j].amount * resourceOutput[i].resourceCount));
                         }
                     }
-                    //resourceOutput[i].resourceCount = resourceOutput[i].resource.baseAmount * efficiency;
+
+                    for (int j = 0; j < resourceInput.Count; j++)
+                    {
+                        if (resourceInput[j].resourceCount < resourceInput[j].resourceNeedsCount)
+                        {
+                            resourceOutput[i].resourceCount = 0;
+                        }
+                    }
+                }
+
+                for (int i = 0; i < buildingManager.buildings.Count; i++)
+                {
+                    if (buildingType == buildingManager.buildings[i].buildingType)
+                    {
+                        for (int j = 0; j < buildingManager.buildings[i].upkeepCost.resourceCost.Length; j++)
+                        {
+                            resourceInput.Add(new ProvinceResource(buildingManager.buildings[i].upkeepCost.resourceCost[j].resourceType, 0, buildingManager.buildings[i].upkeepCost.resourceCost[j].amount));
+                        }
+                        break;
+                    }
+                }
+
+                if (!on)
+                {
+                    for (int i = 0; i < resourceOutput.Count; i++)
+                    {
+                        resourceOutput[i].resourceCount = 0;
+                    }
                 }
             }
             #endregion
@@ -104,11 +127,13 @@ public class Province : MonoBehaviour, IClickable
     {
         public Resource resource;
         public int resourceCount;
+        public int resourceNeedsCount;
 
-        public ProvinceResource(Resource resource, int resourceCount)
+        public ProvinceResource(Resource resource, int resourceCount, int resourceNeedsCount)
         {
             this.resource = resource;
             this.resourceCount = resourceCount;
+            this.resourceNeedsCount = resourceNeedsCount;
         }
     }
     #endregion
@@ -146,10 +171,11 @@ public class Province : MonoBehaviour, IClickable
     #endregion
 
     #region Create Building
-    public void CreateBuilding(int holding, int buildingType)
+    public void CreateBuilding(int holding, BuildingType buildingType)
     {
         holdings[holding].buildings.Add(new ProvinceHolding.ProvinceBuilding());
-        holdings[holding].buildings[holdings[holding].buildings.Count - 1].buildingType = (BuildingType)buildingType;
+        holdings[holding].buildings[holdings[holding].buildings.Count - 1].buildingType = buildingType;
+        holdings[holding].buildings[holdings[holding].buildings.Count - 1].on = true;
         windowProvince.RefreshWindow();
     }
     #endregion
@@ -373,10 +399,10 @@ public class Province : MonoBehaviour, IClickable
     public void OnPointerEnter()
     {
         hovering = true;
-        if (CountryManager.instance.selectedPop != null)
-        {
-            IfPopCanMove();
-        }
+        //if (CountryManager.instance.selectedPop != null)
+        //{
+        //    IfPopCanMove();
+        //}
     }
 
     public void OnPointerExit()

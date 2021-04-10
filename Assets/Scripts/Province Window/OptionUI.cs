@@ -11,7 +11,8 @@ public class OptionUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     public Color hovering;
     public Color clicked;
     [Range(1, 2)] public float pitch;
-    public AudioSource sound;
+    public AudioSource audioSource;
+    public AudioClip sound;
 
     public Resource resource;
     public int outputValue;
@@ -19,7 +20,7 @@ public class OptionUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     public void OnPointerDown(PointerEventData eventData)
     {
         highlight.color = clicked;
-        sound.Play();
+        audioSource.PlayOneShot(sound);
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
             buildingUI.SetResourceButtons(resource, true, outputValue);
@@ -40,8 +41,8 @@ public class OptionUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         highlight.color = hovering;
         highlight.gameObject.SetActive(true);
-        sound.pitch = pitch;
-        sound.Play();
+        audioSource.pitch = pitch;
+        audioSource.PlayOneShot(sound);
     }
 
     public void OnPointerExit(PointerEventData eventData)

@@ -16,7 +16,7 @@ public class InteractableWindow : MonoBehaviour
         //setting all subwindows to inactive
         for (int i = 0; i < subWindows.Count; i++)
         {
-            subWindows[i].gameObject.SetActive(false);
+            //subWindows[i].gameObject.SetActive(false);
         }
     }
     public virtual void Update()

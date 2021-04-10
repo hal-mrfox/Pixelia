@@ -8,7 +8,7 @@ public enum BuildingType
 
     Mine, Farm, Logging, OilRig,
 
-    GoodsFactory, AssemblyFactory, Smeltery,
+    GoodsFactory, Assembler, Smeltery,
 
     Housing, University
 
@@ -47,7 +47,7 @@ public class BuildingManager : ScriptableObject
         [System.Serializable]
         public struct ResourceCount
         {
-            public Resource type;
+            public Resource resourceType;
             public int amount;
         }
         #endregion

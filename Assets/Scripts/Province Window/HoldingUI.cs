@@ -9,7 +9,7 @@ public class HoldingUI : MonoBehaviour
     [Space(10)]
 
     public TextMeshProUGUI holdingTypeText;
-    public Button createHoldingButton;
+    public ButtonSound createHoldingButton;
 
     public void Refresh(int holding, bool active)
     {
@@ -21,16 +21,19 @@ public class HoldingUI : MonoBehaviour
         else
         {
             createHoldingButton.gameObject.SetActive(true);
-            createHoldingButton.onClick.RemoveAllListeners();
-            createHoldingButton.onClick.AddListener(() => provinceWindow.provinceTarget.CreateHolding(0));
         }
+    }
+
+    public void OpenCreationWindow()
+    {
+        provinceWindow.createHolding.window.gameObject.SetActive(true);
+        provinceWindow.SetHoldingIndex(holdingCounterpart);
     }
 
     public void Awake()
     {
         provinceWindow = FindObjectOfType<WindowProvince>();
     }
-
     #region Scrolling
     public RectTransform buildingScroller;
     const float Top = -2f;
