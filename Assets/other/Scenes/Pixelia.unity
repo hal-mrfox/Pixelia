@@ -1517,6 +1517,7 @@ MonoBehaviour:
   audioSource: {fileID: 275266035}
   sound: {fileID: 8300000, guid: c444f70b647b7604ebb006231cf3eed6, type: 3}
   image: {fileID: 80546271}
+  highlight: {fileID: 0}
   buttonType: 0
   toggled: 0
   lower: 1
@@ -3025,6 +3026,7 @@ MonoBehaviour:
   audioSource: {fileID: 275266035}
   sound: {fileID: 8300000, guid: c444f70b647b7604ebb006231cf3eed6, type: 3}
   image: {fileID: 117352559}
+  highlight: {fileID: 0}
   buttonType: 0
   toggled: 0
   lower: 1
@@ -4552,6 +4554,7 @@ MonoBehaviour:
   audioSource: {fileID: 275266035}
   sound: {fileID: 8300000, guid: c444f70b647b7604ebb006231cf3eed6, type: 3}
   image: {fileID: 190932115}
+  highlight: {fileID: 0}
   buttonType: 0
   toggled: 0
   lower: 1
@@ -4885,6 +4888,7 @@ MonoBehaviour:
   audioSource: {fileID: 275266035}
   sound: {fileID: 8300000, guid: c444f70b647b7604ebb006231cf3eed6, type: 3}
   image: {fileID: 205787910}
+  highlight: {fileID: 0}
   buttonType: 0
   toggled: 0
   lower: 1
@@ -7146,6 +7150,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba151b9dff401fe4ab9a01066a5b8186, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hoveredResource:
+    resource: {fileID: 0}
+    resourceCount: 0
+    resourceNeedsCount: 0
+  selectedResource:
+    resource: {fileID: 0}
+    resourceCount: 0
+    resourceNeedsCount: 0
   raycaster: {fileID: 275266027}
   eventSystem: {fileID: 0}
   clickableQ: 0
@@ -19151,6 +19163,8 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 357a683328cbd384bae01470784b8925, type: 3}
   - {fileID: 21300000, guid: f6fe13761f9022a458402f1a29d96367, type: 3}
   - {fileID: 21300000, guid: f6fe13761f9022a458402f1a29d96367, type: 3}
+  hoveredOutput: {fileID: 0}
+  selectedOutput: {fileID: 0}
   createBuildingMarker: {fileID: 0}
   selectBuildingWindow: {fileID: 0}
   selectedBuildingType: 0
@@ -28177,7 +28191,29 @@ MonoBehaviour:
   buildingCapacity: 7
   supplyLimit: 0
   tax: 0
-  holdings: []
+  holdings:
+  - holdingType: 0
+    buildings:
+    - buildingType: 0
+      on: 0
+      efficiency: 0
+      resourceOutput:
+      - resource: {fileID: 11400000, guid: b35878d2163d4a14aad2c79a4ad73609, type: 2}
+        resourceCount: 5
+        resourceNeedsCount: 0
+      resourceInput: []
+      pops: []
+  - holdingType: 1
+    buildings:
+    - buildingType: 6
+      on: 0
+      efficiency: 0
+      resourceOutput:
+      - resource: {fileID: 11400000, guid: fcaf4aee498ffb1428296b46bbc4c972, type: 2}
+        resourceCount: 2
+        resourceNeedsCount: 0
+      resourceInput: []
+      pops: []
   storedResources: []
   rawResources:
   - resource: {fileID: 11400000, guid: cb4aefd37b1bfde43a8ec613ead33cba, type: 2}
@@ -31597,6 +31633,7 @@ MonoBehaviour:
   audioSource: {fileID: 275266035}
   sound: {fileID: 8300000, guid: c444f70b647b7604ebb006231cf3eed6, type: 3}
   image: {fileID: 1304467265}
+  highlight: {fileID: 0}
   buttonType: 0
   toggled: 0
   lower: 1
@@ -41259,6 +41296,7 @@ MonoBehaviour:
   audioSource: {fileID: 275266035}
   sound: {fileID: 8300000, guid: c444f70b647b7604ebb006231cf3eed6, type: 3}
   image: {fileID: 1736645573}
+  highlight: {fileID: 0}
   buttonType: 0
   toggled: 0
   lower: 1
@@ -41442,6 +41480,7 @@ MonoBehaviour:
   audioSource: {fileID: 275266035}
   sound: {fileID: 8300000, guid: c444f70b647b7604ebb006231cf3eed6, type: 3}
   image: {fileID: 1743772959}
+  highlight: {fileID: 0}
   buttonType: 0
   toggled: 0
   lower: 1
@@ -45766,6 +45805,7 @@ MonoBehaviour:
   audioSource: {fileID: 275266035}
   sound: {fileID: 8300000, guid: c444f70b647b7604ebb006231cf3eed6, type: 3}
   image: {fileID: 1963606088}
+  highlight: {fileID: 0}
   buttonType: 0
   toggled: 0
   lower: 1

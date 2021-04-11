@@ -43,6 +43,8 @@ public class OutputUIButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
             if (Input.GetKeyDown(KeyCode.Mouse0) && altMode)
             {
                 ProvinceManager.instance.selectedResource = buildingUI.provinceWindow.provinceTarget.holdings[buildingUI.holdingCounterpart].buildings[buildingUI.buildingCounterpart].resourceOutput[outputValue];
+                buildingUI.provinceWindow.selectedOutput = this;
+                buildingUI.provinceWindow.SelectingOutput();
             }
         }
     }
@@ -80,14 +82,15 @@ public class OutputUIButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     {
         if (Input.GetKey(KeyCode.LeftAlt) && hovering && buildingUI.provinceWindow.holdings[buildingUI.holdingCounterpart].buildings[buildingUI.buildingCounterpart].resourceOutputUI[outputValue].resourceIcon != null)
         {
+            ProvinceManager.instance.hoveredResource = buildingUI.provinceWindow.provinceTarget.holdings[buildingUI.holdingCounterpart].buildings[buildingUI.buildingCounterpart].resourceOutput[outputValue];
             buildingUI.provinceWindow.hoveredOutput = this;
             buildingUI.provinceWindow.HoveringOutput();
         }
         else if (!Input.GetKey(KeyCode.LeftAlt))
         {
             ProvinceManager.instance.selectedResource = null;
-            buildingUI.provinceWindow.hoveredOutput = null;
-            buildingUI.provinceWindow.HoveringOutput();
+            buildingUI.provinceWindow.selectedOutput = null;
+            buildingUI.provinceWindow.SelectingOutput();
         }
     }
 }

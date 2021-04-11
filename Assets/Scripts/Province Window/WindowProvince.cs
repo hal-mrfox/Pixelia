@@ -81,6 +81,30 @@ public class WindowProvince : InteractableWindow
 
     #region Building Hover UI
     public OutputUIButton hoveredOutput;
+    public OutputUIButton selectedOutput;
+
+    public void SelectingOutput()
+    {
+        for (int i = 0; i < holdings.Length; i++)
+        {
+            for (int j = 0; j < holdings[i].buildings.Length; j++)
+            {
+                for (int k = 0; k < holdings[i].buildings[j].outputUI.Length; k++)
+                {
+                    if (selectedOutput == holdings[i].buildings[j].outputUI[k])
+                    {
+                        holdings[i].buildings[j].outputUI[k].outline.gameObject.SetActive(true);
+                        holdings[i].buildings[j].outputUI[k].altMode = true;
+                    }
+                    else
+                    {
+                        holdings[i].buildings[j].outputUI[k].outline.gameObject.SetActive(false);
+                        holdings[i].buildings[j].outputUI[k].altMode = false;
+                    }
+                }
+            }
+        }
+    }
 
     public void HoveringOutput()
     {

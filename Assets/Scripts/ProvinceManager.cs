@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 
 public class ProvinceManager : MonoBehaviour
 {
+    public Province.ProvinceResource hoveredResource;
     public Province.ProvinceResource selectedResource;
 
     public static ProvinceManager instance;
