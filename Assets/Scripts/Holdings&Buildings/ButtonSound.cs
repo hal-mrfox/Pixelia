@@ -166,6 +166,11 @@ public class ButtonSound : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
                 {
                     image.color = hovering;
                 }
+
+                if (buildingUI.provinceWindow.hoveredOutput != null)
+                {
+                    highlight.gameObject.SetActive(true);
+                }
             }
         }
     }
@@ -186,6 +191,12 @@ public class ButtonSound : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
                 image.color = clicked;
             }
         }
+
+        if (buildingUI != null && highlight != null)
+        {
+            highlight.gameObject.SetActive(false);
+        }
+
         hover = false;
     }
 
