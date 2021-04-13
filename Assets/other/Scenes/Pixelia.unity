@@ -1529,8 +1529,6 @@ MonoBehaviour:
   onClick:
     m_PersistentCalls:
       m_Calls: []
-  isInput: 0
-  resource: {fileID: 0}
   provinceWindow: {fileID: 791904169}
   buildingType: 0
   icon: {fileID: 302727417}
@@ -3052,8 +3050,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  isInput: 0
-  resource: {fileID: 0}
 --- !u!114 &117352559
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4582,8 +4578,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  isInput: 0
-  resource: {fileID: 0}
 --- !u!114 &190932115
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4918,8 +4912,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  isInput: 0
-  resource: {fileID: 0}
 --- !u!114 &205787910
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19171,6 +19163,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 357a683328cbd384bae01470784b8925, type: 3}
   - {fileID: 21300000, guid: f6fe13761f9022a458402f1a29d96367, type: 3}
   - {fileID: 21300000, guid: f6fe13761f9022a458402f1a29d96367, type: 3}
+  altMode: 0
   hoveredOutput: {fileID: 0}
   selectedOutput: {fileID: 0}
   createBuildingMarker: {fileID: 0}
@@ -28203,7 +28196,7 @@ MonoBehaviour:
   - holdingType: 0
     buildings:
     - buildingType: 0
-      on: 0
+      on: 1
       efficiency: 0
       resourceOutput:
       - resource: {fileID: 11400000, guid: b35878d2163d4a14aad2c79a4ad73609, type: 2}
@@ -28217,7 +28210,7 @@ MonoBehaviour:
   - holdingType: 1
     buildings:
     - buildingType: 6
-      on: 0
+      on: 1
       efficiency: 0
       resourceOutput:
       - resource: {fileID: 11400000, guid: fcaf4aee498ffb1428296b46bbc4c972, type: 2}
@@ -31668,8 +31661,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  isInput: 0
-  resource: {fileID: 0}
 --- !u!114 &1304467265
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41321,8 +41312,6 @@ MonoBehaviour:
   onClick:
     m_PersistentCalls:
       m_Calls: []
-  isInput: 0
-  resource: {fileID: 0}
   provinceWindow: {fileID: 791904169}
   buildingType: 0
   icon: {fileID: 7395063}
@@ -41507,8 +41496,6 @@ MonoBehaviour:
   onClick:
     m_PersistentCalls:
       m_Calls: []
-  isInput: 0
-  resource: {fileID: 0}
   provinceWindow: {fileID: 791904169}
   buildingType: 0
   icon: {fileID: 1813080834}
@@ -45834,8 +45821,6 @@ MonoBehaviour:
   onClick:
     m_PersistentCalls:
       m_Calls: []
-  isInput: 0
-  resource: {fileID: 0}
   provinceWindow: {fileID: 791904169}
   buildingType: 0
   icon: {fileID: 117701662}

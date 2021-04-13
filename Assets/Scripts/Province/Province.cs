@@ -60,6 +60,8 @@ public class Province : MonoBehaviour, IClickable
             public List<ProvinceResource> resourceOutput = new List<ProvinceResource>();
             public List<ProvinceResource> resourceInput = new List<ProvinceResource>();
 
+            public List<ProvinceResource> connections;
+
             public List<Population> pops = new List<Population>();
 
             #region Refresh Building
@@ -73,12 +75,23 @@ public class Province : MonoBehaviour, IClickable
                 {
                     //Resource Output Value Calculation and setting
                     resourceOutput[i].resourceCount = Mathf.CeilToInt(efficiency / Mathf.Lerp(6, 26, resourceOutput[i].resource.acquisitionDifficulty) / resourceOutput.Count);
+
                     int outputInt = ResourceManager.instance.resources.IndexOf(resourceOutput[i].resource);
                     if (recipes.resourceRecipes[outputInt].requiredResources.Length > 0)
                     {
                         for (int j = 0; j < recipes.resourceRecipes[outputInt].requiredResources.Length; j++)
                         {
-                            resourceInput.Add(new ProvinceResource(recipes.resourceRecipes[outputInt].requiredResources[j].resource, 0, recipes.resourceRecipes[outputInt].requiredResources[j].amount * resourceOutput[i].resourceCount));
+                            int resourceCount = 0;
+
+                            for (int k = 0; k < connections.Count; k++)
+                            {
+                                if (connections[k].resource == recipes.resourceRecipes[outputInt].requiredResources[j].resource)
+                                {
+                                    resourceCount += connections[k].resourceCount;
+                                }
+                            }
+                            //set this resource output to have selected resource
+                            resourceInput.Add(new ProvinceResource(recipes.resourceRecipes[outputInt].requiredResources[j].resource, resourceCount, recipes.resourceRecipes[outputInt].requiredResources[j].amount * resourceOutput[i].resourceCount));
                         }
                     }
 

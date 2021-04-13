@@ -36,6 +36,7 @@ public class OutputUIButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
             else if (Input.GetKeyDown(KeyCode.Mouse0) && buildingUI.provinceWindow.altMode)
             {
                 ProvinceManager.instance.selectedResource = buildingUI.provinceWindow.provinceTarget.holdings[buildingUI.holdingCounterpart].buildings[buildingUI.buildingCounterpart].resourceOutput[outputValue];
+                ProvinceManager.instance.selectedResourceBuilding = buildingUI.provinceWindow.provinceTarget.holdings[buildingUI.holdingCounterpart].buildings[buildingUI.buildingCounterpart];
                 buildingUI.provinceWindow.selectedOutput = this;
                 buildingUI.provinceWindow.SelectingOutput();
             }
@@ -44,6 +45,7 @@ public class OutputUIButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
             {
                 buildingUI.OpenResourceSelection(outputValue, false);
                 ProvinceManager.instance.selectedResource = null;
+                ProvinceManager.instance.selectedResourceBuilding = null;
                 buildingUI.provinceWindow.selectedOutput = null;
                 buildingUI.provinceWindow.SelectingOutput();
             }
@@ -98,6 +100,7 @@ public class OutputUIButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
             buildingUI.provinceWindow.altMode = false;
             ProvinceManager.instance.selectedResource = null;
             ProvinceManager.instance.hoveredResource = null;
+            ProvinceManager.instance.selectedResourceBuilding = null;
             buildingUI.provinceWindow.selectedOutput = null;
             buildingUI.provinceWindow.hoveredOutput = null;
             buildingUI.provinceWindow.SelectingOutput();
