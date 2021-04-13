@@ -23,7 +23,6 @@ public class ButtonSound : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     public bool hover;
 
     public UnityEvent onClick;
-
     public virtual void OnPointerDown(PointerEventData eventData)
     {
         if (buildingUI == null)
@@ -165,19 +164,6 @@ public class ButtonSound : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
                 if (image != null)
                 {
                     image.color = hovering;
-                }
-
-                //For Input options
-                if (highlight != null)
-                {
-                    if (buildingUI.provinceWindow.selectedOutput != null)
-                    {
-                        highlight.gameObject.SetActive(true);
-                    }
-                    else
-                    {
-                        highlight.gameObject.SetActive(false);
-                    }
                 }
             }
         }

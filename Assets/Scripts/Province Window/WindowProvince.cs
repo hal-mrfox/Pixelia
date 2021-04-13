@@ -80,6 +80,7 @@ public class WindowProvince : InteractableWindow
     #endregion
 
     #region Building Hover UI
+    public bool altMode;
     public OutputUIButton hoveredOutput;
     public OutputUIButton selectedOutput;
 
@@ -94,12 +95,10 @@ public class WindowProvince : InteractableWindow
                     if (selectedOutput == holdings[i].buildings[j].outputUI[k])
                     {
                         holdings[i].buildings[j].outputUI[k].outline.gameObject.SetActive(true);
-                        holdings[i].buildings[j].outputUI[k].altMode = true;
                     }
                     else
                     {
                         holdings[i].buildings[j].outputUI[k].outline.gameObject.SetActive(false);
-                        holdings[i].buildings[j].outputUI[k].altMode = false;
                     }
                 }
             }
@@ -117,12 +116,10 @@ public class WindowProvince : InteractableWindow
                     if (hoveredOutput == holdings[i].buildings[j].outputUI[k])
                     {
                         holdings[i].buildings[j].outputUI[k].outline.gameObject.SetActive(true);
-                        holdings[i].buildings[j].outputUI[k].altMode = true;
                     }
                     else
                     {
                         holdings[i].buildings[j].outputUI[k].outline.gameObject.SetActive(false);
-                        holdings[i].buildings[j].outputUI[k].altMode = false;
                     }
                 }
             }

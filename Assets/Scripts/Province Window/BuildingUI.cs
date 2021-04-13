@@ -131,6 +131,16 @@ public class BuildingUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         provinceWindow = FindObjectOfType<WindowProvince>();
     }
 
+    //public void SetConnection()
+    //{
+    //    provinceWindow.provinceTarget.holdings[holdingCounterpart].buildings[buildingCounterpart].connections.Add(new Province.ProvinceHolding.ProvinceBuilding.Connection());
+    //}
+
+    public void Start()
+    {
+        Refresh(holdingCounterpart, buildingCounterpart);
+    }
+
     public void Refresh(int holding, int building)
     {
         if (active)
@@ -354,6 +364,7 @@ public class BuildingUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         else if (!create && outputValue < provinceWindow.provinceTarget.holdings[holdingCounterpart].buildings[buildingCounterpart].resourceOutput.Count)
         {
             provinceWindow.provinceTarget.holdings[holdingCounterpart].buildings[buildingCounterpart].resourceOutput.Remove(provinceWindow.provinceTarget.holdings[holdingCounterpart].buildings[buildingCounterpart].resourceOutput[outputValue]);
+            resourceOutputUI[outputValue] = null;
             provinceWindow.provinceTarget.RefreshProvinceValues();
             provinceWindow.RefreshWindow();
         }
