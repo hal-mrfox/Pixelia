@@ -65,17 +65,10 @@ public class BuildingUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     public ResourceUI[] resourceInputUI;
 
     [BoxGroup("Input")]
-    public InputUI[] inputUI;
+    public InputUIButton[] inputUI;
 
     [BoxGroup("Input")]
     public TextMeshProUGUI[] inputText;
-
-    [System.Serializable]
-    public class InputUI
-    {
-        public Image icon;
-        public Image outline;
-    }
 
     [Space(5)]
 
@@ -131,14 +124,10 @@ public class BuildingUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         provinceWindow = FindObjectOfType<WindowProvince>();
     }
 
-    //public void SetConnection()
-    //{
-    //    provinceWindow.provinceTarget.holdings[holdingCounterpart].buildings[buildingCounterpart].connections.Add(new Province.ProvinceHolding.ProvinceBuilding.Connection());
-    //}
-
     public void Start()
     {
-        Refresh(holdingCounterpart, buildingCounterpart);
+        provinceWindow.provinceTarget.RefreshProvinceValues();
+        provinceWindow.RefreshWindow();
     }
 
     public void Refresh(int holding, int building)
@@ -213,6 +202,7 @@ public class BuildingUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
                     inputUI[i].icon.gameObject.SetActive(true);
                     inputUI[i].icon.sprite = provinceWindow.provinceTarget.holdings[holding].buildings[building].resourceInput[i].resource.icon;
                     inputUI[i].icon.SetNativeSize();
+                    inputUI[i].resource = provinceWindow.provinceTarget.holdings[holding].buildings[building].resourceInput[i].resource;
                     inputUI[i].outline.gameObject.SetActive(true);
                     inputUI[i].outline.sprite = provinceWindow.provinceTarget.holdings[holding].buildings[building].resourceInput[i].resource.outline;
                     inputText[i].text = provinceWindow.provinceTarget.holdings[holding].buildings[building].resourceInput[i].resourceNeedsCount.ToString();
@@ -221,6 +211,10 @@ public class BuildingUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
                     if (provinceWindow.provinceTarget.holdings[holding].buildings[building].resourceInput[i].resourceCount < provinceWindow.provinceTarget.holdings[holding].buildings[building].resourceInput[i].resourceNeedsCount)
                     {
                         inputUI[i].outline.color = CountryManager.instance.niceRed;
+                    }
+                    else if (provinceWindow.provinceTarget.holdings[holding].buildings[building].resourceInput[i].resourceCount == provinceWindow.provinceTarget.holdings[holding].buildings[building].resourceInput[i].resourceNeedsCount)
+                    {
+                        inputUI[i].outline.color = CountryManager.instance.tan;
                     }
                     else
                     {

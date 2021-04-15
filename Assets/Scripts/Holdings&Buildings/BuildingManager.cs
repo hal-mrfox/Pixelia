@@ -6,7 +6,7 @@ using UnityEngine;
 public enum BuildingType
 {
 
-    Mine, Farm, Logging, OilRig,
+    Mine, Farm, Logging, Pumpjack,
 
     GoodsFactory, Assembler, Smeltery,
 
