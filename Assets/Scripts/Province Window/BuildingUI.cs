@@ -65,17 +65,10 @@ public class BuildingUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     public ResourceUI[] resourceInputUI;
 
     [BoxGroup("Input")]
-    public InputUI[] inputUI;
+    public InputUIButton[] inputUI;
 
     [BoxGroup("Input")]
     public TextMeshProUGUI[] inputText;
-
-    [System.Serializable]
-    public class InputUI
-    {
-        public Image icon;
-        public Image outline;
-    }
 
     [Space(5)]
 
@@ -213,6 +206,7 @@ public class BuildingUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
                     inputUI[i].icon.gameObject.SetActive(true);
                     inputUI[i].icon.sprite = provinceWindow.provinceTarget.holdings[holding].buildings[building].resourceInput[i].resource.icon;
                     inputUI[i].icon.SetNativeSize();
+                    inputUI[i].resource = provinceWindow.provinceTarget.holdings[holding].buildings[building].resourceInput[i].resource;
                     inputUI[i].outline.gameObject.SetActive(true);
                     inputUI[i].outline.sprite = provinceWindow.provinceTarget.holdings[holding].buildings[building].resourceInput[i].resource.outline;
                     inputText[i].text = provinceWindow.provinceTarget.holdings[holding].buildings[building].resourceInput[i].resourceNeedsCount.ToString();

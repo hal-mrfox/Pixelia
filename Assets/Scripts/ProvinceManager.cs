@@ -8,6 +8,10 @@ public class ProvinceManager : MonoBehaviour
 {
     public Province.ProvinceResource hoveredResource;
     public Province.ProvinceResource selectedResource;
+    public int selectedResourceValue;
+    public int selectedHoldingValue;
+    public int selectedBuildingValue;
+    public Province.ProvinceHolding.ProvinceBuilding selectedBuilding;
 
     public static ProvinceManager instance;
 

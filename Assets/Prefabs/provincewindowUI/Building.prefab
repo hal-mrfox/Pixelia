@@ -5775,12 +5775,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buildingUI: {fileID: 8200314240005256021}
+  icon: {fileID: 8968319826215809381}
+  outline: {fileID: 6572028315769037750}
   highlight: {fileID: 6454558883443324399}
   hovering: 0
   audioSource: {fileID: 3892139289959486336}
+  pitch: 1.7
   audioClip: {fileID: 8300000, guid: c444f70b647b7604ebb006231cf3eed6, type: 3}
-  red: {r: 0.7372549, g: 0.21960784, b: 0.24313726, a: 0.078431375}
-  green: {r: 0.12941177, g: 0.69411767, b: 0.45882353, a: 0.078431375}
+  resource: {fileID: 0}
+  red: {r: 0.7372549, g: 0.21960784, b: 0.24313726, a: 0.5019608}
+  green: {r: 0.12941177, g: 0.69411767, b: 0.45882353, a: 0.5019608}
 --- !u!1 &4585507813948788425
 GameObject:
   m_ObjectHideFlags: 0
@@ -5867,7 +5871,7 @@ GameObject:
   - component: {fileID: 7667885766961458158}
   - component: {fileID: 8055922232203424714}
   - component: {fileID: 2886311724767706700}
-  - component: {fileID: 5543526682558159683}
+  - component: {fileID: 1692690506894317155}
   m_Layer: 5
   m_Name: input 3
   m_TagString: Untagged
@@ -5934,7 +5938,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &5543526682558159683
+--- !u!114 &1692690506894317155
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5943,25 +5947,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 4708245215526005630}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4c8ede7d8d71d0c409ef3758e2ad8bef, type: 3}
+  m_Script: {fileID: 11500000, guid: fe93645344a50c049b3030e2455ebcdf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   buildingUI: {fileID: 8200314240005256021}
-  audioSource: {fileID: 3892139289959486336}
-  sound: {fileID: 8300000, guid: c444f70b647b7604ebb006231cf3eed6, type: 3}
-  image: {fileID: 2886311724767706700}
+  icon: {fileID: 3666475803364397474}
+  outline: {fileID: 7604623763621795653}
   highlight: {fileID: 6794977472411417913}
-  buttonType: 0
-  toggled: 0
-  lower: 0
-  normal: {r: 0.20392159, g: 0.20392159, b: 0.20392159, a: 1}
-  hovering: {r: 0.20392159, g: 0.20392159, b: 0.20392159, a: 1}
-  clicked: {r: 0.20392159, g: 0.20392159, b: 0.20392159, a: 1}
-  interactable: 1
-  hover: 0
-  onClick:
-    m_PersistentCalls:
-      m_Calls: []
+  hovering: 0
+  audioSource: {fileID: 3892139289959486336}
+  pitch: 1.7
+  audioClip: {fileID: 8300000, guid: c444f70b647b7604ebb006231cf3eed6, type: 3}
+  resource: {fileID: 0}
+  red: {r: 0.7372549, g: 0.21960784, b: 0.24313726, a: 0.5019608}
+  green: {r: 0.12941177, g: 0.69411767, b: 0.45882353, a: 0.5019608}
 --- !u!1 &4797991664853436419
 GameObject:
   m_ObjectHideFlags: 0
@@ -9915,7 +9914,7 @@ GameObject:
   - component: {fileID: 1297380947396614306}
   - component: {fileID: 7474122255921566838}
   - component: {fileID: 241505115318689054}
-  - component: {fileID: 5721074746512791267}
+  - component: {fileID: 6245962281399272160}
   m_Layer: 5
   m_Name: input 2
   m_TagString: Untagged
@@ -9982,7 +9981,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &5721074746512791267
+--- !u!114 &6245962281399272160
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -9991,25 +9990,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 7795732335457122281}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4c8ede7d8d71d0c409ef3758e2ad8bef, type: 3}
+  m_Script: {fileID: 11500000, guid: fe93645344a50c049b3030e2455ebcdf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   buildingUI: {fileID: 8200314240005256021}
-  audioSource: {fileID: 3892139289959486336}
-  sound: {fileID: 8300000, guid: c444f70b647b7604ebb006231cf3eed6, type: 3}
-  image: {fileID: 241505115318689054}
+  icon: {fileID: 1003226048365551349}
+  outline: {fileID: 6647398312253198061}
   highlight: {fileID: 4168746158806391573}
-  buttonType: 0
-  toggled: 0
-  lower: 0
-  normal: {r: 0.20392159, g: 0.20392159, b: 0.20392159, a: 1}
-  hovering: {r: 0.20392159, g: 0.20392159, b: 0.20392159, a: 1}
-  clicked: {r: 0.20392159, g: 0.20392159, b: 0.20392159, a: 1}
-  interactable: 1
-  hover: 0
-  onClick:
-    m_PersistentCalls:
-      m_Calls: []
+  hovering: 0
+  audioSource: {fileID: 3892139289959486336}
+  pitch: 1.7
+  audioClip: {fileID: 8300000, guid: c444f70b647b7604ebb006231cf3eed6, type: 3}
+  resource: {fileID: 0}
+  red: {r: 0.7372549, g: 0.21960784, b: 0.24313726, a: 0.5019608}
+  green: {r: 0.12941177, g: 0.69411767, b: 0.45882353, a: 0.5019608}
 --- !u!1 &7818729754092720789
 GameObject:
   m_ObjectHideFlags: 0
@@ -10701,12 +10695,9 @@ MonoBehaviour:
   - resourceIcon: {fileID: 0}
     resourceCount: 0
   inputUI:
-  - icon: {fileID: 8968319826215809381}
-    outline: {fileID: 6572028315769037750}
-  - icon: {fileID: 1003226048365551349}
-    outline: {fileID: 6647398312253198061}
-  - icon: {fileID: 3666475803364397474}
-    outline: {fileID: 7604623763621795653}
+  - {fileID: 3057189471935676356}
+  - {fileID: 6245962281399272160}
+  - {fileID: 1692690506894317155}
   inputText:
   - {fileID: 6287232151677608520}
   - {fileID: 2649239764728897662}

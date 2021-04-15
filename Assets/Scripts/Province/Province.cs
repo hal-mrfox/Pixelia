@@ -51,15 +51,21 @@ public class Province : MonoBehaviour, IClickable
         [System.Serializable]
         public class ProvinceBuilding
         {
+            public Province provinceOwner;
+
             public BuildingType buildingType;
 
             public bool on;
-
+            
             public float efficiency;
 
+            [Space(50)]
             public List<ProvinceResource> resourceOutput = new List<ProvinceResource>();
+            [Space(50)]
             public List<ProvinceResource> resourceInput = new List<ProvinceResource>();
-
+            [Space(50)]
+            public List<Vector3Int> connectedBuildings;
+            [Space(50)]
             public List<Population> pops = new List<Population>();
 
             #region Refresh Building
@@ -76,9 +82,15 @@ public class Province : MonoBehaviour, IClickable
                     int outputInt = ResourceManager.instance.resources.IndexOf(resourceOutput[i].resource);
                     if (recipes.resourceRecipes[outputInt].requiredResources.Length > 0)
                     {
+                        int resourceCount = 0;
+                        for (int j = 0; j < connectedBuildings.Count; j++)
+                        {
+                            resourceCount += CountryManager.instance.provinces[CountryManager.instance.provinces.IndexOf(provinceOwner)].holdings[connectedBuildings[j].x].buildings[connectedBuildings[j].y].resourceOutput[connectedBuildings[j].z].resourceCount;
+                        }
+
                         for (int j = 0; j < recipes.resourceRecipes[outputInt].requiredResources.Length; j++)
                         {
-                            resourceInput.Add(new ProvinceResource(recipes.resourceRecipes[outputInt].requiredResources[j].resource, 0, recipes.resourceRecipes[outputInt].requiredResources[j].amount * resourceOutput[i].resourceCount));
+                            resourceInput.Add(new ProvinceResource(recipes.resourceRecipes[outputInt].requiredResources[j].resource, resourceCount, recipes.resourceRecipes[outputInt].requiredResources[j].amount * resourceOutput[i].resourceCount));
                         }
                     }
 
@@ -176,6 +188,7 @@ public class Province : MonoBehaviour, IClickable
         holdings[holding].buildings.Add(new ProvinceHolding.ProvinceBuilding());
         holdings[holding].buildings[holdings[holding].buildings.Count - 1].buildingType = buildingType;
         holdings[holding].buildings[holdings[holding].buildings.Count - 1].on = true;
+        holdings[holding].buildings[holdings[holding].buildings.Count - 1].provinceOwner = this;
         windowProvince.RefreshWindow();
     }
     #endregion
