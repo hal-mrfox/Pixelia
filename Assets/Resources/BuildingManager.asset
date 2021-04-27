@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buildings:
   - buildingType: 0
-    holder: 0
+    holderS: 0000000000000000
     outputCapacity: 3
     creatableResources:
     - {fileID: 11400000, guid: 3ffb63fdf28f17247a4c08f682b6dfd1, type: 2}
@@ -31,7 +31,7 @@ MonoBehaviour:
       moneyCost: 0
       resourceCost: []
   - buildingType: 1
-    holder: 0
+    holderS: 
     outputCapacity: 1
     creatableResources:
     - {fileID: 11400000, guid: 7cfb003adb14cda4bbe2e566c4803988, type: 2}
@@ -42,7 +42,7 @@ MonoBehaviour:
       moneyCost: 0
       resourceCost: []
   - buildingType: 2
-    holder: 0
+    holderS: 
     outputCapacity: 1
     creatableResources:
     - {fileID: 11400000, guid: cb4aefd37b1bfde43a8ec613ead33cba, type: 2}
@@ -53,7 +53,7 @@ MonoBehaviour:
       moneyCost: 0
       resourceCost: []
   - buildingType: 3
-    holder: 0
+    holderS: 
     outputCapacity: 0
     creatableResources: []
     buildCost:
@@ -63,7 +63,7 @@ MonoBehaviour:
       moneyCost: 0
       resourceCost: []
   - buildingType: 4
-    holder: 1
+    holderS: 
     outputCapacity: 1
     creatableResources:
     - {fileID: 11400000, guid: 8805dd0abce03f347b1543be89f57892, type: 2}
@@ -74,7 +74,7 @@ MonoBehaviour:
       moneyCost: 0
       resourceCost: []
   - buildingType: 5
-    holder: 1
+    holderS: 
     outputCapacity: 1
     creatableResources:
     - {fileID: 11400000, guid: 1a37182f2d3c3f2479dd99fb3c20cd90, type: 2}
@@ -85,7 +85,7 @@ MonoBehaviour:
       moneyCost: 0
       resourceCost: []
   - buildingType: 6
-    holder: 1
+    holderS: 
     outputCapacity: 1
     creatableResources:
     - {fileID: 11400000, guid: a19910d51f96ca247870c6d54e4a58b0, type: 2}
@@ -98,7 +98,19 @@ MonoBehaviour:
       moneyCost: 0
       resourceCost: []
   - buildingType: 7
-    holder: 2
+    holderS: 
+    outputCapacity: 0
+    creatableResources: []
+    buildCost:
+      moneyCost: 0
+      resourceCost: []
+    upkeepCost:
+      moneyCost: 0
+      resourceCost:
+      - resourceType: {fileID: 11400000, guid: 7cfb003adb14cda4bbe2e566c4803988, type: 2}
+        amount: 0
+  - buildingType: 8
+    holderS: 
     outputCapacity: 0
     creatableResources: []
     buildCost:

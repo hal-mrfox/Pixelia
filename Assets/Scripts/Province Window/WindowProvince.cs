@@ -51,7 +51,7 @@ public class WindowProvince : InteractableWindow
     public int overPopulation;
     public int snapDistance;
 
-    #region Create Improvements
+    #region Improvements
 
     #region Create Holding
     [BoxGroup("Holding Creation")]
@@ -82,6 +82,7 @@ public class WindowProvince : InteractableWindow
     #region Building Hover UI
     public bool altMode;
     public OutputUIButton hoveredOutput;
+    public List<InputUIButton> hoveredOutputConnections;
     public OutputUIButton selectedOutput;
 
     public void SelectingOutput()
@@ -182,8 +183,33 @@ public class WindowProvince : InteractableWindow
             commodities[i].gameObject.SetActive(false);
             if (i < provinceTarget.storedResources.Count)
             {
-                //switch to finding the buildings output
-                commodities[i].Refresh(provinceTarget.storedResources[i].resource.icon, provinceTarget.storedResources[i].resource.icon, provinceTarget.storedResources[i].resource.outline, provinceTarget.storedResources[i].resourceCount);
+                int resourceOutputValue = 0;
+                //shows building output number as "+000"
+                for (int j = 0; j < provinceTarget.holdings.Count; j++)
+                {
+                    for (int k = 0; k < provinceTarget.holdings[j].buildings.Count; k++)
+                    {
+                        //adding
+                        for (int h = 0; h < provinceTarget.holdings[j].buildings[k].resourceOutput.Count; h++)
+                        {
+                            if (provinceTarget.storedResources[i].resource == provinceTarget.holdings[j].buildings[k].resourceOutput[h].resource)
+                            {
+                                resourceOutputValue += provinceTarget.holdings[j].buildings[k].resourceOutput[h].resourceCount;
+                            }
+                        }
+
+                        //subtracting
+                        for (int o = 0; o < provinceTarget.holdings[j].buildings[k].resourceInput.Count; o++)
+                        {
+                            if (provinceTarget.storedResources[i].resource == provinceTarget.holdings[j].buildings[k].resourceInput[o].resource
+                                && provinceTarget.holdings[j].buildings[k].resourceOutput[0].resourceCount != 0)
+                            {
+                                resourceOutputValue -= provinceTarget.holdings[j].buildings[k].resourceInput[o].resourceNeedsCount;
+                            }
+                        }
+                    }
+                }
+                commodities[i].Refresh(provinceTarget.storedResources[i].resource.icon, provinceTarget.storedResources[i].resourceCount, resourceOutputValue);
                 commodities[i].gameObject.SetActive(true);
             }
         }
@@ -297,6 +323,8 @@ public class WindowProvince : InteractableWindow
             }
         }
         #endregion
+
+        target.CalculateResources();
     }
 
     public void SetHoldingIndex(int holdingIndex)

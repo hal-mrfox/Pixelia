@@ -10,6 +10,7 @@ public class InputUIButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     public Image icon;
     public Image outline;
     public Image highlight;
+    public Image connectionHighlight;
     public bool hovering;
     public AudioSource audioSource;
     [Range(1, 2)]public float pitch;
@@ -24,7 +25,12 @@ public class InputUIButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     {
         if (Input.GetKeyDown(KeyCode.Mouse0) && buildingUI.provinceWindow.altMode && ProvinceManager.instance.selectedResource.resource == resource)
         {
-            buildingUI.provinceWindow.provinceTarget.holdings[buildingUI.holdingCounterpart].buildings[buildingUI.buildingCounterpart].connectedBuildings.Add(new Vector3Int(ProvinceManager.instance.selectedHoldingValue, ProvinceManager.instance.selectedBuildingValue, ProvinceManager.instance.selectedResourceValue));
+            buildingUI.provinceWindow.provinceTarget.RefreshProvinceValues();
+            buildingUI.provinceWindow.RefreshWindow();
+        }
+        if (Input.GetKeyDown(KeyCode.Mouse1))
+        {
+
         }
     }
 

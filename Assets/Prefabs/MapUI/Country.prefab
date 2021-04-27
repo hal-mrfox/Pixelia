@@ -51,4 +51,15 @@ MonoBehaviour:
   tier: 0
   prestige: 0
   countryColor: {r: 0, g: 0, b: 0, a: 0}
+  religion: {fileID: 0}
+  culture: {fileID: 0}
+  ideology: {fileID: 0}
+  nationality:
+    name: 
+  capitalProvince: {fileID: 0}
   ownedProvinces: []
+  population: []
+  buildings: []
+  money: 0
+  resources: []
+  atWar: []

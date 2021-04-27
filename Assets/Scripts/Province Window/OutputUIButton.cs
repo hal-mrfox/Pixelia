@@ -33,15 +33,6 @@ public class OutputUIButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
             {
                 buildingUI.OpenResourceSelection(outputValue, true);
             }
-            else if (Input.GetKeyDown(KeyCode.Mouse0) && buildingUI.provinceWindow.altMode)
-            {
-                ProvinceManager.instance.selectedResource = buildingUI.provinceWindow.provinceTarget.holdings[buildingUI.holdingCounterpart].buildings[buildingUI.buildingCounterpart].resourceOutput[outputValue];
-                ProvinceManager.instance.selectedResourceValue = outputValue;
-                ProvinceManager.instance.selectedHoldingValue = buildingUI.holdingCounterpart;
-                ProvinceManager.instance.selectedBuildingValue = buildingUI.buildingCounterpart;
-                buildingUI.provinceWindow.selectedOutput = this;
-                buildingUI.provinceWindow.SelectingOutput();
-            }
 
             if (Input.GetKeyDown(KeyCode.Mouse1) && !buildingUI.provinceWindow.altMode)
             {
@@ -99,6 +90,7 @@ public class OutputUIButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         else if (!Input.GetKey(KeyCode.LeftAlt))
         {
             buildingUI.provinceWindow.altMode = false;
+            buildingUI.provinceWindow.hoveredOutputConnections.Clear();
             ProvinceManager.instance.selectedResource = null;
             ProvinceManager.instance.hoveredResource = null;
             ProvinceManager.instance.selectedResourceValue = 0;
@@ -107,6 +99,7 @@ public class OutputUIButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
             buildingUI.provinceWindow.selectedOutput = null;
             buildingUI.provinceWindow.hoveredOutput = null;
             buildingUI.provinceWindow.SelectingOutput();
+            buildingUI.provinceWindow.HoveringOutput();
         }
     }
 }

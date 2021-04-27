@@ -350,10 +350,10 @@ public class BuildingUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
                 }
                 #endregion
 
-                provinceWindow.provinceTarget.RefreshProvinceValues();
-                provinceWindow.RefreshWindow();
-                selectResourceWindow.gameObject.SetActive(true);
             }
+            provinceWindow.provinceTarget.RefreshProvinceValues();
+            provinceWindow.RefreshWindow();
+            selectResourceWindow.gameObject.SetActive(true);
         }
         else if (!create && outputValue < provinceWindow.provinceTarget.holdings[holdingCounterpart].buildings[buildingCounterpart].resourceOutput.Count)
         {
@@ -409,7 +409,7 @@ public class BuildingUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
                 provinceWindow.RefreshWindow();
             }
 
-            if (Input.GetKeyDown(KeyCode.KeypadPlus) && provinceWindow.provinceTarget.holdings[holdingCounterpart].buildings[buildingCounterpart].pops.Count < 18)
+            if (Input.GetKeyDown(KeyCode.KeypadPlus) && provinceWindow.provinceTarget.holdings[holdingCounterpart].buildings[buildingCounterpart].pops.Count < 10)
             {
                 provinceWindow.provinceTarget.holdings[holdingCounterpart].buildings[buildingCounterpart].pops.Add(new Population());
                 provinceWindow.provinceTarget.RefreshProvinceValues();

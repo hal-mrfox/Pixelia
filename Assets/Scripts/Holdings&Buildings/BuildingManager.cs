@@ -24,7 +24,7 @@ public class BuildingManager : ScriptableObject
     {
         public BuildingType buildingType;
 
-        public HoldingType holder;
+        public HoldingType[] holderS;
 
         public int outputCapacity;
         public Resource[] creatableResources;

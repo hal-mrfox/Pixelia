@@ -44,15 +44,27 @@ public class Country : MonoBehaviour
     [BoxGroup("Money & Resources")]
     public int money;
     [BoxGroup("Money & Resources")]
-    public int wood;
-    [BoxGroup("Money & Resources")]
-    public int stone;
+    public List<CountryResource> resources = new List<CountryResource>();
     #endregion
     #region Diplomacy
     [BoxGroup("Diplomacy")]
     public List<Country> atWar;
     #endregion
 
+    #region Resource Class
+    [System.Serializable]
+    public class CountryResource
+    {
+        public Resource resource;
+        public int amount;
+
+        public CountryResource(Resource resource, int amount)
+        {
+            this.resource = resource;
+            this.amount = amount;
+        }
+    }
+    #endregion
 
     public void UpgradeTier()
     {
@@ -70,9 +82,13 @@ public class Country : MonoBehaviour
 
     public void CalculateResources()
     {
+        resources.Clear();
         for (int i = 0; i < ownedProvinces.Count; i++)
         {
-            
+            for (int j = 0; j < ownedProvinces[i].storedResources.Count; j++)
+            {
+                resources.Add(new CountryResource(ownedProvinces[i].storedResources[j].resource, ownedProvinces[i].storedResources[j].resourceCount));
+            }
         }
     }
 }

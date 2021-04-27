@@ -71,8 +71,6 @@ public class CountryManager : MonoBehaviour
     public void Start()
     {
         playerCountryName.text = playerCountry.ToString().Replace("(Country)", "");
-        woodText.text = playerCountry.wood.ToString();
-        stoneText.text = playerCountry.stone.ToString();
 
         nextCountry = countries.IndexOf(playerCountry) + 1;
 
@@ -89,10 +87,18 @@ public class CountryManager : MonoBehaviour
         {
             nextCountry = 0;
         }
+        for (int i = 0; i < playerCountry.ownedProvinces.Count; i++)
+        {
+            for (int j = 0; j < playerCountry.ownedProvinces[i].holdings.Count; j++)
+            {
+                for (int k = 0; k < playerCountry.ownedProvinces[i].holdings[j].buildings.Count; k++)
+                {
+                    playerCountry.ownedProvinces[i].holdings[j].buildings[k].NextTurn();
+                }
+            }
+        }
         playerCountry = countries[nextCountry];
         playerCountryName.text = playerCountry.ToString().Replace("(Country)", "");
-        woodText.text = playerCountry.wood.ToString();
-        stoneText.text = playerCountry.stone.ToString();
         window.CloseWindow();
         windowProvince.CloseWindow();
         windowPop.CloseWindow();
@@ -103,7 +109,11 @@ public class CountryManager : MonoBehaviour
         for (int i = 0; i < provinces.Count; i++)
         {
             provinces[i].RefreshProvinceColors();
+            provinces[i].RefreshProvinceValues();
         }
+
+        
+
 
         SetUI();
     }

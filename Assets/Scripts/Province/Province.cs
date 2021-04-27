@@ -37,6 +37,28 @@ public class Province : MonoBehaviour, IClickable
     [BoxGroup("Stats")]
     public float tax;
     #endregion
+    #region Resources
+    [BoxGroup("Resources")]
+    public List<ProvinceResource> storedResources;
+    [BoxGroup("Resources")]
+    public List<ProvinceResource> rawResources;
+    #region ProvinceResource
+    [System.Serializable]
+    public class ProvinceResource
+    {
+        public Resource resource;
+        public int resourceCount;
+        public int resourceNeedsCount;
+
+        public ProvinceResource(Resource resource, int resourceCount, int resourceNeedsCount)
+        {
+            this.resource = resource;
+            this.resourceCount = resourceCount;
+            this.resourceNeedsCount = resourceNeedsCount;
+        }
+    }
+    #endregion
+    #endregion
     #region Improvements
     [BoxGroup("Improvements")]
     public List<ProvinceHolding> holdings;
@@ -64,15 +86,13 @@ public class Province : MonoBehaviour, IClickable
             [Space(50)]
             public List<ProvinceResource> resourceInput = new List<ProvinceResource>();
             [Space(50)]
-            public List<Vector3Int> connectedBuildings;
-            [Space(50)]
             public List<Population> pops = new List<Population>();
 
-            #region Refresh Building
+            #region Refresh Building && Next Turn
             public void RefreshBuilding()
             {
                 //Efficiency Calculation
-                Mathf.FloorToInt(efficiency = pops.Count / 18f * 100f);
+                Mathf.FloorToInt(efficiency = pops.Count / 10f * 100f);
 
                 resourceInput.Clear();
                 for (int i = 0; i < resourceOutput.Count; i++)
@@ -82,15 +102,18 @@ public class Province : MonoBehaviour, IClickable
                     int outputInt = ResourceManager.instance.resources.IndexOf(resourceOutput[i].resource);
                     if (recipes.resourceRecipes[outputInt].requiredResources.Length > 0)
                     {
-                        int resourceCount = 0;
-                        for (int j = 0; j < connectedBuildings.Count; j++)
-                        {
-                            resourceCount += CountryManager.instance.provinces[CountryManager.instance.provinces.IndexOf(provinceOwner)].holdings[connectedBuildings[j].x].buildings[connectedBuildings[j].y].resourceOutput[connectedBuildings[j].z].resourceCount;
-                        }
-
                         for (int j = 0; j < recipes.resourceRecipes[outputInt].requiredResources.Length; j++)
                         {
-                            resourceInput.Add(new ProvinceResource(recipes.resourceRecipes[outputInt].requiredResources[j].resource, resourceCount, recipes.resourceRecipes[outputInt].requiredResources[j].amount * resourceOutput[i].resourceCount));
+                            int resourceAmount = 0;
+                            for (int k = 0; k < provinceOwner.storedResources.Count; k++)
+                            {
+                                if (recipes.resourceRecipes[outputInt].requiredResources[j].resource == provinceOwner.storedResources[k].resource)
+                                {
+                                    resourceAmount = provinceOwner.storedResources[k].resourceCount;
+                                    break;
+                                }
+                            }
+                            resourceInput.Add(new ProvinceResource(recipes.resourceRecipes[outputInt].requiredResources[j].resource, resourceAmount, recipes.resourceRecipes[outputInt].requiredResources[j].amount * resourceOutput[i].resourceCount));
                         }
                     }
 
@@ -100,6 +123,21 @@ public class Province : MonoBehaviour, IClickable
                         {
                             resourceOutput[i].resourceCount = 0;
                         }
+                    }
+
+                    //Refreshing stored resources
+                    bool foundResource = false;
+                    for (int j = 0; j < provinceOwner.storedResources.Count; j++)
+                    {
+                        if (resourceOutput[i].resource == provinceOwner.storedResources[j].resource)
+                        {
+                            foundResource = true;
+                            break;
+                        }
+                    }
+                    if (!foundResource)
+                    {
+                        provinceOwner.storedResources.Add(new ProvinceResource(resourceOutput[i].resource, 0, 0));
                     }
                 }
 
@@ -115,6 +153,7 @@ public class Province : MonoBehaviour, IClickable
                     }
                 }
 
+                //if not on set output to 0
                 if (!on)
                 {
                     for (int i = 0; i < resourceOutput.Count; i++)
@@ -123,29 +162,42 @@ public class Province : MonoBehaviour, IClickable
                     }
                 }
             }
-            #endregion
-        }
-    }
-    #endregion
-    #endregion
-    #region Resources
-    [BoxGroup("Resources")]
-    public List<ProvinceResource> storedResources;
-    [BoxGroup("Resources")]
-    public List<ProvinceResource> rawResources;
-    #region ProvinceResource
-    [System.Serializable]
-    public class ProvinceResource
-    {
-        public Resource resource;
-        public int resourceCount;
-        public int resourceNeedsCount;
 
-        public ProvinceResource(Resource resource, int resourceCount, int resourceNeedsCount)
-        {
-            this.resource = resource;
-            this.resourceCount = resourceCount;
-            this.resourceNeedsCount = resourceNeedsCount;
+            public void NextTurn()
+            {
+                for (int i = 0; i < resourceOutput.Count; i++)
+                {
+                    bool foundResource = false;
+                    for (int j = 0; j < provinceOwner.storedResources.Count; j++)
+                    {
+                        if (resourceOutput[i].resource == provinceOwner.storedResources[j].resource)
+                        {
+                            provinceOwner.storedResources[j].resourceCount += resourceOutput[i].resourceCount;
+                            foundResource = true;
+                            break;
+                        }
+                    }
+
+                    if (!foundResource)
+                    {
+                        provinceOwner.storedResources.Add(new ProvinceResource(resourceOutput[i].resource, resourceOutput[i].resourceCount, 0));
+                    }
+                }
+
+                //subtracting input from stored resources
+                for (int i = 0; i < resourceInput.Count; i++)
+                {
+                    for (int j = 0; j < provinceOwner.storedResources.Count; j++)
+                    {
+                        if (resourceInput[i].resource == provinceOwner.storedResources[j].resource
+                            && resourceOutput[0].resourceCount != 0)
+                        {
+                            provinceOwner.storedResources[j].resourceCount -= resourceInput[i].resourceNeedsCount;
+                        }
+                    }
+                }
+            }
+            #endregion
         }
     }
     #endregion
@@ -249,7 +301,16 @@ public class Province : MonoBehaviour, IClickable
         }
         #endregion
 
-        //Refresh
+        //Refresh Buildings
+        for (int i = 0; i < holdings.Count; i++)
+        {
+            for (int j = 0; j < holdings[i].buildings.Count; j++)
+            {
+                holdings[i].buildings[j].RefreshBuilding();
+            }
+        }
+
+        //Refresh Buildings Again
         for (int i = 0; i < holdings.Count; i++)
         {
             for (int j = 0; j < holdings[i].buildings.Count; j++)
