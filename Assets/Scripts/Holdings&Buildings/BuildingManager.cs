@@ -8,7 +8,7 @@ public enum BuildingType
 
     Mine, Farm, Logging, OilRig,
 
-    GoodsFactory, Assembler, Smeltery,
+    GoodsFactory, Factory, Smeltery,
 
     Housing, University
 
@@ -24,7 +24,7 @@ public class BuildingManager : ScriptableObject
     {
         public BuildingType buildingType;
 
-        public HoldingType[] holderS;
+        //public HoldingType holder;
 
         public int outputCapacity;
         public Resource[] creatableResources;

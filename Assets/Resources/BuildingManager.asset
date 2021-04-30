@@ -14,7 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buildings:
   - buildingType: 0
-    holderS: 0000000000000000
     outputCapacity: 3
     creatableResources:
     - {fileID: 11400000, guid: 3ffb63fdf28f17247a4c08f682b6dfd1, type: 2}
@@ -31,7 +30,6 @@ MonoBehaviour:
       moneyCost: 0
       resourceCost: []
   - buildingType: 1
-    holderS: 
     outputCapacity: 1
     creatableResources:
     - {fileID: 11400000, guid: 7cfb003adb14cda4bbe2e566c4803988, type: 2}
@@ -42,7 +40,6 @@ MonoBehaviour:
       moneyCost: 0
       resourceCost: []
   - buildingType: 2
-    holderS: 
     outputCapacity: 1
     creatableResources:
     - {fileID: 11400000, guid: cb4aefd37b1bfde43a8ec613ead33cba, type: 2}
@@ -53,7 +50,6 @@ MonoBehaviour:
       moneyCost: 0
       resourceCost: []
   - buildingType: 3
-    holderS: 
     outputCapacity: 0
     creatableResources: []
     buildCost:
@@ -63,7 +59,6 @@ MonoBehaviour:
       moneyCost: 0
       resourceCost: []
   - buildingType: 4
-    holderS: 
     outputCapacity: 1
     creatableResources:
     - {fileID: 11400000, guid: 8805dd0abce03f347b1543be89f57892, type: 2}
@@ -74,10 +69,13 @@ MonoBehaviour:
       moneyCost: 0
       resourceCost: []
   - buildingType: 5
-    holderS: 
     outputCapacity: 1
     creatableResources:
     - {fileID: 11400000, guid: 1a37182f2d3c3f2479dd99fb3c20cd90, type: 2}
+    - {fileID: 11400000, guid: 392f69c5f3cc37f4c8b7b16f9b1186d7, type: 2}
+    - {fileID: 11400000, guid: c460e2e6b3f26e4459665b7a27916bb2, type: 2}
+    - {fileID: 11400000, guid: 1ba6512ab079df140836db8ee176e975, type: 2}
+    - {fileID: 11400000, guid: 520a60df004d6d7428d244f88701120d, type: 2}
     buildCost:
       moneyCost: 0
       resourceCost: []
@@ -85,7 +83,6 @@ MonoBehaviour:
       moneyCost: 0
       resourceCost: []
   - buildingType: 6
-    holderS: 
     outputCapacity: 1
     creatableResources:
     - {fileID: 11400000, guid: a19910d51f96ca247870c6d54e4a58b0, type: 2}
@@ -98,7 +95,6 @@ MonoBehaviour:
       moneyCost: 0
       resourceCost: []
   - buildingType: 7
-    holderS: 
     outputCapacity: 0
     creatableResources: []
     buildCost:
@@ -106,11 +102,8 @@ MonoBehaviour:
       resourceCost: []
     upkeepCost:
       moneyCost: 0
-      resourceCost:
-      - resourceType: {fileID: 11400000, guid: 7cfb003adb14cda4bbe2e566c4803988, type: 2}
-        amount: 0
+      resourceCost: []
   - buildingType: 8
-    holderS: 
     outputCapacity: 0
     creatableResources: []
     buildCost:
@@ -118,6 +111,4 @@ MonoBehaviour:
       resourceCost: []
     upkeepCost:
       moneyCost: 0
-      resourceCost:
-      - resourceType: {fileID: 11400000, guid: 7cfb003adb14cda4bbe2e566c4803988, type: 2}
-        amount: 0
+      resourceCost: []
