@@ -99,3 +99,8 @@ MonoBehaviour:
       amount: 1
     - resource: {fileID: 11400000, guid: 7191db1027490574cbc93ac8ddd480fe, type: 2}
       amount: 2
+  - type: {fileID: 11400000, guid: 858c587ecc796564192a03cd55417792, type: 2}
+    building: 5
+    requiredResources:
+    - resource: {fileID: 11400000, guid: cb4aefd37b1bfde43a8ec613ead33cba, type: 2}
+      amount: 1

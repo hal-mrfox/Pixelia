@@ -310,14 +310,38 @@ public class Province : MonoBehaviour, IClickable
             }
         }
 
-        //Refresh Buildings Again
-        for (int i = 0; i < holdings.Count; i++)
+        //Refresh Stored Resources (Just removing if not being produced and has 0 resourceCount)
+        for (int o = 0; o < storedResources.Count; o++)
         {
-            for (int j = 0; j < holdings[i].buildings.Count; j++)
+            bool foundResource = false;
+            for (int i = 0; i < holdings.Count; i++)
             {
-                holdings[i].buildings[j].RefreshBuilding();
+                for (int j = 0; j < holdings[i].buildings.Count; j++)
+                {
+                    for (int k = 0; k < holdings[i].buildings[j].resourceOutput.Count; k++)
+                    {
+                        if (storedResources[o].resource == holdings[i].buildings[j].resourceOutput[k].resource)
+                        {
+                            foundResource = true;
+                            break;
+                        }
+                    }
+                }
+            }
+            if (!foundResource && storedResources[o].resourceCount == 0)
+            {
+                storedResources.RemoveAt(o);
             }
         }
+
+        ////Refresh Buildings Again
+        //for (int i = 0; i < holdings.Count; i++)
+        //{
+        //    for (int j = 0; j < holdings[i].buildings.Count; j++)
+        //    {
+        //        holdings[i].buildings[j].RefreshBuilding();
+        //    }
+        //}
     }
 
     #region Province Color

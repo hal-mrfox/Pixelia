@@ -76,6 +76,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: c460e2e6b3f26e4459665b7a27916bb2, type: 2}
     - {fileID: 11400000, guid: 1ba6512ab079df140836db8ee176e975, type: 2}
     - {fileID: 11400000, guid: 520a60df004d6d7428d244f88701120d, type: 2}
+    - {fileID: 11400000, guid: 858c587ecc796564192a03cd55417792, type: 2}
     buildCost:
       moneyCost: 0
       resourceCost: []
