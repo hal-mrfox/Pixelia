@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine.UI;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -9,6 +10,7 @@ public class PopupOption : ButtonSound
     public WindowProvince provinceWindow;
     public BuildingType buildingType;
     public Image icon;
+    public TextMeshProUGUI buildingName;
     public override void OnPointerDown(PointerEventData eventData)
     {
         if (interactable)

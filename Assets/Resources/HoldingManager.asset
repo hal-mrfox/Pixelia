@@ -20,7 +20,7 @@ MonoBehaviour:
     upkeepCost:
       moneyCost: 0
       resourceCost: []
-    holdables: 00000000010000000200000003000000
+    holdables: 000000000100000002000000
   - holdingType: 1
     buildCost:
       moneyCost: 0
@@ -44,4 +44,20 @@ MonoBehaviour:
     upkeepCost:
       moneyCost: 0
       resourceCost: []
-    holdables: 010000000800000007000000
+    holdables: 01000000070000000a0000000b0000000c000000
+  - holdingType: 4
+    buildCost:
+      moneyCost: 0
+      resourceCost: []
+    upkeepCost:
+      moneyCost: 0
+      resourceCost: []
+    holdables: 09000000
+  - holdingType: 5
+    buildCost:
+      moneyCost: 0
+      resourceCost: []
+    upkeepCost:
+      moneyCost: 0
+      resourceCost: []
+    holdables: 0a0000000b0000000c000000

@@ -8,14 +8,14 @@ public class HoldingUI : MonoBehaviour
     public int holdingCounterpart;
     [Space(10)]
 
-    public TextMeshProUGUI holdingTypeText;
+    public TextMeshProUGUI holdingName;
     public ButtonSound createHoldingButton;
 
-    public void Refresh(int holding, bool active)
+    public void Refresh(bool built)
     {
-        if (active)
+        if (built)
         {
-            holdingTypeText.text = provinceWindow.provinceTarget.holdings[holding].holdingType.ToString();
+            holdingName.text = "holding";
             createHoldingButton.gameObject.SetActive(false);
         }
         else
@@ -24,10 +24,9 @@ public class HoldingUI : MonoBehaviour
         }
     }
 
-    public void OpenCreationWindow()
+    public void CreateHolding()
     {
-        provinceWindow.createHolding.window.gameObject.SetActive(true);
-        provinceWindow.SetHoldingIndex(holdingCounterpart);
+        provinceWindow.provinceTarget.CreateHolding();
     }
 
     public void Awake()

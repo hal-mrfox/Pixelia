@@ -65,9 +65,6 @@ public class WindowProvince : InteractableWindow
     public PopupOption[] createBuildingOptions;
     #endregion
 
-    [BoxGroup("Icons")]
-    public Sprite[] buildingIcons;
-
     [System.Serializable]
     public class CreateImprovement
     {
@@ -163,7 +160,6 @@ public class WindowProvince : InteractableWindow
     public void OnEnable()
     {
         CountryManager.instance.openWindows.Add(this);
-        createHolding.window.gameObject.SetActive(false);
         createBuildingWindow.gameObject.SetActive(false);
         OnClicked();
     }
@@ -287,7 +283,7 @@ public class WindowProvince : InteractableWindow
             {
                 holdings[i].gameObject.SetActive(true);
                 holdings[i].holdingCounterpart = i;
-                holdings[i].Refresh(i, true);
+                holdings[i].Refresh(true);
 
                 for (int j = 0; j < holdings[i].buildings.Length; j++)
                 {
@@ -315,7 +311,7 @@ public class WindowProvince : InteractableWindow
             if (i == provinceTarget.holdings.Count && provinceTarget.owner == CountryManager.instance.playerCountry)
             {
                 holdings[i].gameObject.SetActive(true);
-                holdings[i].Refresh(i, false);
+                holdings[i].Refresh(false);
                 for (int j = 0; j < holdings[i].buildings.Length; j++)
                 {
                     holdings[i].buildings[j].gameObject.SetActive(false);
@@ -330,14 +326,6 @@ public class WindowProvince : InteractableWindow
     public void SetHoldingIndex(int holdingIndex)
     {
         this.holdingIndex = holdingIndex;
-    }
-
-    public void CreateHolding(int holdingType)
-    {
-        provinceTarget.CreateHolding(holdingType);
-        createHolding.window.gameObject.SetActive(false);
-        provinceTarget.RefreshProvinceValues();
-        RefreshWindow();
     }
 
     public void CreateBuilding(BuildingType buildingType)

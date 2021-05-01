@@ -1,16 +1,13 @@
 using System.Collections;
 using NaughtyAttributes;
+using TMPro;
 using System.Collections.Generic;
 using UnityEngine;
 
 public enum BuildingType
 {
 
-    Mine, Farm, Logging, OilRig,
-
-    GoodsFactory, Factory, Smeltery,
-
-    Housing, University
+    Mine, Farm, Logging, OilRig, GoodsFactory, Factory, Smeltery, Housing, University, Church, Barracks, Stables, Ranges
 
 }
 
@@ -24,10 +21,13 @@ public class BuildingManager : ScriptableObject
     {
         public BuildingType buildingType;
 
-        //public HoldingType holder;
-
         public int outputCapacity;
         public Resource[] creatableResources;
+
+        [Space(10)]
+
+        [Header("Sounds")]
+        public AudioClip constructionSound;
 
         [Space(10)]
 

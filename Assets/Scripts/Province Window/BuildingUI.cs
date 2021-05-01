@@ -124,11 +124,6 @@ public class BuildingUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         provinceWindow = FindObjectOfType<WindowProvince>();
     }
 
-    //public void SetConnection()
-    //{
-    //    provinceWindow.provinceTarget.holdings[holdingCounterpart].buildings[buildingCounterpart].connections.Add(new Province.ProvinceHolding.ProvinceBuilding.Connection());
-    //}
-
     public void Start()
     {
         Refresh(holdingCounterpart, buildingCounterpart);
@@ -262,16 +257,16 @@ public class BuildingUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         provinceWindow.createBuildingWindow.gameObject.SetActive(true);
         for (int i = 0; i < provinceWindow.createBuildingOptions.Length; i++)
         {
-            if (i >= Resources.Load<HoldingManager>("HoldingManager").holdings[(int)provinceWindow.provinceTarget.holdings[holdingCounterpart].holdingType].holdables.Length)
+            if (i < Resources.Load<BuildingManager>("BuildingManager").buildings.Count)
             {
-                provinceWindow.createBuildingOptions[i].gameObject.SetActive(false);
+                provinceWindow.createBuildingOptions[i].buildingType = Resources.Load<BuildingManager>("BuildingManager").buildings[i].buildingType;
+                provinceWindow.createBuildingOptions[i].buildingName.text = provinceWindow.createBuildingOptions[i].buildingType.ToString();
+                provinceWindow.SetHoldingIndex(holdingCounterpart);
+                provinceWindow.createBuildingOptions[i].gameObject.SetActive(true);
             }
             else
             {
-                provinceWindow.createBuildingOptions[i].gameObject.SetActive(true);
-                provinceWindow.createBuildingOptions[i].buildingType = Resources.Load<HoldingManager>("HoldingManager").holdings[(int)provinceWindow.provinceTarget.holdings[holdingCounterpart].holdingType].holdables[i];
-                provinceWindow.createBuildingOptions[i].icon.sprite = provinceWindow.buildingIcons[(int)Resources.Load<HoldingManager>("HoldingManager").holdings[(int)provinceWindow.provinceTarget.holdings[holdingCounterpart].holdingType].holdables[i]];
-                provinceWindow.SetHoldingIndex(holdingCounterpart);
+                provinceWindow.createBuildingOptions[i].gameObject.SetActive(false);
             }
         }
     }
@@ -295,7 +290,9 @@ public class BuildingUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             for (int i = 0; i < resourceOptions.Count; i++)
             {
                 #region Raw Resource Gathering Holding Type
-                if (provinceWindow.provinceTarget.holdings[holdingCounterpart].holdingType == HoldingType.RawResourceGathering)
+                if (provinceWindow.provinceTarget.holdings[holdingCounterpart].buildings[buildingCounterpart].buildingType == BuildingType.Mine
+                    || provinceWindow.provinceTarget.holdings[holdingCounterpart].buildings[buildingCounterpart].buildingType == BuildingType.Logging
+                    || provinceWindow.provinceTarget.holdings[holdingCounterpart].buildings[buildingCounterpart].buildingType == BuildingType.Farm)
                 {
                     if (i < provinceWindow.provinceTarget.rawResources.Count && Resources.Load<BuildingManager>("BuildingManager").buildings[(int)buildingType].creatableResources.Contains(provinceWindow.provinceTarget.rawResources[i].resource))
                     {
@@ -333,7 +330,9 @@ public class BuildingUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
                 }
                 #endregion
                 #region Manufactory Holding Type
-                else if (provinceWindow.provinceTarget.holdings[holdingCounterpart].holdingType == HoldingType.Manufactury)
+                else if (provinceWindow.provinceTarget.holdings[holdingCounterpart].buildings[buildingCounterpart].buildingType == BuildingType.Factory
+                    || provinceWindow.provinceTarget.holdings[holdingCounterpart].buildings[buildingCounterpart].buildingType == BuildingType.GoodsFactory
+                    || provinceWindow.provinceTarget.holdings[holdingCounterpart].buildings[buildingCounterpart].buildingType == BuildingType.Smeltery)
                 {
                     if (i < Resources.Load<BuildingManager>("BuildingManager").buildings[(int)buildingType].creatableResources.Length)
                     {

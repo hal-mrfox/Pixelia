@@ -113,3 +113,39 @@ MonoBehaviour:
     upkeepCost:
       moneyCost: 0
       resourceCost: []
+  - buildingType: 9
+    outputCapacity: 0
+    creatableResources: []
+    buildCost:
+      moneyCost: 0
+      resourceCost: []
+    upkeepCost:
+      moneyCost: 0
+      resourceCost: []
+  - buildingType: 10
+    outputCapacity: 0
+    creatableResources: []
+    buildCost:
+      moneyCost: 0
+      resourceCost: []
+    upkeepCost:
+      moneyCost: 0
+      resourceCost: []
+  - buildingType: 11
+    outputCapacity: 0
+    creatableResources: []
+    buildCost:
+      moneyCost: 0
+      resourceCost: []
+    upkeepCost:
+      moneyCost: 0
+      resourceCost: []
+  - buildingType: 12
+    outputCapacity: 0
+    creatableResources: []
+    buildCost:
+      moneyCost: 0
+      resourceCost: []
+    upkeepCost:
+      moneyCost: 0
+      resourceCost: []

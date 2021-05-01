@@ -66,8 +66,6 @@ public class Province : MonoBehaviour, IClickable
     [System.Serializable]
     public class ProvinceHolding
     {
-        public HoldingType holdingType;
-
         public List<ProvinceBuilding> buildings = new List<ProvinceBuilding>();
 
         [System.Serializable]
@@ -211,9 +209,9 @@ public class Province : MonoBehaviour, IClickable
 
     public void Awake()
     {
-        recipes = UnityEngine.Resources.Load<Recipes>("Recipes");
-        buildingManager = UnityEngine.Resources.Load<BuildingManager>("BuildingManager");
-        holdingManager = UnityEngine.Resources.Load<HoldingManager>("HoldingManager");
+        recipes = Resources.Load<Recipes>("Recipes");
+        buildingManager = Resources.Load<BuildingManager>("BuildingManager");
+        holdingManager = Resources.Load<HoldingManager>("HoldingManager");
     }
 
     public void Start()
@@ -226,10 +224,9 @@ public class Province : MonoBehaviour, IClickable
     }
 
     #region Create Holding
-    public void CreateHolding(int holdingType)
+    public void CreateHolding()
     {
         holdings.Add(new ProvinceHolding());
-        holdings[holdings.Count - 1].holdingType = (HoldingType)holdingType;
         windowProvince.RefreshWindow();
     }
     #endregion
