@@ -22,6 +22,7 @@ public class PopupOption : ButtonSound
                 {
                     image.color = clicked;
                     provinceWindow.CreateBuilding(buildingType);
+                    provinceWindow.audioSource.PlayOneShot(Resources.Load<BuildingManager>("BuildingManager").buildings[(int)buildingType].constructionSound);
                 }
             }
         }

@@ -50,6 +50,8 @@ public class WindowProvince : InteractableWindow
     //move to province
     public int overPopulation;
     public int snapDistance;
+    //Sounds
+    public AudioSource audioSource;
 
     #region Improvements
 
@@ -214,7 +216,7 @@ public class WindowProvince : InteractableWindow
             rawResources[i].gameObject.SetActive(false);
             if (i < provinceTarget.rawResources.Count)
             {
-                rawResources[i].Refresh(provinceTarget.rawResources[i].resource.icon, provinceTarget.rawResources[i].resourceCount);
+                rawResources[i].Refresh(provinceTarget.rawResources[i].resource.icon, provinceTarget.rawResources[i].quality);
                 rawResources[i].gameObject.SetActive(true);
             }
         }

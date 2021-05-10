@@ -31,7 +31,7 @@ public class PopInfo : InteractableWindow
     public void Refresh()
     {
         popName.text = CountryManager.instance.selectedPop.name;
-        popType.text = CountryManager.instance.selectedPop.popType.ToString();
+        popType.text = CountryManager.instance.selectedPop.popTier.ToString();
         religion.text = CountryManager.instance.selectedPop.religion.ToString();
         culture.text = CountryManager.instance.selectedPop.culture.ToString();
         ideology.text = CountryManager.instance.selectedPop.ideology.ToString();

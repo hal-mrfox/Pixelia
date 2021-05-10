@@ -140,7 +140,7 @@ public class BuildingUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             {
                 if (i < pops)
                 {
-                    popIcons[i].color = filled;
+                    popIcons[i].color = PopulationManager.instance.popTierDetails[(int)provinceWindow.provinceTarget.holdings[holding].buildings[building].pops[i].popTier].popColor;
                     popIcons[i].GetComponent<ButtonSound>().lower = false;
                 }
                 else
@@ -383,22 +383,6 @@ public class BuildingUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     {
         if (active && hovering && provinceWindow.target == CountryManager.instance.playerCountry)
         {
-            #region Connections Mode (Alt Mode)
-            if (Input.GetKeyDown(KeyCode.LeftAlt))
-            {
-                rectTransform.SetAsLastSibling();
-            }
-
-            if (Input.GetKey(KeyCode.LeftAlt))
-            {
-                highlight.gameObject.SetActive(true);
-            }
-            else
-            {
-                highlight.gameObject.SetActive(false);
-            }
-            #endregion
-
             //Destroy Building
             if (Input.GetKeyDown(KeyCode.Delete))
             {
@@ -408,19 +392,22 @@ public class BuildingUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
                 provinceWindow.RefreshWindow();
             }
 
+            #region Dev Pop Adding/Subtracting
             if (Input.GetKeyDown(KeyCode.KeypadPlus) && provinceWindow.provinceTarget.holdings[holdingCounterpart].buildings[buildingCounterpart].pops.Count < 10)
             {
                 provinceWindow.provinceTarget.holdings[holdingCounterpart].buildings[buildingCounterpart].pops.Add(new Population());
+                provinceWindow.provinceTarget.holdings[holdingCounterpart].buildings[buildingCounterpart].pops[provinceWindow.provinceTarget.holdings[holdingCounterpart].buildings[buildingCounterpart].pops.Count - 1].popTier = (PopTier)0;
                 provinceWindow.provinceTarget.RefreshProvinceValues();
                 provinceWindow.RefreshWindow();
             }
-
+            
             if (Input.GetKeyDown(KeyCode.KeypadMinus) && provinceWindow.provinceTarget.holdings[holdingCounterpart].buildings[buildingCounterpart].pops.Count > 0)
             {
                 provinceWindow.provinceTarget.holdings[holdingCounterpart].buildings[buildingCounterpart].pops.Remove(provinceWindow.provinceTarget.holdings[holdingCounterpart].buildings[buildingCounterpart].pops[provinceWindow.provinceTarget.holdings[holdingCounterpart].buildings[buildingCounterpart].pops.Count - 1]);
                 provinceWindow.provinceTarget.RefreshProvinceValues();
                 provinceWindow.RefreshWindow();
             }
+            #endregion
         }
         else
         {

@@ -7,7 +7,7 @@ using UnityEngine;
 public enum BuildingType
 {
 
-    Mine, Farm, Logging, OilRig, GoodsFactory, Factory, Smeltery, Housing, University, Church, Barracks, Stables, Ranges
+    Mine, Farm, Logging, OilRig, GoodsFactory, Factory, Smeltery, Housing, University, Temple, Barracks, Stables, Ranges
 
 }
 

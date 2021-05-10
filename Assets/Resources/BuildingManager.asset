@@ -23,6 +23,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: b35878d2163d4a14aad2c79a4ad73609, type: 2}
     - {fileID: 11400000, guid: e9a9a6eb829a730489d54ae84e7c5ff7, type: 2}
     - {fileID: 11400000, guid: e977f1736bb1ffb46b63e2574fb0c64d, type: 2}
+    constructionSound: {fileID: 8300000, guid: fe0c7686fe64b6546aa44a17fccc4fb6, type: 3}
     buildCost:
       moneyCost: 0
       resourceCost: []
@@ -33,6 +34,7 @@ MonoBehaviour:
     outputCapacity: 1
     creatableResources:
     - {fileID: 11400000, guid: 7cfb003adb14cda4bbe2e566c4803988, type: 2}
+    constructionSound: {fileID: 8300000, guid: fe0c7686fe64b6546aa44a17fccc4fb6, type: 3}
     buildCost:
       moneyCost: 0
       resourceCost: []
@@ -43,6 +45,7 @@ MonoBehaviour:
     outputCapacity: 1
     creatableResources:
     - {fileID: 11400000, guid: cb4aefd37b1bfde43a8ec613ead33cba, type: 2}
+    constructionSound: {fileID: 8300000, guid: 46492e41bdd5fa542b73c4285cdb847e, type: 3}
     buildCost:
       moneyCost: 0
       resourceCost: []
@@ -52,6 +55,7 @@ MonoBehaviour:
   - buildingType: 3
     outputCapacity: 0
     creatableResources: []
+    constructionSound: {fileID: 8300000, guid: fe0c7686fe64b6546aa44a17fccc4fb6, type: 3}
     buildCost:
       moneyCost: 0
       resourceCost: []
@@ -62,6 +66,7 @@ MonoBehaviour:
     outputCapacity: 1
     creatableResources:
     - {fileID: 11400000, guid: 8805dd0abce03f347b1543be89f57892, type: 2}
+    constructionSound: {fileID: 8300000, guid: fe0c7686fe64b6546aa44a17fccc4fb6, type: 3}
     buildCost:
       moneyCost: 0
       resourceCost: []
@@ -77,6 +82,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 1ba6512ab079df140836db8ee176e975, type: 2}
     - {fileID: 11400000, guid: 520a60df004d6d7428d244f88701120d, type: 2}
     - {fileID: 11400000, guid: 858c587ecc796564192a03cd55417792, type: 2}
+    constructionSound: {fileID: 8300000, guid: fe0c7686fe64b6546aa44a17fccc4fb6, type: 3}
     buildCost:
       moneyCost: 0
       resourceCost: []
@@ -89,6 +95,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: a19910d51f96ca247870c6d54e4a58b0, type: 2}
     - {fileID: 11400000, guid: 7191db1027490574cbc93ac8ddd480fe, type: 2}
     - {fileID: 11400000, guid: fcaf4aee498ffb1428296b46bbc4c972, type: 2}
+    constructionSound: {fileID: 8300000, guid: fe0c7686fe64b6546aa44a17fccc4fb6, type: 3}
     buildCost:
       moneyCost: 0
       resourceCost: []
@@ -98,6 +105,7 @@ MonoBehaviour:
   - buildingType: 7
     outputCapacity: 0
     creatableResources: []
+    constructionSound: {fileID: 8300000, guid: 46492e41bdd5fa542b73c4285cdb847e, type: 3}
     buildCost:
       moneyCost: 0
       resourceCost: []
@@ -107,6 +115,7 @@ MonoBehaviour:
   - buildingType: 8
     outputCapacity: 0
     creatableResources: []
+    constructionSound: {fileID: 8300000, guid: fe0c7686fe64b6546aa44a17fccc4fb6, type: 3}
     buildCost:
       moneyCost: 0
       resourceCost: []
@@ -116,6 +125,7 @@ MonoBehaviour:
   - buildingType: 9
     outputCapacity: 0
     creatableResources: []
+    constructionSound: {fileID: 8300000, guid: fe0c7686fe64b6546aa44a17fccc4fb6, type: 3}
     buildCost:
       moneyCost: 0
       resourceCost: []
@@ -125,6 +135,7 @@ MonoBehaviour:
   - buildingType: 10
     outputCapacity: 0
     creatableResources: []
+    constructionSound: {fileID: 8300000, guid: fe0c7686fe64b6546aa44a17fccc4fb6, type: 3}
     buildCost:
       moneyCost: 0
       resourceCost: []
@@ -134,6 +145,7 @@ MonoBehaviour:
   - buildingType: 11
     outputCapacity: 0
     creatableResources: []
+    constructionSound: {fileID: 8300000, guid: fe0c7686fe64b6546aa44a17fccc4fb6, type: 3}
     buildCost:
       moneyCost: 0
       resourceCost: []
@@ -143,6 +155,7 @@ MonoBehaviour:
   - buildingType: 12
     outputCapacity: 0
     creatableResources: []
+    constructionSound: {fileID: 8300000, guid: 46492e41bdd5fa542b73c4285cdb847e, type: 3}
     buildCost:
       moneyCost: 0
       resourceCost: []

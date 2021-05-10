@@ -9,24 +9,7 @@ using UnityEngine;
 public class Population : MonoBehaviour, IClickable
 {
     #region Pop Type
-    public enum PopType 
-    { 
-
-        //I
-        Unemployed, Slave, Laborer, Farmer, Soldier,
-
-        //II
-        Artist, FactoryWorker, Missionary,
-
-        //III
-        Minister, Officer, Researcher,
-        
-        //IV
-        Aristrocrat, Leader
-
-    };
-
-    public PopType popType;
+    public PopTier popTier;
     #endregion
     #region Beliefs
     public Religion religion;
@@ -37,7 +20,6 @@ public class Population : MonoBehaviour, IClickable
     #region Controllers and Details
     public Country controller;
     public Province provinceController;
-
     public bool selected;
     #endregion
     #region Needs
@@ -48,7 +30,7 @@ public class Population : MonoBehaviour, IClickable
 
     public void Start()
     {
-        popTypeText.text = popType.ToString();
+        popTypeText.text = popTier.ToString();
         gameObject.SetActive(false);
     }
 
@@ -95,7 +77,7 @@ public class Population : MonoBehaviour, IClickable
 
     public void OnChangePopType()
     {
-        name = controller.name + "'s " + popType;
+        name = controller.name + "'s " + popTier;
     }
 
     public Image GetImage()

@@ -41,7 +41,7 @@ public class Province : MonoBehaviour, IClickable
     [BoxGroup("Resources")]
     public List<ProvinceResource> storedResources;
     [BoxGroup("Resources")]
-    public List<ProvinceResource> rawResources;
+    public List<RawResource> rawResources;
     #region ProvinceResource
     [System.Serializable]
     public class ProvinceResource
@@ -56,6 +56,13 @@ public class Province : MonoBehaviour, IClickable
             this.resourceCount = resourceCount;
             this.resourceNeedsCount = resourceNeedsCount;
         }
+    }
+
+    [System.Serializable]
+    public class RawResource
+    {
+        public Resource resource;
+        public int quality;
     }
     #endregion
     #endregion
@@ -96,7 +103,18 @@ public class Province : MonoBehaviour, IClickable
                 for (int i = 0; i < resourceOutput.Count; i++)
                 {
                     //Resource Output Value Calculation and setting
-                    resourceOutput[i].resourceCount = Mathf.CeilToInt(efficiency / Mathf.Lerp(6, 26, resourceOutput[i].resource.acquisitionDifficulty) / resourceOutput.Count);
+
+                    int resourceQuality = 1;
+                    for (int j = 0; j < provinceOwner.rawResources.Count; j++)
+                    {
+                        if (provinceOwner.rawResources[j].resource == resourceOutput[i].resource)
+                        {
+                            resourceQuality = provinceOwner.rawResources[j].quality;
+                            break;
+                        }
+                    }//                                                                        6, 26
+                    resourceOutput[i].resourceCount = Mathf.CeilToInt((efficiency / Mathf.Lerp(1, 10, resourceOutput[i].resource.acquisitionDifficulty)) * resourceQuality);
+
                     int outputInt = ResourceManager.instance.resources.IndexOf(resourceOutput[i].resource);
                     if (recipes.resourceRecipes[outputInt].requiredResources.Length > 0)
                     {
@@ -193,6 +211,12 @@ public class Province : MonoBehaviour, IClickable
                             provinceOwner.storedResources[j].resourceCount -= resourceInput[i].resourceNeedsCount;
                         }
                     }
+                }
+
+                //population adding if building type is housing
+                if (buildingType == BuildingType.Housing && pops.Count <= 10 /*replace with building type pop capacity */)
+                {
+                    pops.Add(new Population());
                 }
             }
             #endregion

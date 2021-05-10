@@ -24,13 +24,13 @@ public class OldBuilding : MonoBehaviour, IClickable
     public List<Buildings> buildings;
     public Sprite castle;
     public Sprite farmlands;
-    public List<Population.PopType> farmlandsContainable;
+    public List<PopTier> farmlandsContainable;
     public Sprite loggingCamp;
-    public List<Population.PopType> loggingContainable;
+    public List<PopTier> loggingContainable;
     public Sprite mines;
-    public List<Population.PopType> minesContainable;
+    public List<PopTier> minesContainable;
     public Sprite village;
-    public List<Population.PopType> villageContainable;
+    public List<PopTier> villageContainable;
     bool popCanEnter;
     bool controllersAtWar;
 
@@ -45,7 +45,7 @@ public class OldBuilding : MonoBehaviour, IClickable
     {
         public bool isBuilding;
         public Sprite buildingSprite;
-        public List<Population.PopType> containable;
+        public List<PopTier> containable;
     }
 
     public void Start()
@@ -101,7 +101,7 @@ public class OldBuilding : MonoBehaviour, IClickable
         controller.population.Add(containingPops[containingPops.Count - 1]);
         CountryManager.instance.totalPops.Add(containingPops[containingPops.Count - 1]);
         //setting pop type
-        containingPops[containingPops.Count - 1].popType = (Population.PopType)chosenPopID;
+        containingPops[containingPops.Count - 1].popTier = (PopTier)chosenPopID;
         //setting its parent to be the correct one
         containingPops[containingPops.Count - 1].transform.parent = CountryManager.instance.popParent.transform;
         //setting new pops controllers
