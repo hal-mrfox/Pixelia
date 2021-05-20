@@ -87,7 +87,7 @@ public class OldBuilding : MonoBehaviour, IClickable
             //setting 1 pop in building to free
             containingPops[popNum].gameObject.SetActive(true);
             containingPops[popNum].transform.position = transform.position;
-            containingPops[popNum].containingBuilding = null;
+            containingPops[popNum].job = null;
             containingPops.Remove(containingPops[popNum]);
         }
     }
@@ -148,7 +148,6 @@ public class OldBuilding : MonoBehaviour, IClickable
 
     public void MoveIntoBuilding()
     {
-        CountryManager.instance.selectedPop.containingBuilding = this;
         containingPops.Add(CountryManager.instance.selectedPop);
         CountryManager.instance.selectedPop.provinceController.pops.Remove(CountryManager.instance.selectedPop);
         CountryManager.instance.selectedPop.provinceController = provinceController;

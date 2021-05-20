@@ -38,24 +38,11 @@ public class InputUIButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     {
         audioSource.pitch = pitch;
         audioSource.PlayOneShot(audioClip);
-        if (ProvinceManager.instance.selectedResource != null)
-        {
-            highlight.gameObject.SetActive(true);
-
-            if (ProvinceManager.instance.selectedResource.resource == resource)
-            {
-                highlight.color = green;
-            }
-            else
-            {
-                highlight.color = red;
-            }
-        }
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        highlight.gameObject.SetActive(false);
+
     }
 
     public void OnPointerUp(PointerEventData eventData)

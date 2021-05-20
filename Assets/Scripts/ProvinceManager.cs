@@ -12,7 +12,7 @@ public class ProvinceManager : MonoBehaviour
     public int selectedHoldingValue;
     public int selectedBuildingValue;
     public int selectedResourceValue;
-    public Province.ProvinceHolding.ProvinceBuilding selectedBuilding;
+    public Building selectedBuilding;
 
     public static ProvinceManager instance;
 

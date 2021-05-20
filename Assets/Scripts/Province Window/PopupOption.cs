@@ -11,6 +11,11 @@ public class PopupOption : ButtonSound
     public BuildingType buildingType;
     public Image icon;
     public TextMeshProUGUI buildingName;
+
+    public void Awake()
+    {
+        provinceWindow = FindObjectOfType<WindowProvince>();
+    }
     public override void OnPointerDown(PointerEventData eventData)
     {
         if (interactable)

@@ -72,34 +72,4 @@ public class OutputUIButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
             highlight.gameObject.SetActive(false);
         }
     }
-
-    public void Update()
-    {
-        if (Input.GetKey(KeyCode.LeftAlt)
-            && hovering
-            && ProvinceManager.instance.selectedResource == null
-            && System.Array.IndexOf(buildingUI.provinceWindow.holdings[buildingUI.holdingCounterpart].buildings[buildingUI.buildingCounterpart].resourceOutputUI,
-            buildingUI.provinceWindow.holdings[buildingUI.holdingCounterpart].buildings[buildingUI.buildingCounterpart].resourceOutputUI[outputValue]) <
-            buildingUI.provinceWindow.provinceTarget.holdings[buildingUI.holdingCounterpart].buildings[buildingUI.buildingCounterpart].resourceOutput.Count)
-        {
-            buildingUI.provinceWindow.altMode = true;
-            ProvinceManager.instance.hoveredResource = buildingUI.provinceWindow.provinceTarget.holdings[buildingUI.holdingCounterpart].buildings[buildingUI.buildingCounterpart].resourceOutput[outputValue];
-            buildingUI.provinceWindow.hoveredOutput = this;
-            buildingUI.provinceWindow.HoveringOutput();
-        }
-        else if (!Input.GetKey(KeyCode.LeftAlt))
-        {
-            buildingUI.provinceWindow.altMode = false;
-            buildingUI.provinceWindow.hoveredOutputConnections.Clear();
-            ProvinceManager.instance.selectedResource = null;
-            ProvinceManager.instance.hoveredResource = null;
-            ProvinceManager.instance.selectedResourceValue = 0;
-            ProvinceManager.instance.selectedHoldingValue = 0;
-            ProvinceManager.instance.selectedBuildingValue = 0;
-            buildingUI.provinceWindow.selectedOutput = null;
-            buildingUI.provinceWindow.hoveredOutput = null;
-            buildingUI.provinceWindow.SelectingOutput();
-            buildingUI.provinceWindow.HoveringOutput();
-        }
-    }
 }

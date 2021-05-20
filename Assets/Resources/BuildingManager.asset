@@ -30,6 +30,10 @@ MonoBehaviour:
     upkeepCost:
       moneyCost: 0
       resourceCost: []
+    housingCapacity: 0
+    workerCapacity: 10
+    allowedPops: 0000000001000000
+    isHousing: 0
   - buildingType: 1
     outputCapacity: 1
     creatableResources:
@@ -41,6 +45,10 @@ MonoBehaviour:
     upkeepCost:
       moneyCost: 0
       resourceCost: []
+    housingCapacity: 0
+    workerCapacity: 10
+    allowedPops: 0000000001000000
+    isHousing: 0
   - buildingType: 2
     outputCapacity: 1
     creatableResources:
@@ -52,6 +60,10 @@ MonoBehaviour:
     upkeepCost:
       moneyCost: 0
       resourceCost: []
+    housingCapacity: 0
+    workerCapacity: 10
+    allowedPops: 0000000001000000
+    isHousing: 0
   - buildingType: 3
     outputCapacity: 0
     creatableResources: []
@@ -62,6 +74,10 @@ MonoBehaviour:
     upkeepCost:
       moneyCost: 0
       resourceCost: []
+    housingCapacity: 0
+    workerCapacity: 10
+    allowedPops: 0000000001000000
+    isHousing: 0
   - buildingType: 4
     outputCapacity: 1
     creatableResources:
@@ -73,6 +89,10 @@ MonoBehaviour:
     upkeepCost:
       moneyCost: 0
       resourceCost: []
+    housingCapacity: 0
+    workerCapacity: 10
+    allowedPops: 000000000100000002000000
+    isHousing: 0
   - buildingType: 5
     outputCapacity: 1
     creatableResources:
@@ -89,6 +109,10 @@ MonoBehaviour:
     upkeepCost:
       moneyCost: 0
       resourceCost: []
+    housingCapacity: 0
+    workerCapacity: 10
+    allowedPops: 000000000100000002000000
+    isHousing: 0
   - buildingType: 6
     outputCapacity: 1
     creatableResources:
@@ -102,6 +126,10 @@ MonoBehaviour:
     upkeepCost:
       moneyCost: 0
       resourceCost: []
+    housingCapacity: 0
+    workerCapacity: 10
+    allowedPops: 000000000100000002000000
+    isHousing: 0
   - buildingType: 7
     outputCapacity: 0
     creatableResources: []
@@ -112,6 +140,10 @@ MonoBehaviour:
     upkeepCost:
       moneyCost: 0
       resourceCost: []
+    housingCapacity: 10
+    workerCapacity: 0
+    allowedPops: 03000000
+    isHousing: 1
   - buildingType: 8
     outputCapacity: 0
     creatableResources: []
@@ -122,6 +154,10 @@ MonoBehaviour:
     upkeepCost:
       moneyCost: 0
       resourceCost: []
+    housingCapacity: 0
+    workerCapacity: 5
+    allowedPops: 03000000
+    isHousing: 0
   - buildingType: 9
     outputCapacity: 0
     creatableResources: []
@@ -132,6 +168,10 @@ MonoBehaviour:
     upkeepCost:
       moneyCost: 0
       resourceCost: []
+    housingCapacity: 0
+    workerCapacity: 5
+    allowedPops: 00000000010000000200000003000000
+    isHousing: 0
   - buildingType: 10
     outputCapacity: 0
     creatableResources: []
@@ -142,6 +182,10 @@ MonoBehaviour:
     upkeepCost:
       moneyCost: 0
       resourceCost: []
+    housingCapacity: 0
+    workerCapacity: 5
+    allowedPops: 000000000100000002000000
+    isHousing: 0
   - buildingType: 11
     outputCapacity: 0
     creatableResources: []
@@ -152,6 +196,10 @@ MonoBehaviour:
     upkeepCost:
       moneyCost: 0
       resourceCost: []
+    housingCapacity: 0
+    workerCapacity: 5
+    allowedPops: 000000000100000002000000
+    isHousing: 0
   - buildingType: 12
     outputCapacity: 0
     creatableResources: []
@@ -162,3 +210,49 @@ MonoBehaviour:
     upkeepCost:
       moneyCost: 0
       resourceCost: []
+    housingCapacity: 0
+    workerCapacity: 5
+    allowedPops: 000000000100000002000000
+    isHousing: 0
+  - buildingType: 13
+    outputCapacity: 0
+    creatableResources: []
+    constructionSound: {fileID: 8300000, guid: 46492e41bdd5fa542b73c4285cdb847e, type: 3}
+    buildCost:
+      moneyCost: 0
+      resourceCost: []
+    upkeepCost:
+      moneyCost: 0
+      resourceCost: []
+    housingCapacity: 10
+    workerCapacity: 0
+    allowedPops: 02000000
+    isHousing: 1
+  - buildingType: 14
+    outputCapacity: 0
+    creatableResources: []
+    constructionSound: {fileID: 8300000, guid: 46492e41bdd5fa542b73c4285cdb847e, type: 3}
+    buildCost:
+      moneyCost: 0
+      resourceCost: []
+    upkeepCost:
+      moneyCost: 0
+      resourceCost: []
+    housingCapacity: 10
+    workerCapacity: 0
+    allowedPops: 01000000
+    isHousing: 1
+  - buildingType: 15
+    outputCapacity: 0
+    creatableResources: []
+    constructionSound: {fileID: 8300000, guid: 46492e41bdd5fa542b73c4285cdb847e, type: 3}
+    buildCost:
+      moneyCost: 0
+      resourceCost: []
+    upkeepCost:
+      moneyCost: 0
+      resourceCost: []
+    housingCapacity: 10
+    workerCapacity: 0
+    allowedPops: 00000000
+    isHousing: 1

@@ -76,6 +76,8 @@ public class WindowProvince : InteractableWindow
 
     int holdingIndex;
 
+    public Population movingPop;
+    public bool job;
     #endregion
 
     #region Building Hover UI
@@ -171,6 +173,53 @@ public class WindowProvince : InteractableWindow
     {
         IfPlayer();
         RefreshWindow();
+    }
+
+    public void HighlightPop(bool work, Population highlightedPop)
+    {
+        if (!work)
+        {
+            int jobHolding = provinceTarget.holdings.IndexOf(highlightedPop.job.holding);
+            int jobBuilding = provinceTarget.holdings[jobHolding].buildings.IndexOf(highlightedPop.job);
+
+            int jobPop = provinceTarget.holdings[jobHolding].buildings[jobBuilding].pops.IndexOf(highlightedPop);
+
+            holdings[jobHolding].buildings[jobBuilding].popIcons[jobPop].GetComponent<PopulationUICounterpart>().highlight.gameObject.SetActive(true);
+        }
+        else
+        {
+            int homeHolding = provinceTarget.holdings.IndexOf(highlightedPop.home.holding);
+            int homeBuilding = provinceTarget.holdings[homeHolding].buildings.IndexOf(highlightedPop.home);
+
+            int homePop = provinceTarget.holdings[homeHolding].buildings[homeBuilding].housedPops.IndexOf(highlightedPop);
+
+            holdings[homeHolding].buildings[homeBuilding].housedPopIcons[homePop].highlight.gameObject.SetActive(true);
+        }
+    }
+
+    public void DropPop()
+    {
+        for (int i = 0; i < holdings.Length; i++)
+        {
+            for (int j = 0; j < holdings[i].buildings.Length; j++)
+            {
+                var house = holdings[i].buildings[j].housingHighlight;
+                var job = holdings[i].buildings[j].jobHighlight;
+
+                if (house.gameObject.activeSelf || job.gameObject.activeSelf)
+                {
+                    holdings[i].buildings[j].MovePop();
+                    house.gameObject.SetActive(false);
+                    job.gameObject.SetActive(false);
+
+                    goto end;
+                }
+            }
+        }
+
+    end:
+
+        return;
     }
 
     public void RefreshWindow()
@@ -296,7 +345,8 @@ public class WindowProvince : InteractableWindow
                         holdings[i].buildings[j].gameObject.SetActive(true);
                         holdings[i].buildings[j].active = true;
                         holdings[i].buildings[j].holdingCounterpart = i;
-                        holdings[i].buildings[j].buildingCounterpart = j;
+                        holdings[i].buildings[j].buildingCounterpartIndex = j;
+                        holdings[i].buildings[j].buildingCounterpart = provinceTarget.holdings[i].buildings[j];
                         holdings[i].buildings[j].buildingType = provinceTarget.holdings[i].buildings[j].buildingType;
                         holdings[i].buildings[j].Refresh(i, j);
                     }

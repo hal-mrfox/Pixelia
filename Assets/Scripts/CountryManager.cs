@@ -96,6 +96,7 @@ public class CountryManager : MonoBehaviour
                     playerCountry.ownedProvinces[i].holdings[j].buildings[k].NextTurn();
                 }
             }
+            playerCountry.ownedProvinces[i].RefreshProvinceValues();
         }
         playerCountry = countries[nextCountry];
         playerCountryName.text = playerCountry.ToString().Replace("(Country)", "");
@@ -109,13 +110,14 @@ public class CountryManager : MonoBehaviour
         for (int i = 0; i < provinces.Count; i++)
         {
             provinces[i].RefreshProvinceColors();
-            provinces[i].RefreshProvinceValues();
         }
 
-        
-
-
         SetUI();
+
+        if (playerCountry != countries[0])
+        {
+            NextTurn();
+        }
     }
 
     //UI\\

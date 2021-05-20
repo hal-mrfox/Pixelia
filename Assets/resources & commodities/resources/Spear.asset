@@ -16,4 +16,5 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: d12b4a0e87ad13641b604d9b36d5a55d, type: 3}
   outline: {fileID: 21300000, guid: d12b4a0e87ad13641b604d9b36d5a55d, type: 3}
   acquisitionDifficulty: 1
+  productionDifficulty: 1
   sound: {fileID: 8300000, guid: fe0c7686fe64b6546aa44a17fccc4fb6, type: 3}

@@ -62,9 +62,9 @@ public class PopInfo : InteractableWindow
             ideology.color = CountryManager.instance.red;
         }
 
-        if (CountryManager.instance.selectedPop.containingBuilding != null)
+        if (CountryManager.instance.selectedPop.job != null)
         {
-            job.text = CountryManager.instance.selectedPop.containingBuilding.ToString();
+            job.text = CountryManager.instance.selectedPop.job.ToString();
         }
         else
         {

@@ -29,6 +29,8 @@ public class Province : MonoBehaviour, IClickable
     [BoxGroup("Stats")]
     public List<Population> pops;
     [BoxGroup("Stats")]
+    public List<Population> unemployedPops;
+    [BoxGroup("Stats")]
     public int holdingCapacity;
     [BoxGroup("Stats")]
     public int buildingCapacity;
@@ -68,161 +70,7 @@ public class Province : MonoBehaviour, IClickable
     #endregion
     #region Improvements
     [BoxGroup("Improvements")]
-    public List<ProvinceHolding> holdings;
-    #region Improvements Serializing
-    [System.Serializable]
-    public class ProvinceHolding
-    {
-        public List<ProvinceBuilding> buildings = new List<ProvinceBuilding>();
-
-        [System.Serializable]
-        public class ProvinceBuilding
-        {
-            public Province provinceOwner;
-
-            public BuildingType buildingType;
-
-            public bool on;
-            
-            public float efficiency;
-
-            [Space(50)]
-            public List<ProvinceResource> resourceOutput = new List<ProvinceResource>();
-            [Space(50)]
-            public List<ProvinceResource> resourceInput = new List<ProvinceResource>();
-            [Space(50)]
-            public List<Population> pops = new List<Population>();
-
-            #region Refresh Building && Next Turn
-            public void RefreshBuilding()
-            {
-                //Efficiency Calculation
-                Mathf.FloorToInt(efficiency = pops.Count / 10f * 100f);
-
-                resourceInput.Clear();
-                for (int i = 0; i < resourceOutput.Count; i++)
-                {
-                    //Resource Output Value Calculation and setting
-
-                    int resourceQuality = 1;
-                    for (int j = 0; j < provinceOwner.rawResources.Count; j++)
-                    {
-                        if (provinceOwner.rawResources[j].resource == resourceOutput[i].resource)
-                        {
-                            resourceQuality = provinceOwner.rawResources[j].quality;
-                            break;
-                        }
-                    }//                                                                        6, 26
-                    resourceOutput[i].resourceCount = Mathf.CeilToInt((efficiency / Mathf.Lerp(1, 10, resourceOutput[i].resource.acquisitionDifficulty)) * resourceQuality);
-
-                    int outputInt = ResourceManager.instance.resources.IndexOf(resourceOutput[i].resource);
-                    if (recipes.resourceRecipes[outputInt].requiredResources.Length > 0)
-                    {
-                        for (int j = 0; j < recipes.resourceRecipes[outputInt].requiredResources.Length; j++)
-                        {
-                            int resourceAmount = 0;
-                            for (int k = 0; k < provinceOwner.storedResources.Count; k++)
-                            {
-                                if (recipes.resourceRecipes[outputInt].requiredResources[j].resource == provinceOwner.storedResources[k].resource)
-                                {
-                                    resourceAmount = provinceOwner.storedResources[k].resourceCount;
-                                    break;
-                                }
-                            }
-                            resourceInput.Add(new ProvinceResource(recipes.resourceRecipes[outputInt].requiredResources[j].resource, resourceAmount, recipes.resourceRecipes[outputInt].requiredResources[j].amount * resourceOutput[i].resourceCount));
-                        }
-                    }
-
-                    for (int j = 0; j < resourceInput.Count; j++)
-                    {
-                        if (resourceInput[j].resourceCount < resourceInput[j].resourceNeedsCount)
-                        {
-                            resourceOutput[i].resourceCount = 0;
-                        }
-                    }
-
-                    //Refreshing stored resources
-                    bool foundResource = false;
-                    for (int j = 0; j < provinceOwner.storedResources.Count; j++)
-                    {
-                        if (resourceOutput[i].resource == provinceOwner.storedResources[j].resource)
-                        {
-                            foundResource = true;
-                            break;
-                        }
-                    }
-                    if (!foundResource)
-                    {
-                        provinceOwner.storedResources.Add(new ProvinceResource(resourceOutput[i].resource, 0, 0));
-                    }
-                }
-
-                for (int i = 0; i < buildingManager.buildings.Count; i++)
-                {
-                    if (buildingType == buildingManager.buildings[i].buildingType)
-                    {
-                        for (int j = 0; j < buildingManager.buildings[i].upkeepCost.resourceCost.Length; j++)
-                        {
-                            resourceInput.Add(new ProvinceResource(buildingManager.buildings[i].upkeepCost.resourceCost[j].resourceType, 0, buildingManager.buildings[i].upkeepCost.resourceCost[j].amount));
-                        }
-                        break;
-                    }
-                }
-
-                //if not on set output to 0
-                if (!on)
-                {
-                    for (int i = 0; i < resourceOutput.Count; i++)
-                    {
-                        resourceOutput[i].resourceCount = 0;
-                    }
-                }
-            }
-
-            public void NextTurn()
-            {
-                for (int i = 0; i < resourceOutput.Count; i++)
-                {
-                    bool foundResource = false;
-                    for (int j = 0; j < provinceOwner.storedResources.Count; j++)
-                    {
-                        if (resourceOutput[i].resource == provinceOwner.storedResources[j].resource)
-                        {
-                            provinceOwner.storedResources[j].resourceCount += resourceOutput[i].resourceCount;
-                            foundResource = true;
-                            break;
-                        }
-                    }
-
-                    if (!foundResource)
-                    {
-                        provinceOwner.storedResources.Add(new ProvinceResource(resourceOutput[i].resource, resourceOutput[i].resourceCount, 0));
-                    }
-                }
-
-                //subtracting input from stored resources
-                for (int i = 0; i < resourceInput.Count; i++)
-                {
-                    for (int j = 0; j < provinceOwner.storedResources.Count; j++)
-                    {
-                        if (resourceInput[i].resource == provinceOwner.storedResources[j].resource
-                            && resourceOutput[0].resourceCount != 0)
-                        {
-                            provinceOwner.storedResources[j].resourceCount -= resourceInput[i].resourceNeedsCount;
-                        }
-                    }
-                }
-
-                //population adding if building type is housing
-                if (buildingType == BuildingType.Housing && pops.Count <= 10 /*replace with building type pop capacity */)
-                {
-                    pops.Add(new Population());
-                }
-            }
-            #endregion
-        }
-    }
-    #endregion
+    public List<Holding> holdings;
     #endregion
     #region General
     [BoxGroup("General")]
@@ -243,6 +91,10 @@ public class Province : MonoBehaviour, IClickable
         GetComponent<Image>().color = owner.countryColor;
         highlightedCountry = Instantiate(GetComponent<Image>(), transform.position + new Vector3(0f, 2f), Quaternion.identity, transform);
         Destroy(highlightedCountry.GetComponent<Province>());
+        for (int i = 0; i < highlightedCountry.transform.childCount; i++)
+        {
+            Destroy(highlightedCountry.transform.GetChild(i).gameObject);
+        }
         RefreshProvinceValues();
         RefreshProvinceColors();
     }
@@ -250,7 +102,10 @@ public class Province : MonoBehaviour, IClickable
     #region Create Holding
     public void CreateHolding()
     {
-        holdings.Add(new ProvinceHolding());
+        Holding newHolding = new GameObject().AddComponent<Holding>();
+        newHolding.transform.parent = transform;
+        newHolding.name = "Holding";
+        holdings.Add(newHolding);
         windowProvince.RefreshWindow();
     }
     #endregion
@@ -258,10 +113,16 @@ public class Province : MonoBehaviour, IClickable
     #region Create Building
     public void CreateBuilding(int holding, BuildingType buildingType)
     {
-        holdings[holding].buildings.Add(new ProvinceHolding.ProvinceBuilding());
-        holdings[holding].buildings[holdings[holding].buildings.Count - 1].buildingType = buildingType;
-        holdings[holding].buildings[holdings[holding].buildings.Count - 1].on = true;
-        holdings[holding].buildings[holdings[holding].buildings.Count - 1].provinceOwner = this;
+        Building newBuilding = new GameObject().AddComponent<Building>();
+        newBuilding.transform.parent = holdings[holding].transform;
+        newBuilding.name = buildingType.ToString();
+        newBuilding.provinceOwner = this;
+        newBuilding.holding = holdings[holding];
+        newBuilding.buildingType = buildingType;
+        newBuilding.on = true;
+
+        //this, buildingType, true, 0, 0, 0, null, null, null, null
+        holdings[holding].buildings.Add(newBuilding);
         windowProvince.RefreshWindow();
     }
     #endregion
@@ -354,7 +215,6 @@ public class Province : MonoBehaviour, IClickable
                 storedResources.RemoveAt(o);
             }
         }
-
         ////Refresh Buildings Again
         //for (int i = 0; i < holdings.Count; i++)
         //{
@@ -388,20 +248,6 @@ public class Province : MonoBehaviour, IClickable
     }
     #endregion
 
-    #endregion
-
-    #region Removing Pop
-    [Button]
-    public void RemovePop()
-    {
-        if (pops.Count > 1)
-        {
-            Destroy(pops[pops.Count - 1].gameObject);
-            owner.population.Remove(pops[pops.Count - 1]);
-            CountryManager.instance.totalPops.Remove(pops[pops.Count - 1]);
-            pops.Remove(pops[pops.Count - 1]);
-        }
-    }
     #endregion
 
     #region OnPointerDown

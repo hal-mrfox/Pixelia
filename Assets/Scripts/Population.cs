@@ -22,46 +22,33 @@ public class Population : MonoBehaviour, IClickable
     public Province provinceController;
     public bool selected;
     #endregion
-    #region Needs
-    #endregion
-    public OldBuilding containingBuilding;
-    public GameObject details;
-    public TextMeshProUGUI popTypeText;
+    public Building job;
+    public Building home;
 
     public void Start()
     {
-        popTypeText.text = popTier.ToString();
-        gameObject.SetActive(false);
+        
     }
 
     public void OnPointerDown()
     {
-        if (Input.GetKeyDown(KeyCode.Mouse0) && controller == CountryManager.instance.playerCountry)
-        {
-            CountryManager.instance.selectedPop = this;
-            CountryManager.instance.popInfo.gameObject.SetActive(true);
-            CountryManager.instance.popInfo.Refresh();
-            CountryManager.instance.VisibleMouse();
-            CountryManager.instance.available = false;
-        }
-        else if (Input.GetKeyDown(KeyCode.Mouse0) && !controller == CountryManager.instance.playerCountry)
-        {
-            print("This isn't your unit");
-        }
+        //if (Input.GetKeyDown(KeyCode.Mouse0) && controller == CountryManager.instance.playerCountry)
+        //{
+        //    CountryManager.instance.selectedPop = this;
+        //    CountryManager.instance.popInfo.gameObject.SetActive(true);
+        //    CountryManager.instance.popInfo.Refresh();
+        //    CountryManager.instance.VisibleMouse();
+        //    CountryManager.instance.available = false;
+        //}
+        //else if (Input.GetKeyDown(KeyCode.Mouse0) && !controller == CountryManager.instance.playerCountry)
+        //{
+        //    print("This isn't your unit");
+        //}
     }
-    public void Update()
-    {
-        RefreshColor();
-
-        if (CountryManager.instance.altMode)
-        {
-            details.SetActive(true);
-        }
-        else
-        {
-            details.SetActive(false);
-        }
-    }
+    //public void Update()
+    //{
+    //    RefreshColor();
+    //}
     //refresh after taken over
     public void RefreshColor()
     {
