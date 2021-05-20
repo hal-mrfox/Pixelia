@@ -2432,9 +2432,6 @@ MonoBehaviour:
   - resource: {fileID: 11400000, guid: b35878d2163d4a14aad2c79a4ad73609, type: 2}
     quality: 1
   holdings: []
-  holding: 0
-  building: 0
-  popTier: 0
   hovering: 0
 --- !u!114 &91448327
 MonoBehaviour:
@@ -6694,10 +6691,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -16854,9 +16851,6 @@ MonoBehaviour:
   - resource: {fileID: 11400000, guid: b35878d2163d4a14aad2c79a4ad73609, type: 2}
     quality: 1
   holdings: []
-  holding: 0
-  building: 0
-  popTier: 0
   hovering: 0
 --- !u!114 &680915034
 MonoBehaviour:
@@ -19975,6 +19969,8 @@ MonoBehaviour:
   - {fileID: 1808839674}
   - {fileID: 1518397852}
   - {fileID: 478891025}
+  movingPop: {fileID: 0}
+  job: 0
   altMode: 0
   hoveredOutput: {fileID: 0}
   hoveredOutputConnections: []
@@ -20103,9 +20099,6 @@ MonoBehaviour:
   - resource: {fileID: 11400000, guid: b35878d2163d4a14aad2c79a4ad73609, type: 2}
     quality: 1
   holdings: []
-  holding: 0
-  building: 0
-  popTier: 0
   hovering: 0
 --- !u!114 &792675957
 MonoBehaviour:
@@ -24929,9 +24922,6 @@ MonoBehaviour:
   - resource: {fileID: 11400000, guid: b35878d2163d4a14aad2c79a4ad73609, type: 2}
     quality: 1
   holdings: []
-  holding: 0
-  building: 0
-  popTier: 0
   hovering: 0
 --- !u!114 &954531174
 MonoBehaviour:
@@ -25279,9 +25269,6 @@ MonoBehaviour:
   - resource: {fileID: 11400000, guid: b35878d2163d4a14aad2c79a4ad73609, type: 2}
     quality: 1
   holdings: []
-  holding: 0
-  building: 0
-  popTier: 0
   hovering: 0
 --- !u!114 &964559233
 MonoBehaviour:
@@ -26811,9 +26798,6 @@ MonoBehaviour:
   - resource: {fileID: 11400000, guid: b35878d2163d4a14aad2c79a4ad73609, type: 2}
     quality: 1
   holdings: []
-  holding: 0
-  building: 0
-  popTier: 0
   hovering: 0
 --- !u!114 &1029439645
 MonoBehaviour:
@@ -30327,9 +30311,6 @@ MonoBehaviour:
     quality: 1
   holdings:
   - {fileID: 1497306360}
-  holding: 0
-  building: 0
-  popTier: 0
   hovering: 0
 --- !u!114 &1154084395
 MonoBehaviour:
@@ -30525,9 +30506,6 @@ MonoBehaviour:
   - resource: {fileID: 11400000, guid: b35878d2163d4a14aad2c79a4ad73609, type: 2}
     quality: 1
   holdings: []
-  holding: 0
-  building: 0
-  popTier: 0
   hovering: 0
 --- !u!114 &1159125008
 MonoBehaviour:
@@ -42337,9 +42315,6 @@ MonoBehaviour:
   - resource: {fileID: 11400000, guid: b35878d2163d4a14aad2c79a4ad73609, type: 2}
     quality: 1
   holdings: []
-  holding: 0
-  building: 0
-  popTier: 0
   hovering: 0
 --- !u!114 &1633359958
 MonoBehaviour:
@@ -43295,9 +43270,6 @@ MonoBehaviour:
   - resource: {fileID: 11400000, guid: b35878d2163d4a14aad2c79a4ad73609, type: 2}
     quality: 1
   holdings: []
-  holding: 0
-  building: 0
-  popTier: 0
   hovering: 0
 --- !u!114 &1682459600
 MonoBehaviour:
