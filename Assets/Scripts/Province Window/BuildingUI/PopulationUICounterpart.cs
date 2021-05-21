@@ -10,6 +10,9 @@ public class PopulationUICounterpart : ButtonSound
     public Population PopCP;
     public bool work;
 
+    bool clicking;
+    GameObject previewPop;
+
     Vector2Int squareSize = new Vector2Int(10, 10);
     public override void OnPointerDown(PointerEventData eventData)
     {
@@ -84,6 +87,30 @@ public class PopulationUICounterpart : ButtonSound
 
         buildingUI.provinceWindow.movingPop = PopCP;
         buildingUI.provinceWindow.job = work;
+        clicking = true;
+
+        #region Drag and Drop
+        if (Input.GetKeyDown(KeyCode.Mouse0) && PopCP)
+        {
+            previewPop = new GameObject("Preview Pop");
+
+            if (GetComponent<Image>().sprite)
+            {
+                previewPop.AddComponent<Image>();
+                previewPop.GetComponent<Image>().sprite = GetComponent<Image>().sprite;
+                previewPop.GetComponent<Image>().SetNativeSize();
+                previewPop.GetComponent<RectTransform>().sizeDelta = new Vector2(previewPop.GetComponent<RectTransform>().sizeDelta.x + 2, previewPop.GetComponent<RectTransform>().sizeDelta.y + 2);
+            }
+            else
+            {
+                previewPop.AddComponent<Image>();
+                previewPop.GetComponent<RectTransform>().sizeDelta = new Vector2(squareSize.x + 2, squareSize.y + 2);
+            }
+            previewPop.GetComponent<Image>().raycastTarget = false;
+            previewPop.GetComponent<Image>().color = GetComponent<Image>().color;
+            previewPop.transform.SetParent(buildingUI.provinceWindow.transform);
+        }
+        #endregion
     }
     public override void OnPointerUp(PointerEventData eventData)
     {
@@ -120,6 +147,11 @@ public class PopulationUICounterpart : ButtonSound
 
         buildingUI.provinceWindow.DropPop();
         buildingUI.provinceWindow.movingPop = null;
+        clicking = false;
+
+        #region Drag and Drop
+        Destroy(previewPop);
+        #endregion
     }
 
     public override void OnPointerEnter(PointerEventData eventData)
@@ -168,7 +200,7 @@ public class PopulationUICounterpart : ButtonSound
         }
         #endregion
 
-        if (PopCP != null)
+        if (PopCP)
         {
             buildingUI.provinceWindow.HighlightPop(work, PopCP);
         }
@@ -200,14 +232,22 @@ public class PopulationUICounterpart : ButtonSound
         hover = false;
         #endregion
 
-        if (PopCP != null)
+        if (PopCP)
         {
             buildingUI.provinceWindow.RefreshWindow();
             GetComponent<Image>().SetNativeSize();
-            if (GetComponent<Image>().sprite == null)
+            if (!GetComponent<Image>().sprite)
             {
                 GetComponent<RectTransform>().sizeDelta = squareSize;
             }
+        }
+    }
+
+    public void Update()
+    {
+        if (clicking && PopCP)
+        {
+            previewPop.transform.position = Input.mousePosition;
         }
     }
 }

@@ -231,7 +231,7 @@ public class WindowProvince : InteractableWindow
             if (i < provinceTarget.storedResources.Count)
             {
                 int resourceOutputValue = 0;
-                //shows building output number as "+000"
+                //shows output number as "+000"
                 for (int j = 0; j < provinceTarget.holdings.Count; j++)
                 {
                     for (int k = 0; k < provinceTarget.holdings[j].buildings.Count; k++)
@@ -260,6 +260,7 @@ public class WindowProvince : InteractableWindow
                 commodities[i].gameObject.SetActive(true);
             }
         }
+
         for (int i = 0; i < rawResources.Length; i++)
         {
             rawResources[i].gameObject.SetActive(false);

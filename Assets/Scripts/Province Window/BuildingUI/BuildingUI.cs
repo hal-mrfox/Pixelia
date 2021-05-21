@@ -211,7 +211,8 @@ public class BuildingUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             {
                 if (i < pops)
                 {
-                    popIcons[i].color = PopulationManager.instance.popTierDetails[(int)provinceWindow.provinceTarget.holdings[holding].buildings[building].pops[i].popTier].popColor;
+                    Color popColor = PopulationManager.instance.popTierDetails[(int)provinceWindow.provinceTarget.holdings[holding].buildings[building].pops[i].popTier].popColor;
+                    popIcons[i].GetComponent<Image>().color = popColor;
                     popIcons[i].GetComponent<PopulationUICounterpart>().lower = false;
                     popIcons[i].GetComponent<PopulationUICounterpart>().PopCP = buildingCounterpart.pops[i];
                     popIcons[i].GetComponent<PopulationUICounterpart>().work = true;
@@ -222,6 +223,16 @@ public class BuildingUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
                     popIcons[i].GetComponent<PopulationUICounterpart>().lower = true;
                 }
             }
+            #region Highlight
+            for (int i = 0; i < popIcons.Count; i++)
+            {
+                popIcons[i].GetComponent<PopulationUICounterpart>().highlight.gameObject.SetActive(false);
+            }
+            for (int i = 0; i < housedPopIcons.Length; i++)
+            {
+                housedPopIcons[i].highlight.gameObject.SetActive(false);
+            }
+            #endregion
             #endregion
             #region Efficiency
             textEfficiency.text = provinceWindow.provinceTarget.holdings[holding].buildings[building].efficiency.ToString("0") + "%";
@@ -301,16 +312,6 @@ public class BuildingUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
                 }
             }
             #endregion
-            #endregion
-            #region Highlight
-            for (int i = 0; i < popIcons.Count; i++)
-            {
-                popIcons[i].GetComponent<PopulationUICounterpart>().highlight.gameObject.SetActive(false);
-            }
-            for (int i = 0; i < housedPopIcons.Length; i++)
-            {
-                housedPopIcons[i].highlight.gameObject.SetActive(false);
-            }
             #endregion
         }
         else
@@ -511,16 +512,33 @@ public class BuildingUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         if (provinceWindow.movingPop)
         {
             var movingPop = provinceWindow.movingPop;
-            if (provinceWindow.job)
+
+            Color newGreen = new Color(CountryManager.instance.niceGreen.r, CountryManager.instance.niceGreen.g, CountryManager.instance.niceGreen.b, 0.5f);
+            Color newRed = new Color(CountryManager.instance.niceRed.r, CountryManager.instance.niceRed.g, CountryManager.instance.niceRed.b, 0.5f);
+
+            if (Resources.Load<BuildingManager>("BuildingManager").buildings[(int)buildingType].allowedPops.Contains(provinceWindow.movingPop.popTier) && buildingCounterpart.pops.Count < popIcons.Count && buildingCounterpart.housedPops.Count < housedPopIcons.Length)
             {
-                jobHighlight.gameObject.SetActive(true);
-                housingHighlight.gameObject.SetActive(false);
+                jobHighlight.color = newGreen;
+                housingHighlight.color = newGreen;
             }
             else
             {
-                housingHighlight.gameObject.SetActive(true);
-                jobHighlight.gameObject.SetActive(false);
+                jobHighlight.color = newRed;
+                housingHighlight.color = newRed;
             }
+            jobHighlight.gameObject.SetActive(true);
+            housingHighlight.gameObject.SetActive(true);
+
+            //if (provinceWindow.job)
+            //{
+            //    jobHighlight.gameObject.SetActive(true);
+            //    housingHighlight.gameObject.SetActive(false);
+            //}
+            //else
+            //{
+            //    housingHighlight.gameObject.SetActive(true);
+            //    jobHighlight.gameObject.SetActive(false);
+            //}
         }
     }
 
@@ -533,10 +551,10 @@ public class BuildingUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     public void MovePop()
     {
-        if (provinceWindow.movingPop && hovering /*&& Resources.Load<BuildingManager>("BuildingManager").buildings[(int)buildingType].allowedPops.Contains(provinceWindow.movingPop.popTier)*/)
+        if (provinceWindow.movingPop && hovering && active && Resources.Load<BuildingManager>("BuildingManager").buildings[(int)buildingType].allowedPops.Contains(provinceWindow.movingPop.popTier))
         {
             var movingPop = provinceWindow.movingPop;
-            if (!Resources.Load<BuildingManager>("BuildingManager").buildings[(int)buildingType].isHousing && Resources.Load<BuildingManager>("BuildingManager").buildings[(int)buildingType].allowedPops.Contains(provinceWindow.movingPop.popTier))
+            if (!Resources.Load<BuildingManager>("BuildingManager").buildings[(int)buildingType].isHousing)
             {
                 movingPop.job.pops.Remove(movingPop);
                 movingPop.job = buildingCounterpart;

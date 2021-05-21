@@ -110,7 +110,7 @@ public class Building : MonoBehaviour
                     {
                         if (recipes.resourceRecipes[outputInt].requiredResources[j].resource == provinceOwner.storedResources[k].resource)
                         {
-                            resourceAmount = provinceOwner.storedResources[k].resourceCount;
+                            resourceAmount = provinceOwner.storedResources[k].resourceCount - provinceOwner.storedResources[k].resourceNeedsCount;
                             break;
                         }
                     }
@@ -188,30 +188,30 @@ public class Building : MonoBehaviour
             popGrowthMultiplier = 0;
         }
 
-
-        if (housedPops.Count > Resources.Load<BuildingManager>("BuildingManager").buildings[(int)buildingType].housingCapacity)
-        {
-            for (int i = 0; i < provinceOwner.holdings.Count; i++)
-            {
-                for (int j = 0; j < provinceOwner.holdings[i].buildings.Count; j++)
-                {
-                    var building = provinceOwner.holdings[i].buildings[j];
-                    var buildingType = Resources.Load<BuildingManager>("BuildingManager").buildings[(int)building.buildingType];
-
-                    int difference = buildingType.housingCapacity - building.housedPops.Count;
-
-                    //make it so it doesnt try to add wrong pops to wrong buildings
-                    if (buildingType.isHousing && building.housedPops.Count <= buildingType.housingCapacity && building != this)
-                    {
-                        for (int k = 0; k < difference; k++)
-                        {
-                            building.housedPops.Add(this.housedPops[this.housedPops.Count - 1]);
-                            this.housedPops.RemoveAt(this.housedPops.Count - 1);
-                        }
-                    }
-                }
-            }
-        }
+        //over capacity
+        //if (housedPops.Count > Resources.Load<BuildingManager>("BuildingManager").buildings[(int)buildingType].housingCapacity)
+        //{
+        //    for (int i = 0; i < provinceOwner.holdings.Count; i++)
+        //    {
+        //        for (int j = 0; j < provinceOwner.holdings[i].buildings.Count; j++)
+        //        {
+        //            var building = provinceOwner.holdings[i].buildings[j];
+        //            var buildingType = Resources.Load<BuildingManager>("BuildingManager").buildings[(int)building.buildingType];
+        //
+        //            int difference = buildingType.housingCapacity - building.housedPops.Count;
+        //
+        //            //make it so it doesnt try to add wrong pops to wrong buildings
+        //            if (buildingType.isHousing && building.housedPops.Count <= buildingType.housingCapacity && building != this)
+        //            {
+        //                for (int k = 0; k < difference; k++)
+        //                {
+        //                    building.housedPops.Add(this.housedPops[this.housedPops.Count - 1]);
+        //                    this.housedPops.RemoveAt(this.housedPops.Count - 1);
+        //                }
+        //            }
+        //        }
+        //    }
+        //}
         #endregion
     }
 
