@@ -28,9 +28,13 @@ public class Population : MonoBehaviour, IClickable
     public Building job;
     public Building home;
 
-    public void Start()
+    public void DestroyPop()
     {
-        
+        job.pops.Remove(this);
+        home.housedPops.Remove(this);
+        provinceController.RefreshProvinceValues();
+        provinceController.windowProvince.RefreshWindow();
+        Destroy(this);
     }
 
     public void OnPointerDown()

@@ -39,6 +39,7 @@ public class CountryManager : MonoBehaviour
 
     public List<OldBuilding> totalBuildings;
     public List<Population> totalPops;
+    public List<Unit> totalUnits;
 
     public Image crownIcon;
     public Sprite[] crownTiers;
@@ -51,6 +52,7 @@ public class CountryManager : MonoBehaviour
     public Color tan;
     public Color niceGreen;
     public Color niceRed;
+    public Color niceGray;
 
     public AudioSource openWindowSound;
 
@@ -110,12 +112,17 @@ public class CountryManager : MonoBehaviour
             provinces[i].RefreshProvinceColors();
         }
 
+        for (int i = 0; i < totalUnits.Count; i++)
+        {
+            totalUnits[i].Refresh();
+        }
+
         SetUI();
 
-        if (playerCountry != countries[0])
-        {
-            NextTurn();
-        }
+        //if (playerCountry != countries[0])
+        //{
+        //    NextTurn();
+        //}
 
         windowProvince.RefreshWindow();
     }

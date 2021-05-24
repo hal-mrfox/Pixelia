@@ -157,7 +157,7 @@ public class PopulationUICounterpart : ButtonSound
         #endregion
 
         #region Unassign Pops
-        if (Input.GetKeyDown(KeyCode.Mouse1))
+        if (Input.GetKeyDown(KeyCode.Mouse1) && popCP && !provinceWindow.movingPop)
         {
             if (uIType == UIType.home)
             {
@@ -183,13 +183,18 @@ public class PopulationUICounterpart : ButtonSound
     {
         base.OnPointerUp(eventData);
 
-        provinceWindow.DropPop();
+        if (popCP)
+        {
+            provinceWindow.DropPop();
 
-        clicking = false;
+            clicking = false;
 
-        #region Drag and Drop
-        Destroy(previewPop);
-        #endregion
+            #region Drag and Drop
+            Destroy(previewPop);
+            #endregion
+
+            provinceWindow.movingPop = null;
+        }
     }
 
     public override void OnPointerEnter(PointerEventData eventData)

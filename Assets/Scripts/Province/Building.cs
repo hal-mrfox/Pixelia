@@ -74,6 +74,23 @@ public class Building : MonoBehaviour
     }
     #endregion
 
+    #region Create Military Unit
+    public void CreateUnit()
+    {
+        //set unit stats based on pops stats
+        for (int i = 0; i < pops.Count; i++)
+        {
+            pops[i].DestroyPop();
+            provinceOwner.units.Add(Instantiate(MilitaryManager.instance.unitPrefab, MilitaryManager.instance.transform));
+            var newUnit = provinceOwner.units[provinceOwner.units.Count - 1];
+            CountryManager.instance.totalUnits.Add(newUnit);
+            newUnit.location = provinceOwner;
+            newUnit.owner = provinceOwner.owner;
+            newUnit.transform.position = provinceOwner.transform.position;
+        }
+    }
+    #endregion
+
     #region Refresh Building && Next Turn
     public void RefreshBuilding()
     {
@@ -83,7 +100,7 @@ public class Building : MonoBehaviour
         var buildingManager = Resources.Load<BuildingManager>("BuildingManager");
 
         //Efficiency Calculation
-        Mathf.FloorToInt(efficiency = pops.Count / 10f * 100f);
+        Mathf.FloorToInt(efficiency = pops.Count / 20f * 100f);
 
         resourceInput.Clear();
         for (int i = 0; i < resourceOutput.Count; i++)
@@ -114,7 +131,7 @@ public class Building : MonoBehaviour
                     break;
                 }
             }//                                                                        6, 26
-            resourceOutput[i].resourceCount = Mathf.CeilToInt((efficiency / Mathf.Lerp(1, 10, resourceOutput[i].resource.acquisitionDifficulty)) * resourceQuality / resourceOutput.Count);
+            resourceOutput[i].resourceCount = Mathf.CeilToInt((efficiency / Mathf.Lerp(1, 10, resourceOutput[i].resource.acquisitionDifficulty)) * resourceQuality /*/ resourceOutput.Count*/);
 
             int outputInt = ResourceManager.instance.resources.IndexOf(resourceOutput[i].resource);
             if (recipes.resourceRecipes[outputInt].requiredResources.Length > 0)
@@ -296,10 +313,6 @@ public class Building : MonoBehaviour
                 }
             }
         }
-
-
-
-        //Creating Military Units
     }
     #endregion
 

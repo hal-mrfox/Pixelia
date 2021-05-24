@@ -35,6 +35,8 @@ public class Province : MonoBehaviour, IClickable
     [BoxGroup("Stats")]
     public List<Population> homelessPops;
     [BoxGroup("Stats")]
+    public List<Unit> units;
+    [BoxGroup("Stats")]
     public int holdingCapacity;
     [BoxGroup("Stats")]
     public int buildingCapacity;
