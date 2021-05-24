@@ -37,6 +37,15 @@ public class WindowProvince : InteractableWindow
     public TextMeshProUGUI ideologyText;
     [BoxGroup("Demographics")]
     public TextMeshProUGUI nationalityText;
+    [BoxGroup("Demographics")]
+    public Image popListUI;
+    [BoxGroup("Demographics")]
+    public List<PopulationUICounterpart> popList;
+    [BoxGroup("Demographics")]
+    public PopulationUICounterpart popListPrefab;
+    [BoxGroup("Demographics")]
+    public GridLayoutGroup popListGridLayout;
+    bool isPopListOpen = false;
     #endregion
     #region Commodities & Resources
     [BoxGroup("Commodities & Resources")]
@@ -175,27 +184,138 @@ public class WindowProvince : InteractableWindow
         RefreshWindow();
     }
 
-    public void HighlightPop(bool work, Population highlightedPop)
+    #region Highlighting Pops
+    public void HighlightPop(Population highlightedPop, PopulationUICounterpart.UIType type)
     {
-        if (!work)
+        #region list
+        var listPopIconsGameObject = popList[provinceTarget.pops.IndexOf(highlightedPop)].highlight.gameObject;
+        #endregion
+
+        if (type == PopulationUICounterpart.UIType.home)
         {
-            int jobHolding = provinceTarget.holdings.IndexOf(highlightedPop.job.holding);
-            int jobBuilding = provinceTarget.holdings[jobHolding].buildings.IndexOf(highlightedPop.job);
+            if (highlightedPop.job)
+            {
+                GameObject job = GetJob();
+                job.SetActive(true);
+            }
 
-            int jobPop = provinceTarget.holdings[jobHolding].buildings[jobBuilding].pops.IndexOf(highlightedPop);
+            listPopIconsGameObject.SetActive(true);
+        }
+        else if (type == PopulationUICounterpart.UIType.job)
+        {
+            if (highlightedPop.home)
+            {
+                GameObject home = GetHome();
+                home.SetActive(true);
+            }
 
-            holdings[jobHolding].buildings[jobBuilding].popIcons[jobPop].GetComponent<PopulationUICounterpart>().highlight.gameObject.SetActive(true);
+            listPopIconsGameObject.SetActive(true);
         }
         else
         {
+            if (highlightedPop.job)
+            {
+                GameObject job = GetJob();
+                job.SetActive(true);
+            }
+
+            if (highlightedPop.home)
+            {
+                GameObject home = GetHome();
+                home.SetActive(true);
+            }
+        }
+
+        #region Job
+        GameObject GetJob()
+        {
+            int jobHolding = provinceTarget.holdings.IndexOf(highlightedPop.job.holding);
+            int jobBuilding = provinceTarget.holdings[jobHolding].buildings.IndexOf(highlightedPop.job);
+            int jobPop = provinceTarget.holdings[jobHolding].buildings[jobBuilding].pops.IndexOf(highlightedPop);
+            var jobPopIconsGameObject = holdings[jobHolding].buildings[jobBuilding].jobPopIcons[jobPop].GetComponent<PopulationUICounterpart>().highlight.gameObject;
+
+            return jobPopIconsGameObject;
+        }
+        #endregion
+
+        #region Home
+        GameObject GetHome()
+        {
             int homeHolding = provinceTarget.holdings.IndexOf(highlightedPop.home.holding);
             int homeBuilding = provinceTarget.holdings[homeHolding].buildings.IndexOf(highlightedPop.home);
-
             int homePop = provinceTarget.holdings[homeHolding].buildings[homeBuilding].housedPops.IndexOf(highlightedPop);
+            var homePopIconsGameObject = holdings[homeHolding].buildings[homeBuilding].housedPopIcons[homePop].GetComponent<PopulationUICounterpart>().highlight.gameObject;
 
-            holdings[homeHolding].buildings[homeBuilding].housedPopIcons[homePop].highlight.gameObject.SetActive(true);
+            return homePopIconsGameObject;
         }
+        #endregion
     }
+
+    public void UnHighlightPops(Population highlightedPop, PopulationUICounterpart.UIType type)
+    {
+        var listPopIconsGameObject = popList[provinceTarget.pops.IndexOf(highlightedPop)].highlight.gameObject;
+
+        if (type == PopulationUICounterpart.UIType.home)
+        {
+            if (highlightedPop.job)
+            {
+                GameObject job = GetJob();
+                job.SetActive(false);
+            }
+
+            listPopIconsGameObject.SetActive(false);
+        }
+        else if (type == PopulationUICounterpart.UIType.job)
+        {
+            if (highlightedPop.home)
+            {
+                GameObject home = GetHome();
+                home.SetActive(false);
+            }
+
+            listPopIconsGameObject.SetActive(false);
+        }
+        else
+        {
+            if (highlightedPop.job)
+            {
+                GameObject job = GetJob();
+                job.SetActive(false);
+            }
+
+            if (highlightedPop.home)
+            {
+                GameObject home = GetHome();
+                home.SetActive(false);
+            }
+        }
+
+
+        #region Job
+        GameObject GetJob()
+        {
+            int jobHolding = provinceTarget.holdings.IndexOf(highlightedPop.job.holding);
+            int jobBuilding = provinceTarget.holdings[jobHolding].buildings.IndexOf(highlightedPop.job);
+            int jobPop = provinceTarget.holdings[jobHolding].buildings[jobBuilding].pops.IndexOf(highlightedPop);
+            var jobPopIconsGameObject = holdings[jobHolding].buildings[jobBuilding].jobPopIcons[jobPop].GetComponent<PopulationUICounterpart>().highlight.gameObject;
+
+            return jobPopIconsGameObject;
+        }
+        #endregion
+
+        #region Home
+        GameObject GetHome()
+        {
+            int homeHolding = provinceTarget.holdings.IndexOf(highlightedPop.home.holding);
+            int homeBuilding = provinceTarget.holdings[homeHolding].buildings.IndexOf(highlightedPop.home);
+            int homePop = provinceTarget.holdings[homeHolding].buildings[homeBuilding].housedPops.IndexOf(highlightedPop);
+            var homePopIconsGameObject = holdings[homeHolding].buildings[homeBuilding].housedPopIcons[homePop].GetComponent<PopulationUICounterpart>().highlight.gameObject;
+
+            return homePopIconsGameObject;
+        }
+        #endregion
+    }
+    #endregion
 
     public void DropPop()
     {
@@ -326,6 +446,7 @@ public class WindowProvince : InteractableWindow
             ideologyText.text = "-";
             ideologyText.color = CountryManager.instance.yellow;
         }
+
         #endregion
         #region Holdings and Buildings
         for (int i = 0; i < holdings.Length; i++)
@@ -372,8 +493,61 @@ public class WindowProvince : InteractableWindow
             }
         }
         #endregion
+        #region PopList
+        for (int i = 0; i < popList.Count; i++)
+        {
+            Destroy(popList[i].gameObject);
+        }
+        popList.Clear();
+
+        for (int i = 0; i < provinceTarget.pops.Count; i++)
+        {
+            popList.Add(Instantiate(popListPrefab, popListGridLayout.transform));
+        }
+
+        for (int i = 0; i < popList.Count; i++)
+        {
+            popList[i].popCP = provinceTarget.pops[i];
+            popList[i].provinceWindow = this;
+            popList[i].uIType = PopulationUICounterpart.UIType.list;
+            popList[i].popTierUIStrip.color = PopulationManager.instance.popTierDetails[(int)popList[i].popCP.popTier].popColor;
+            popList[i].popNameText.text = provinceTarget.pops[i].name;
+
+            if (provinceTarget.pops[i].job)
+            {
+                popList[i].jobStatus.text = provinceTarget.pops[i].job.name;
+            }
+            else
+            {
+                popList[i].jobStatus.text = "unemployed";
+            }
+
+            if (provinceTarget.pops[i].home)
+            {
+                popList[i].homeStatus.text = provinceTarget.pops[i].home.name;
+            }
+            else
+            {
+                popList[i].homeStatus.text = "homeless";
+            }
+        }
+        #endregion
 
         target.CalculateResources();
+    }
+
+    public void TogglePopList()
+    {
+        isPopListOpen = !isPopListOpen;
+
+        if (isPopListOpen)
+        {
+            popListUI.gameObject.SetActive(true);
+        }
+        else
+        {
+            popListUI.gameObject.SetActive(false);
+        }
     }
 
     public void SetHoldingIndex(int holdingIndex)

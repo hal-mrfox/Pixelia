@@ -38,6 +38,8 @@ public class Country : MonoBehaviour
     [BoxGroup("Statistics")]
     public List<Population> population;
     [BoxGroup("Statistics")]
+    public List<Population> militaryPops;
+    [BoxGroup("Statistics")]
     public List<OldBuilding> buildings;
     #endregion
     #region Money & Resources

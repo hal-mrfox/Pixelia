@@ -100,9 +100,7 @@ public class CountryManager : MonoBehaviour
         }
         playerCountry = countries[nextCountry];
         playerCountryName.text = playerCountry.ToString().Replace("(Country)", "");
-        window.CloseWindow();
-        windowProvince.CloseWindow();
-        windowPop.CloseWindow();
+        windowProvince.gameObject.SetActive(false);
         selectedPop = null;
         VisibleMouse();
         nextCountry++;
@@ -118,6 +116,8 @@ public class CountryManager : MonoBehaviour
         {
             NextTurn();
         }
+
+        windowProvince.RefreshWindow();
     }
 
     //UI\\

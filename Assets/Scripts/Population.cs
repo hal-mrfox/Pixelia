@@ -11,6 +11,9 @@ public class Population : MonoBehaviour, IClickable
     #region Pop Type
     public PopTier popTier;
     #endregion
+    #region Name
+    public string popName;
+    #endregion
     #region Beliefs
     public Religion religion;
     public Culture culture;

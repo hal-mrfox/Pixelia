@@ -345,5 +345,11 @@ MonoBehaviour:
   onClick:
     m_PersistentCalls:
       m_Calls: []
-  PopCP: {fileID: 0}
-  work: 0
+  provinceWindow: {fileID: 0}
+  popCP: {fileID: 0}
+  work: 1
+  isList: 0
+  popTierUIStrip: {fileID: 0}
+  jobStatus: {fileID: 0}
+  homeStatus: {fileID: 0}
+  popNameText: {fileID: 0}

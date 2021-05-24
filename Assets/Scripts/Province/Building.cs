@@ -62,6 +62,7 @@ public class Building : MonoBehaviour
             newPop.provinceController = provinceOwner;
             newPop.job = this;
             newPop.home = house;
+            newPop.name = "Pop " + (provinceOwner.pops.Count + 1).ToString();
         }
 
         provinceOwner.RefreshProvinceValues();
@@ -87,6 +88,21 @@ public class Building : MonoBehaviour
         resourceInput.Clear();
         for (int i = 0; i < resourceOutput.Count; i++)
         {
+
+            //Refreshing stored resources
+            bool foundResource = false;
+            for (int j = 0; j < provinceOwner.storedResources.Count; j++)
+            {
+                if (resourceOutput[i].resource == provinceOwner.storedResources[j].resource)
+                {
+                    foundResource = true;
+                    break;
+                }
+            }
+            if (!foundResource)
+            {
+                provinceOwner.storedResources.Add(new Province.ProvinceResource(resourceOutput[i].resource, 0, 0));
+            }
             //Resource Output Value Calculation and setting
 
             int resourceQuality = 1;
@@ -120,25 +136,10 @@ public class Building : MonoBehaviour
 
             for (int j = 0; j < resourceInput.Count; j++)
             {
-                if (resourceInput[j].resourceCount < resourceInput[j].resourceNeedsCount)
+                if (resourceInput[j].resourceCount < resourceInput[j].resourceNeedsCount || resourceInput[j].resourceCount <= 0)
                 {
                     resourceOutput[i].resourceCount = 0;
                 }
-            }
-
-            //Refreshing stored resources
-            bool foundResource = false;
-            for (int j = 0; j < provinceOwner.storedResources.Count; j++)
-            {
-                if (resourceOutput[i].resource == provinceOwner.storedResources[j].resource)
-                {
-                    foundResource = true;
-                    break;
-                }
-            }
-            if (!foundResource)
-            {
-                provinceOwner.storedResources.Add(new Province.ProvinceResource(resourceOutput[i].resource, 0, 0));
             }
         }
 
@@ -165,7 +166,7 @@ public class Building : MonoBehaviour
 
         #region Housing
         //if housing then setting pop growth
-        if (Resources.Load<BuildingManager>("BuildingManager").buildings[(int)buildingType].isHousing)
+        if (Resources.Load<BuildingManager>("BuildingManager").buildings[(int)buildingType].isHousing && housedPops.Count >= 2)
         {
             int popAmount = 0;
             var buildingPopType = Resources.Load<BuildingManager>("BuildingManager").buildings[(int)buildingType].allowedPops[0];
@@ -212,6 +213,10 @@ public class Building : MonoBehaviour
         //        }
         //    }
         //}
+        #endregion
+
+        #region Military
+
         #endregion
     }
 
@@ -260,6 +265,7 @@ public class Building : MonoBehaviour
                 var targetallowedPop = Resources.Load<BuildingManager>("BuildingManager").buildings[(int)provinceOwner.holdings[holdingIndex].buildings[buildingIndex].buildingType].allowedPops[0];
 
                 if (!Resources.Load<BuildingManager>("BuildingManager").buildings[(int)provinceOwner.holdings[holdingIndex].buildings[buildingIndex].buildingType].isHousing
+                    && !Resources.Load<BuildingManager>("BuildingManager").buildings[(int)provinceOwner.holdings[holdingIndex].buildings[buildingIndex].buildingType].isMilitary
                     && Resources.Load<BuildingManager>("BuildingManager").buildings[(int)provinceOwner.holdings[holdingIndex].buildings[buildingIndex].buildingType].allowedPops.Contains(allowedPop)
                     && provinceOwner.holdings[holdingIndex].buildings[buildingIndex].pops.Count < Resources.Load<BuildingManager>("BuildingManager").buildings[(int)provinceOwner.holdings[holdingIndex].buildings[buildingIndex].buildingType].workerCapacity
                     && provinceOwner.holdings[holdingIndex].buildings[buildingIndex] != this)
@@ -291,6 +297,44 @@ public class Building : MonoBehaviour
             }
         }
 
+
+
+        //Creating Military Units
+    }
+    #endregion
+
+    #region Destroy Building
+    public void DestroyBuilding()
+    {
+        if (!Resources.Load<BuildingManager>("BuildingManager").buildings[(int)buildingType].isHousing)
+        {
+            for (int i = 0; i < pops.Count; i++)
+            {
+                pops[i].job = null;
+                pops[i].transform.SetParent(provinceOwner.unemployed.transform);
+            }
+        }
+        else if (Resources.Load<BuildingManager>("BuildingManager").buildings[(int)buildingType].isHousing)
+        {
+            for (int i = 0; i < housedPops.Count; i++)
+            {
+                housedPops[i].home = null;
+            }
+        }
+        else if (Resources.Load<BuildingManager>("BuildingManager").buildings[(int)buildingType].isMilitary)
+        {
+            for (int i = 0; i < pops.Count; i++)
+            {
+                pops[i].job = null;
+                pops[i].transform.SetParent(provinceOwner.unemployed.transform);
+            }
+        }
+
+        pops.Clear();
+
+        Destroy(gameObject);
+
+        holding.buildings.Remove(this);
     }
     #endregion
 }

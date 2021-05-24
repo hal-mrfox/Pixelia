@@ -1,14 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
+using NaughtyAttributes;
 using System.Linq;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class PopulationUICounterpart : ButtonSound
 {
-    public Population PopCP;
-    public bool work;
+    public WindowProvince provinceWindow;
+    public Population popCP;
+    public enum UIType { job, home, list }
+    public UIType uIType;
+
+    #region Pop List Stuff
+    [BoxGroup("Pop List")]
+    public Image popTierUIStrip;
+    [BoxGroup("Pop List")]
+    public TextMeshProUGUI jobStatus;
+    [BoxGroup("Pop List")]
+    public TextMeshProUGUI homeStatus;
+    [BoxGroup("Pop List")]
+    public TextMeshProUGUI popNameText;
+    #endregion
 
     bool clicking;
     GameObject previewPop;
@@ -85,13 +100,20 @@ public class PopulationUICounterpart : ButtonSound
         }
         #endregion
 
-        buildingUI.provinceWindow.movingPop = PopCP;
-        buildingUI.provinceWindow.job = work;
-        clicking = true;
-
         #region Drag and Drop
-        if (Input.GetKeyDown(KeyCode.Mouse0) && PopCP)
+        if (Input.GetKeyDown(KeyCode.Mouse0) && popCP && uIType != UIType.list)
         {
+            buildingUI.provinceWindow.movingPop = popCP;
+            if (uIType == UIType.job)
+            {
+                provinceWindow.job = true;
+            }
+            else
+            {
+                provinceWindow.job = false;
+            }
+            clicking = true;
+
             previewPop = new GameObject("Preview Pop");
 
             if (GetComponent<Image>().sprite)
@@ -108,45 +130,61 @@ public class PopulationUICounterpart : ButtonSound
             }
             previewPop.GetComponent<Image>().raycastTarget = false;
             previewPop.GetComponent<Image>().color = GetComponent<Image>().color;
-            previewPop.transform.SetParent(buildingUI.provinceWindow.transform);
+            previewPop.transform.SetParent(provinceWindow.transform);
+        }
+        else if (Input.GetKeyDown(KeyCode.Mouse0) && popCP && uIType == UIType.list)
+        {
+            provinceWindow.movingPop = popCP;
+            if (uIType == UIType.job)
+            {
+                provinceWindow.job = true;
+            }
+            else
+            {
+                provinceWindow.job = false;
+            }
+            clicking = true;
+
+            previewPop = new GameObject("Preview Pop");
+
+            previewPop.AddComponent<Image>();
+            previewPop.GetComponent<RectTransform>().sizeDelta = new Vector2(GetComponent<RectTransform>().sizeDelta.x + 2, GetComponent<RectTransform>().sizeDelta.y + 2);
+
+            previewPop.GetComponent<Image>().raycastTarget = false;
+            previewPop.GetComponent<Image>().color = new Color(GetComponent<PopulationUICounterpart>().normal.r, GetComponent<PopulationUICounterpart>().normal.g, GetComponent<PopulationUICounterpart>().normal.b, 0.5f);
+            previewPop.transform.SetParent(provinceWindow.transform);
+        }
+        #endregion
+
+        #region Unassign Pops
+        if (Input.GetKeyDown(KeyCode.Mouse1))
+        {
+            if (uIType == UIType.home)
+            {
+                popCP.home.housedPops.Remove(popCP);
+                popCP.home = null;
+                popCP = null;
+            }
+
+            if (uIType == UIType.job)
+            {
+                popCP.job.pops.Remove(popCP);
+                popCP.transform.SetParent(popCP.provinceController.unemployed.transform);
+                popCP.job = null;
+                popCP = null;
+            }
+
+            provinceWindow.provinceTarget.RefreshProvinceValues();
+            provinceWindow.RefreshWindow();
         }
         #endregion
     }
     public override void OnPointerUp(PointerEventData eventData)
     {
-        #region duimb
-        if (buildingUI == null)
-        {
-            if (interactable)
-            {
-                if (hover)
-                {
-                    image.color = hovering;
-                }
-                else
-                {
-                    image.color = normal;
-                }
-            }
-        }
-        else
-        {
-            if (interactable && buildingUI.provinceWindow.target == CountryManager.instance.playerCountry)
-            {
-                if (hover)
-                {
-                    image.color = hovering;
-                }
-                else
-                {
-                    image.color = normal;
-                }
-            }
-        }
-        #endregion
+        base.OnPointerUp(eventData);
 
-        buildingUI.provinceWindow.DropPop();
-        buildingUI.provinceWindow.movingPop = null;
+        provinceWindow.DropPop();
+
         clicking = false;
 
         #region Drag and Drop
@@ -156,96 +194,27 @@ public class PopulationUICounterpart : ButtonSound
 
     public override void OnPointerEnter(PointerEventData eventData)
     {
-        #region shit code
-        if (buildingUI == null)
-        {
-            hover = true;
-            if (lower)
-            {
-                audioSource.pitch = 1.7f;
-                audioSource.PlayOneShot(sound);
-            }
-            else
-            {
-                audioSource.pitch = 2f;
-                audioSource.PlayOneShot(sound);
-            }
+        base.OnPointerEnter(eventData);
 
-            if (image != null)
-            {
-                image.color = hovering;
-            }
-        }
-        else
+        if (popCP)
         {
-            if (buildingUI.provinceWindow.target == CountryManager.instance.playerCountry)
-            {
-                hover = true;
-                if (lower)
-                {
-                    audioSource.pitch = 1.7f;
-                    audioSource.PlayOneShot(sound);
-                }
-                else
-                {
-                    audioSource.pitch = 2f;
-                    audioSource.PlayOneShot(sound);
-                }
-
-                if (image != null)
-                {
-                    image.color = hovering;
-                }
-            }
-        }
-        #endregion
-
-        if (PopCP)
-        {
-            buildingUI.provinceWindow.HighlightPop(work, PopCP);
+            provinceWindow.HighlightPop(popCP, uIType);
         }
     }
 
     public override void OnPointerExit(PointerEventData eventData)
     {
-        #region shitcode 2 electric boogaloo
-        if (!toggled)
-        {
-            if (image != null)
-            {
-                image.color = normal;
-            }
-        }
-        else
-        {
-            if (image != null)
-            {
-                image.color = clicked;
-            }
-        }
+        base.OnPointerExit(eventData);
 
-        if (buildingUI != null && highlight != null)
+        if (popCP)
         {
-            highlight.gameObject.SetActive(false);
-        }
-
-        hover = false;
-        #endregion
-
-        if (PopCP)
-        {
-            buildingUI.provinceWindow.RefreshWindow();
-            GetComponent<Image>().SetNativeSize();
-            if (!GetComponent<Image>().sprite)
-            {
-                GetComponent<RectTransform>().sizeDelta = squareSize;
-            }
+            provinceWindow.UnHighlightPops(popCP, uIType);
         }
     }
 
     public void Update()
     {
-        if (clicking && PopCP)
+        if (clicking && popCP)
         {
             previewPop.transform.position = Input.mousePosition;
         }

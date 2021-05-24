@@ -14,6 +14,8 @@ public class Province : MonoBehaviour, IClickable
     public static Recipes recipes;
     public static BuildingManager buildingManager;
     public static HoldingManager holdingManager;
+    public GameObject unemployed;
+    public GameObject homeless;
     #region Beliefs
     public Image highlightedCountry;
     [BoxGroup("Beliefs")]
@@ -30,6 +32,8 @@ public class Province : MonoBehaviour, IClickable
     public List<Population> pops;
     [BoxGroup("Stats")]
     public List<Population> unemployedPops;
+    [BoxGroup("Stats")]
+    public List<Population> homelessPops;
     [BoxGroup("Stats")]
     public int holdingCapacity;
     [BoxGroup("Stats")]
@@ -95,6 +99,14 @@ public class Province : MonoBehaviour, IClickable
         {
             Destroy(highlightedCountry.transform.GetChild(i).gameObject);
         }
+        unemployed = new GameObject();
+        unemployed.transform.SetParent(transform);
+        unemployed.name = "Unemployed";
+
+        homeless = new GameObject();
+        homeless.transform.SetParent(transform);
+        homeless.name = "Homeless";
+
         RefreshProvinceValues();
         RefreshProvinceColors();
     }
@@ -170,6 +182,22 @@ public class Province : MonoBehaviour, IClickable
         #endregion
 
         #region Pop Counting
+
+        unemployedPops.Clear();
+        homelessPops.Clear();
+
+        for (int i = 0; i < pops.Count; i++)
+        {
+            if (!pops[i].job)
+            {
+                unemployedPops.Add(pops[i]);
+            }
+            if (!pops[i].home)
+            {
+                homelessPops.Add(pops[i]);
+            }
+        }
+
         pops.Clear();
         for (int i = 0; i < holdings.Count; i++)
         {
@@ -179,6 +207,20 @@ public class Province : MonoBehaviour, IClickable
                 {
                     pops.Add(holdings[i].buildings[j].pops[k]);
                 }
+            }
+        }
+        for (int i = 0; i < unemployedPops.Count; i++)
+        {
+            if (!pops.Contains(unemployedPops[i]))
+            {
+                pops.Add(unemployedPops[i]);
+            }
+        }
+        for (int i = 0; i < homelessPops.Count; i++)
+        {
+            if (!pops.Contains(homelessPops[i]))
+            {
+                pops.Add(homelessPops[i]);
             }
         }
         #endregion

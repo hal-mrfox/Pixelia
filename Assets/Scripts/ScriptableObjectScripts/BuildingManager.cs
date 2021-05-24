@@ -7,7 +7,7 @@ using UnityEngine;
 public enum BuildingType
 {
 
-    Mine, Farm, Logging, OilRig, GoodsFactory, Factory, Smeltery, Housing0, University, Temple, Barracks, Stables, Ranges, Housing1, Housing2, Housing3
+    Mine, Farm, Logging, OilRig, GoodsFactory, Factory, Smeltery, LuxuryHousing, University, Temple, Barracks, Stables, Ranges, Housing1, Housing2, Housing3
 
 }
 
@@ -42,6 +42,7 @@ public class BuildingManager : ScriptableObject
         public int workerCapacity;
         public PopTier[] allowedPops;
         public bool isHousing;
+        public bool isMilitary;
 
         #region Cost
         [System.Serializable]
