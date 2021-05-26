@@ -94,6 +94,11 @@ public class Population : MonoBehaviour, IClickable
         return false;
     }
 
+    public bool IsHolding()
+    {
+        return false;
+    }
+
     ////different options for moving -- not just being selected
     //public void Update()
     //{

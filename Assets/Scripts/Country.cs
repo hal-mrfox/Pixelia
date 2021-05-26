@@ -53,6 +53,15 @@ public class Country : MonoBehaviour
     public List<Country> atWar;
     #endregion
 
+    public void Start()
+    {
+        for (int i = 0; i < ownedProvinces.Count; i++)
+        {
+            ownedProvinces[i].owner = this;
+            ownedProvinces[i].FirstStart();
+        }
+    }
+
     #region Resource Class
     [System.Serializable]
     public class CountryResource
@@ -67,6 +76,14 @@ public class Country : MonoBehaviour
         }
     }
     #endregion
+
+    public void NextTurn()
+    {
+        for (int i = 0; i < ownedProvinces.Count; i++)
+        {
+            ownedProvinces[i].NextTurn();
+        }
+    }
 
     public void UpgradeTier()
     {

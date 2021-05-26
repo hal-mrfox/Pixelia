@@ -89,17 +89,7 @@ public class CountryManager : MonoBehaviour
         {
             nextCountry = 0;
         }
-        for (int i = 0; i < playerCountry.ownedProvinces.Count; i++)
-        {
-            for (int j = 0; j < playerCountry.ownedProvinces[i].holdings.Count; j++)
-            {
-                for (int k = 0; k < playerCountry.ownedProvinces[i].holdings[j].buildings.Count; k++)
-                {
-                    playerCountry.ownedProvinces[i].holdings[j].buildings[k].NextTurn();
-                }
-            }
-            playerCountry.ownedProvinces[i].RefreshProvinceValues();
-        }
+        playerCountry.NextTurn();
         playerCountry = countries[nextCountry];
         playerCountryName.text = playerCountry.ToString().Replace("(Country)", "");
         windowProvince.gameObject.SetActive(false);
@@ -107,6 +97,7 @@ public class CountryManager : MonoBehaviour
         VisibleMouse();
         nextCountry++;
         turn++;
+
         for (int i = 0; i < provinces.Count; i++)
         {
             provinces[i].RefreshProvinceColors();

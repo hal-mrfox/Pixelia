@@ -81,12 +81,23 @@ public class Building : MonoBehaviour
         for (int i = 0; i < pops.Count; i++)
         {
             pops[i].DestroyPop();
-            provinceOwner.units.Add(Instantiate(MilitaryManager.instance.unitPrefab, MilitaryManager.instance.transform));
-            var newUnit = provinceOwner.units[provinceOwner.units.Count - 1];
-            CountryManager.instance.totalUnits.Add(newUnit);
-            newUnit.location = provinceOwner;
-            newUnit.owner = provinceOwner.owner;
-            newUnit.transform.position = provinceOwner.transform.position;
+
+            if (provinceOwner.units.Count < 1)
+            {
+                provinceOwner.units.Add(Instantiate(MilitaryManager.instance.unitPrefab, MilitaryManager.instance.transform));
+                var newUnit = provinceOwner.units[provinceOwner.units.Count - 1];
+                CountryManager.instance.totalUnits.Add(newUnit);
+                newUnit.location = provinceOwner;
+                newUnit.owner = provinceOwner.owner;
+                newUnit.transform.position = provinceOwner.transform.position;
+                newUnit.numPops = 1;
+                newUnit.Refresh();
+            }
+            else
+            {
+                provinceOwner.units[0].numPops++;
+                provinceOwner.units[0].Refresh();
+            }
         }
     }
     #endregion

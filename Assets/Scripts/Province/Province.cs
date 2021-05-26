@@ -14,10 +14,11 @@ public class Province : MonoBehaviour, IClickable
     public static Recipes recipes;
     public static BuildingManager buildingManager;
     public static HoldingManager holdingManager;
+    public int size;
     public GameObject unemployed;
     public GameObject homeless;
-    #region Beliefs
     public Image highlightedCountry;
+    #region Beliefs
     [BoxGroup("Beliefs")]
     public Religion religion;
     [BoxGroup("Beliefs")]
@@ -85,6 +86,7 @@ public class Province : MonoBehaviour, IClickable
     public bool hovering;
     #endregion
 
+    #region awake & start
     public void Awake()
     {
         recipes = Resources.Load<Recipes>("Recipes");
@@ -92,15 +94,14 @@ public class Province : MonoBehaviour, IClickable
         holdingManager = Resources.Load<HoldingManager>("HoldingManager");
     }
 
-    public void Start()
+    public void FirstStart()
     {
-        GetComponent<Image>().color = owner.countryColor;
-        highlightedCountry = Instantiate(GetComponent<Image>(), transform.position + new Vector3(0f, 2f), Quaternion.identity, transform);
-        Destroy(highlightedCountry.GetComponent<Province>());
-        for (int i = 0; i < highlightedCountry.transform.childCount; i++)
-        {
-            Destroy(highlightedCountry.transform.GetChild(i).gameObject);
-        }
+        //highlightedCountry = Instantiate(GetComponent<Image>(), transform.position + new Vector3(0f, 2f), Quaternion.identity, transform);
+        //Destroy(highlightedCountry.GetComponent<Province>());
+        //for (int i = 0; i < highlightedCountry.transform.childCount; i++)
+        //{
+        //    Destroy(highlightedCountry.transform.GetChild(i).gameObject);
+        //}
         unemployed = new GameObject();
         unemployed.transform.SetParent(transform);
         unemployed.name = "Unemployed";
@@ -109,18 +110,184 @@ public class Province : MonoBehaviour, IClickable
         homeless.transform.SetParent(transform);
         homeless.name = "Homeless";
 
+        for (int h = 0; h < holdings.Count; h++)
+        {
+            holdings[h].provinceOwner = this;
+            holdings[h].transform.position = transform.position;
+        }
+
         RefreshProvinceValues();
         RefreshProvinceColors();
     }
+    #endregion
+
+    #region Next Turn
+    public void NextTurn()
+    {
+        for (int h = 0; h < holdings.Count; h++)
+        {
+            for (int b = 0; b < holdings[h].buildings.Count; b++)
+            {
+                holdings[h].buildings[b].NextTurn();
+            }
+        }
+
+        RefreshProvinceColors();
+    }
+    #endregion
+
+    #region Generate Voronoi Cells
+    public void GenerateCells()
+    {
+        #region old
+        //int x = (int)((RectTransform)transform).rect.width;
+        //int y = (int)((RectTransform)transform).rect.height;
+
+        ////Find large side
+        ////int large = x > y ? x : y;
+
+        ////Getting two values based on the size of this province
+        //int pointOneX = (x / 2) - (x / 6);
+        //int pointTwoX = (x / 2) + (x / 6);
+        ////Generating random points based on the last two values
+        //int randPointOne = Random.Range(pointOneX, pointTwoX);
+        //int randPointTwo = Random.Range(pointOneX, pointTwoX);
+
+        //Vector2 topPoint = new Vector2(x / 2 + randPointOne, y / 2);
+        //Vector2 bottomPoint = new Vector2(x / 2 + randPointTwo, y / 2);
+
+        ////gizmoOne = new Vector3( topPoint.x, topPoint.y, 0);
+        ////gizmoTwo = new Vector3(bottomPoint.x, bottomPoint.y, 0);
+
+        //gizmoOne = new Vector3(transform.position.x + topPoint.x, transform.position.y + topPoint.y, 0);
+        //gizmoTwo = new Vector3(transform.position.x + bottomPoint.x, transform.position.y - bottomPoint.y, 0);
+
+        //Texture2D texture = GetComponent<Image>().sprite.texture;
+
+        //Color32[] pixels = texture.GetPixels32();
+
+        //int minX = randPointOne < randPointTwo ? randPointOne : randPointTwo;
+
+        //for (int i = 0; i < texture.height; i++)
+        //{
+        //    for (int j = 0; j < texture.width; j++)
+        //    {
+        //        int index = texture.width * i + j;
+
+        //        if (j < minX)
+        //        {
+        //            pixels[index] = new Color32(0, 0, 0, 0);
+        //        }
+        //        else
+        //        {
+        //            float point = Mathf.Sign((bottomPoint.x - topPoint.x) * (i - topPoint.y) - (bottomPoint.x - topPoint.y) * (j - topPoint.x));
+
+        //            if (point < 0)
+        //            {
+        //                pixels[index] = new Color32(0, 0, 0, 0);
+        //            }
+
+        //            //Vector2 line = new Vector2(posOneX - posTwoX, texture.height);
+        //            //Vector2 pixelDirection = new Vector2(j - posTwoX, i);
+
+        //            //float cross = Vector3.Cross(line, pixelDirection).y;
+
+        //            //if (cross < 0)
+        //            //{
+        //            //    pixels[index] = new Color32(0, 0, 0, 0);
+        //            //}
+        //        }
+        //    }
+        //Texture2D newTexture = new Texture2D(texture.width, texture.height)
+        //{
+        //    filterMode = FilterMode.Point
+        //};
+        //
+        //newTexture.SetPixels32(pixels);
+        //newTexture.Apply();
+        //
+        //CreateHolding(transform.position, newTexture);
+        #endregion
+
+        #region shit
+        //float x = (int)((RectTransform)transform).rect.width;
+        //float y = (int)((RectTransform)transform).rect.height;
+        //
+        //Vector2 center = transform.position;
+        //
+        //List<Vector2> points = new List<Vector2>();
+        //
+        //float radius = x > y ? x / 2 : y / 2;
+        //
+        //for (int i = 0; i < size; i++)
+        //{
+        //    points.Add(Random.insideUnitCircle.normalized * radius + new Vector2(GetComponent<Image>().sprite.texture.width, GetComponent<Image>().sprite.texture.height) / 2);
+        //}
+        //
+        //for (int p = 0; p < points.Count; p++)
+        //{
+        //    Texture2D texture = new Texture2D(GetComponent<Image>().sprite.texture.width, GetComponent<Image>().sprite.texture.height);
+        //
+        //    Color32[] pixels = new Color32[texture.width * texture.height];
+        //
+        //    for (int i = 0; i < texture.height; i++)
+        //    {
+        //        for (int j = 0; j < texture.width; j++)
+        //        {
+        //            if (ContainsPoint(points, new Vector2(j, i)))
+        //            {
+        //                pixels[j] = new Color32(255, 255, 255, 255);
+        //            }
+        //            else
+        //            {
+        //                pixels[j] = new Color32(0, 0, 0, 0);
+        //            }
+        //        }
+        //    }
+        //
+        //    Texture2D newTexture = new Texture2D(texture.width, texture.height)
+        //    {
+        //        filterMode = FilterMode.Point
+        //    };
+        //
+        //    newTexture.SetPixels32(pixels);
+        //    newTexture.Apply();
+        //
+        //    CreateHolding(transform.position, newTexture);
+        //}
+        //
+        //
+        //#region poly contains point
+        //static bool ContainsPoint(List<Vector2> polyPoints, Vector2 p)
+        //{
+        //    var j = polyPoints.Count - 1;
+        //    var inside = false;
+        //    for (int i = 0; i < polyPoints.Count; j = i++)
+        //    {
+        //        var pi = polyPoints[i];
+        //        var pj = polyPoints[j];
+        //        if (((pi.y <= p.y && p.y < pj.y) || (pj.y <= p.y && p.y < pi.y)) &&
+        //            (p.x < (pj.x - pi.x) * (p.y - pi.y) / (pj.y - pi.y) + pi.x))
+        //            inside = !inside;
+        //    }
+        //    return inside;
+        //}
+        #endregion
+    }
+    #endregion
 
     #region Create Holding
-    public void CreateHolding()
+    public void CreateHolding(Vector2 position, Texture2D texture)
     {
         Holding newHolding = new GameObject().AddComponent<Holding>();
+        Sprite sprite = Sprite.Create(texture, GetComponent<Image>().sprite.rect, new Vector2(0.5f, 0.5f));
+        newHolding.gameObject.AddComponent<Image>().sprite = sprite;
+        newHolding.gameObject.GetComponent<Image>().SetNativeSize();
         newHolding.transform.parent = transform;
+        newHolding.transform.position = position;
         newHolding.name = "Holding";
         holdings.Add(newHolding);
-        windowProvince.RefreshWindow();
+        RefreshProvinceValues();
     }
     #endregion
 
@@ -230,6 +397,7 @@ public class Province : MonoBehaviour, IClickable
         //Refresh Buildings
         for (int i = 0; i < holdings.Count; i++)
         {
+            holdings[i].Refresh();
             for (int j = 0; j < holdings[i].buildings.Count; j++)
             {
                 holdings[i].buildings[j].RefreshBuilding();
@@ -272,22 +440,27 @@ public class Province : MonoBehaviour, IClickable
     #region Province Color
     public void RefreshProvinceColors()
     {
-        if (owner == CountryManager.instance.playerCountry)
+        if (owner)
         {
-            highlightedCountry.gameObject.SetActive(true);
-            highlightedCountry.color = owner.countryColor;
-            Color.RGBToHSV(owner.countryColor, out float h, out float s, out float v);
-            v -= 0.3f;
-            if (v < 0)
+            if (owner == CountryManager.instance.playerCountry)
             {
-                v = 0;
+                Color.RGBToHSV(owner.countryColor, out float h, out float s, out float v);
+                v -= 0.3f;
+                if (v < 0)
+                {
+                    v = 0;
+                }
+                GetComponent<Image>().color = Color.HSVToRGB(h, s, v);
             }
-            GetComponent<Image>().color = Color.HSVToRGB(h, s, v);
+            else
+            {
+                GetComponent<Image>().color = owner.countryColor;
+            }
         }
-        else
+
+        for (int i = 0; i < holdings.Count; i++)
         {
-            highlightedCountry.gameObject.SetActive(false);
-            GetComponent<Image>().color = owner.countryColor;
+            holdings[i].Refresh();
         }
     }
     #endregion
@@ -330,8 +503,8 @@ public class Province : MonoBehaviour, IClickable
         if (Input.GetKeyDown(KeyCode.Mouse0) && CountryManager.instance.available == true)
         {
             CountryManager.instance.windowProvince.buildingInfoWindow.gameObject.SetActive(false);
-            CountryManager.instance.windowProvince.target = owner;
-            CountryManager.instance.windowProvince.provinceTarget = this;
+            CountryManager.instance.windowProvince.targetCountry = owner;
+            CountryManager.instance.windowProvince.target = this;
             CountryManager.instance.windowProvince.gameObject.SetActive(true);
             CountryManager.instance.windowProvince.OnClicked();
         }
@@ -427,6 +600,11 @@ public class Province : MonoBehaviour, IClickable
     public Image GetImage()
     {
         return GetComponent<Image>();
+    }
+
+    public bool IsHolding()
+    {
+        return false;
     }
     #endregion
 }

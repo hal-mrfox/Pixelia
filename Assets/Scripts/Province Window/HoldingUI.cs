@@ -26,7 +26,7 @@ public class HoldingUI : MonoBehaviour
 
     public void CreateHolding()
     {
-        provinceWindow.provinceTarget.CreateHolding();
+        //provinceWindow.provinceTarget.CreateHolding();
     }
 
     public void Awake()

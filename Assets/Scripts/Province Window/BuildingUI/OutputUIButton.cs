@@ -25,7 +25,7 @@ public class OutputUIButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        if (buildingUI.provinceWindow.target == CountryManager.instance.playerCountry)
+        if (buildingUI.provinceWindow.targetCountry == CountryManager.instance.playerCountry)
         {
             highlight.color = clicked;
             audioSource.PlayOneShot(audioClip);
@@ -46,7 +46,7 @@ public class OutputUIButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        if (buildingUI.provinceWindow.target == CountryManager.instance.playerCountry)
+        if (buildingUI.provinceWindow.targetCountry == CountryManager.instance.playerCountry)
         {
             highlight.color = hoverColor;
         }
@@ -54,7 +54,7 @@ public class OutputUIButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (buildingUI.provinceWindow.target == CountryManager.instance.playerCountry)
+        if (buildingUI.provinceWindow.targetCountry == CountryManager.instance.playerCountry)
         {
             hovering = true;
             highlight.color = hoverColor;
@@ -66,7 +66,7 @@ public class OutputUIButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (buildingUI.provinceWindow.target == CountryManager.instance.playerCountry)
+        if (buildingUI.provinceWindow.targetCountry == CountryManager.instance.playerCountry)
         {
             hovering = false;
             highlight.gameObject.SetActive(false);

@@ -25,7 +25,7 @@ public class InputUIButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     {
         if (Input.GetKeyDown(KeyCode.Mouse0) && buildingUI.provinceWindow.altMode && ProvinceManager.instance.selectedResource.resource == resource)
         {
-            buildingUI.provinceWindow.provinceTarget.RefreshProvinceValues();
+            buildingUI.provinceWindow.target.RefreshProvinceValues();
             buildingUI.provinceWindow.RefreshWindow();
         }
         if (Input.GetKeyDown(KeyCode.Mouse1))

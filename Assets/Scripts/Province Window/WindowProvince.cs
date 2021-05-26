@@ -10,9 +10,9 @@ public class WindowProvince : InteractableWindow
 {
     #region Main
     [BoxGroup("Main")]
-    public Country target;
+    public Country targetCountry;
     [BoxGroup("Main")]
-    public Province provinceTarget;
+    public Province target;
     [BoxGroup("Main")]
     public TextMeshProUGUI provinceName;
     #endregion
@@ -188,7 +188,7 @@ public class WindowProvince : InteractableWindow
     public void HighlightPop(Population highlightedPop, PopulationUICounterpart.UIType type)
     {
         #region list
-        var listPopIconsGameObject = popList[provinceTarget.pops.IndexOf(highlightedPop)].highlight.gameObject;
+        var listPopIconsGameObject = popList[target.pops.IndexOf(highlightedPop)].highlight.gameObject;
         #endregion
 
         if (type == PopulationUICounterpart.UIType.home)
@@ -229,9 +229,9 @@ public class WindowProvince : InteractableWindow
         #region Job
         GameObject GetJob()
         {
-            int jobHolding = provinceTarget.holdings.IndexOf(highlightedPop.job.holding);
-            int jobBuilding = provinceTarget.holdings[jobHolding].buildings.IndexOf(highlightedPop.job);
-            int jobPop = provinceTarget.holdings[jobHolding].buildings[jobBuilding].pops.IndexOf(highlightedPop);
+            int jobHolding = target.holdings.IndexOf(highlightedPop.job.holding);
+            int jobBuilding = target.holdings[jobHolding].buildings.IndexOf(highlightedPop.job);
+            int jobPop = target.holdings[jobHolding].buildings[jobBuilding].pops.IndexOf(highlightedPop);
             var jobPopIconsGameObject = holdings[jobHolding].buildings[jobBuilding].jobPopIcons[jobPop].GetComponent<PopulationUICounterpart>().highlight.gameObject;
 
             return jobPopIconsGameObject;
@@ -241,9 +241,9 @@ public class WindowProvince : InteractableWindow
         #region Home
         GameObject GetHome()
         {
-            int homeHolding = provinceTarget.holdings.IndexOf(highlightedPop.home.holding);
-            int homeBuilding = provinceTarget.holdings[homeHolding].buildings.IndexOf(highlightedPop.home);
-            int homePop = provinceTarget.holdings[homeHolding].buildings[homeBuilding].housedPops.IndexOf(highlightedPop);
+            int homeHolding = target.holdings.IndexOf(highlightedPop.home.holding);
+            int homeBuilding = target.holdings[homeHolding].buildings.IndexOf(highlightedPop.home);
+            int homePop = target.holdings[homeHolding].buildings[homeBuilding].housedPops.IndexOf(highlightedPop);
             var homePopIconsGameObject = holdings[homeHolding].buildings[homeBuilding].housedPopIcons[homePop].GetComponent<PopulationUICounterpart>().highlight.gameObject;
 
             return homePopIconsGameObject;
@@ -253,7 +253,7 @@ public class WindowProvince : InteractableWindow
 
     public void UnHighlightPops(Population highlightedPop, PopulationUICounterpart.UIType type)
     {
-        var listPopIconsGameObject = popList[provinceTarget.pops.IndexOf(highlightedPop)].highlight.gameObject;
+        var listPopIconsGameObject = popList[target.pops.IndexOf(highlightedPop)].highlight.gameObject;
 
         if (type == PopulationUICounterpart.UIType.home)
         {
@@ -294,9 +294,9 @@ public class WindowProvince : InteractableWindow
         #region Job
         GameObject GetJob()
         {
-            int jobHolding = provinceTarget.holdings.IndexOf(highlightedPop.job.holding);
-            int jobBuilding = provinceTarget.holdings[jobHolding].buildings.IndexOf(highlightedPop.job);
-            int jobPop = provinceTarget.holdings[jobHolding].buildings[jobBuilding].pops.IndexOf(highlightedPop);
+            int jobHolding = target.holdings.IndexOf(highlightedPop.job.holding);
+            int jobBuilding = target.holdings[jobHolding].buildings.IndexOf(highlightedPop.job);
+            int jobPop = target.holdings[jobHolding].buildings[jobBuilding].pops.IndexOf(highlightedPop);
             var jobPopIconsGameObject = holdings[jobHolding].buildings[jobBuilding].jobPopIcons[jobPop].GetComponent<PopulationUICounterpart>().highlight.gameObject;
 
             return jobPopIconsGameObject;
@@ -306,9 +306,9 @@ public class WindowProvince : InteractableWindow
         #region Home
         GameObject GetHome()
         {
-            int homeHolding = provinceTarget.holdings.IndexOf(highlightedPop.home.holding);
-            int homeBuilding = provinceTarget.holdings[homeHolding].buildings.IndexOf(highlightedPop.home);
-            int homePop = provinceTarget.holdings[homeHolding].buildings[homeBuilding].housedPops.IndexOf(highlightedPop);
+            int homeHolding = target.holdings.IndexOf(highlightedPop.home.holding);
+            int homeBuilding = target.holdings[homeHolding].buildings.IndexOf(highlightedPop.home);
+            int homePop = target.holdings[homeHolding].buildings[homeBuilding].housedPops.IndexOf(highlightedPop);
             var homePopIconsGameObject = holdings[homeHolding].buildings[homeBuilding].housedPopIcons[homePop].GetComponent<PopulationUICounterpart>().highlight.gameObject;
 
             return homePopIconsGameObject;
@@ -348,35 +348,35 @@ public class WindowProvince : InteractableWindow
         for (int i = 0; i < commodities.Length; i++)
         {
             commodities[i].gameObject.SetActive(false);
-            if (i < provinceTarget.storedResources.Count)
+            if (i < target.storedResources.Count)
             {
                 int resourceOutputValue = 0;
                 //shows output number as "+000"
-                for (int j = 0; j < provinceTarget.holdings.Count; j++)
+                for (int j = 0; j < target.holdings.Count; j++)
                 {
-                    for (int k = 0; k < provinceTarget.holdings[j].buildings.Count; k++)
+                    for (int k = 0; k < target.holdings[j].buildings.Count; k++)
                     {
                         //adding
-                        for (int h = 0; h < provinceTarget.holdings[j].buildings[k].resourceOutput.Count; h++)
+                        for (int h = 0; h < target.holdings[j].buildings[k].resourceOutput.Count; h++)
                         {
-                            if (provinceTarget.storedResources[i].resource == provinceTarget.holdings[j].buildings[k].resourceOutput[h].resource)
+                            if (target.storedResources[i].resource == target.holdings[j].buildings[k].resourceOutput[h].resource)
                             {
-                                resourceOutputValue += provinceTarget.holdings[j].buildings[k].resourceOutput[h].resourceCount;
+                                resourceOutputValue += target.holdings[j].buildings[k].resourceOutput[h].resourceCount;
                             }
                         }
 
                         //subtracting
-                        for (int o = 0; o < provinceTarget.holdings[j].buildings[k].resourceInput.Count; o++)
+                        for (int o = 0; o < target.holdings[j].buildings[k].resourceInput.Count; o++)
                         {
-                            if (provinceTarget.storedResources[i].resource == provinceTarget.holdings[j].buildings[k].resourceInput[o].resource
-                                && provinceTarget.holdings[j].buildings[k].resourceOutput[0].resourceCount != 0)
+                            if (target.storedResources[i].resource == target.holdings[j].buildings[k].resourceInput[o].resource
+                                && target.holdings[j].buildings[k].resourceOutput[0].resourceCount != 0)
                             {
-                                resourceOutputValue -= provinceTarget.holdings[j].buildings[k].resourceInput[o].resourceNeedsCount;
+                                resourceOutputValue -= target.holdings[j].buildings[k].resourceInput[o].resourceNeedsCount;
                             }
                         }
                     }
                 }
-                commodities[i].Refresh(provinceTarget.storedResources[i].resource.icon, provinceTarget.storedResources[i].resourceCount, resourceOutputValue);
+                commodities[i].Refresh(target.storedResources[i].resource.icon, target.storedResources[i].resourceCount, resourceOutputValue);
                 commodities[i].gameObject.SetActive(true);
             }
         }
@@ -384,15 +384,15 @@ public class WindowProvince : InteractableWindow
         for (int i = 0; i < rawResources.Length; i++)
         {
             rawResources[i].gameObject.SetActive(false);
-            if (i < provinceTarget.rawResources.Count)
+            if (i < target.rawResources.Count)
             {
-                rawResources[i].Refresh(provinceTarget.rawResources[i].resource.icon, provinceTarget.rawResources[i].quality);
+                rawResources[i].Refresh(target.rawResources[i].resource.icon, target.rawResources[i].quality);
                 rawResources[i].gameObject.SetActive(true);
             }
         }
         #endregion
         #region Name and Colors
-        provinceName.text = provinceTarget.name;
+        provinceName.text = target.name;
         if (isPlayer)
         {
             backBar.color = CountryManager.instance.green;
@@ -402,15 +402,15 @@ public class WindowProvince : InteractableWindow
             backBar.color = CountryManager.instance.red;
         }
         //set capitol icon active if it is capitol
-        capitolIcon.gameObject.SetActive(provinceTarget == CountryManager.instance.playerCountry.capitalProvince);
+        capitolIcon.gameObject.SetActive(target == CountryManager.instance.playerCountry.capitalProvince);
         #endregion
         #region Demographics
-        popsCount.text = provinceTarget.pops.Count.ToString();
+        popsCount.text = target.pops.Count.ToString();
         //province religion, culture, and ideology text
         //religionText.text = provinceTarget.religion.religionName;
         //cultureText.text = provinceTarget.culture.cultureName;
         //ideologyText.text = provinceTarget.ideology.ideologyName;
-        if (provinceTarget.religion == CountryManager.instance.playerCountry.religion)
+        if (target.religion == CountryManager.instance.playerCountry.religion)
         {
             religionText.color = CountryManager.instance.green;
         }
@@ -419,7 +419,7 @@ public class WindowProvince : InteractableWindow
             religionText.color = CountryManager.instance.red;
         }
 
-        if (provinceTarget.culture == CountryManager.instance.playerCountry.culture)
+        if (target.culture == CountryManager.instance.playerCountry.culture)
         {
             cultureText.color = CountryManager.instance.green;
         }
@@ -428,7 +428,7 @@ public class WindowProvince : InteractableWindow
             cultureText.color = CountryManager.instance.red;
         }
 
-        if (provinceTarget.ideology == CountryManager.instance.playerCountry.ideology)
+        if (target.ideology == CountryManager.instance.playerCountry.ideology)
         {
             ideologyText.color = CountryManager.instance.green;
         }
@@ -437,7 +437,7 @@ public class WindowProvince : InteractableWindow
             ideologyText.color = CountryManager.instance.red;
         }
 
-        if (provinceTarget.pops.Count == 0)
+        if (target.pops.Count == 0)
         {
             religionText.text = "-";
             religionText.color = CountryManager.instance.yellow;
@@ -452,7 +452,7 @@ public class WindowProvince : InteractableWindow
         for (int i = 0; i < holdings.Length; i++)
         {
             holdings[i].gameObject.SetActive(false);
-            if (i < provinceTarget.holdings.Count)
+            if (i < target.holdings.Count && target.holdings[i].owner == CountryManager.instance.playerCountry)
             {
                 holdings[i].gameObject.SetActive(true);
                 holdings[i].holdingCounterpart = i;
@@ -462,17 +462,17 @@ public class WindowProvince : InteractableWindow
                 {
                     //setting buildings active
                     holdings[i].buildings[j].gameObject.SetActive(false);
-                    if (j < provinceTarget.holdings[i].buildings.Count)
+                    if (j < target.holdings[i].buildings.Count && target.holdings[i].owner == CountryManager.instance.playerCountry)
                     {
                         holdings[i].buildings[j].gameObject.SetActive(true);
                         holdings[i].buildings[j].active = true;
                         holdings[i].buildings[j].holdingCounterpart = i;
                         holdings[i].buildings[j].buildingCounterpartIndex = j;
-                        holdings[i].buildings[j].buildingCounterpart = provinceTarget.holdings[i].buildings[j];
-                        holdings[i].buildings[j].buildingType = provinceTarget.holdings[i].buildings[j].buildingType;
+                        holdings[i].buildings[j].buildingCounterpart = target.holdings[i].buildings[j];
+                        holdings[i].buildings[j].buildingType = target.holdings[i].buildings[j].buildingType;
                         holdings[i].buildings[j].Refresh(i, j);
                     }
-                    if (j == provinceTarget.holdings[i].buildings.Count && provinceTarget.owner == CountryManager.instance.playerCountry)
+                    if (j == target.holdings[i].buildings.Count && target.holdings[i].owner == CountryManager.instance.playerCountry)
                     {
                         holdings[i].buildings[j].holdingCounterpart = i;
                         holdings[i].buildings[j].gameObject.SetActive(true);
@@ -482,7 +482,7 @@ public class WindowProvince : InteractableWindow
                 }
             }
             //show create holding ui (not a real holding)
-            if (i == provinceTarget.holdings.Count && provinceTarget.owner == CountryManager.instance.playerCountry)
+            if (i == target.holdings.Count && target.holdings[i].owner == CountryManager.instance.playerCountry)
             {
                 holdings[i].gameObject.SetActive(true);
                 holdings[i].Refresh(false);
@@ -500,31 +500,31 @@ public class WindowProvince : InteractableWindow
         }
         popList.Clear();
 
-        for (int i = 0; i < provinceTarget.pops.Count; i++)
+        for (int i = 0; i < target.pops.Count; i++)
         {
             popList.Add(Instantiate(popListPrefab, popListGridLayout.transform));
         }
 
         for (int i = 0; i < popList.Count; i++)
         {
-            popList[i].popCP = provinceTarget.pops[i];
+            popList[i].popCP = target.pops[i];
             popList[i].provinceWindow = this;
             popList[i].uIType = PopulationUICounterpart.UIType.list;
             popList[i].popTierUIStrip.color = PopulationManager.instance.popTierDetails[(int)popList[i].popCP.popTier].popColor;
-            popList[i].popNameText.text = provinceTarget.pops[i].name;
+            popList[i].popNameText.text = target.pops[i].name;
 
-            if (provinceTarget.pops[i].job)
+            if (target.pops[i].job)
             {
-                popList[i].jobStatus.text = provinceTarget.pops[i].job.name;
+                popList[i].jobStatus.text = target.pops[i].job.name;
             }
             else
             {
                 popList[i].jobStatus.text = "unemployed";
             }
 
-            if (provinceTarget.pops[i].home)
+            if (target.pops[i].home)
             {
-                popList[i].homeStatus.text = provinceTarget.pops[i].home.name;
+                popList[i].homeStatus.text = target.pops[i].home.name;
             }
             else
             {
@@ -533,7 +533,7 @@ public class WindowProvince : InteractableWindow
         }
         #endregion
 
-        target.CalculateResources();
+        targetCountry.CalculateResources();
     }
 
     public void TogglePopList()
@@ -557,27 +557,27 @@ public class WindowProvince : InteractableWindow
 
     public void CreateBuilding(BuildingType buildingType)
     {
-        provinceTarget.CreateBuilding(holdingIndex, buildingType);
+        target.CreateBuilding(holdingIndex, buildingType);
         createBuildingWindow.gameObject.SetActive(false);
-        provinceTarget.RefreshProvinceValues();
+        target.RefreshProvinceValues();
         RefreshWindow();
     }
 
     #region old building stuff to get rid of
     public void BuildingButton(int buildingNumber)
     {
-        if (buildingNumber < provinceTarget.holdings.Count && isPlayer)
+        if (buildingNumber < target.holdings.Count && isPlayer)
         {
             buildingInfoWindow.gameObject.SetActive(true);
             //selectedHolding = provinceTarget.holdings[buildingNumber];
             buildingInfoWindow.OnEnable();
             //selectedHolding.GetComponent<Image>().color = CountryManager.instance.yellow;
         }
-        else if (buildingNumber == provinceTarget.holdings.Count && target == CountryManager.instance.playerCountry)
+        else if (buildingNumber == target.holdings.Count && targetCountry == CountryManager.instance.playerCountry)
         {
             OpenCreateBuildingWindow();
         }
-        else if (target != CountryManager.instance.playerCountry)
+        else if (targetCountry != CountryManager.instance.playerCountry)
         {
             print("You cannot edit other countries provinces!");
         }
@@ -585,7 +585,7 @@ public class WindowProvince : InteractableWindow
     public void OpenCreateBuildingWindow()
     {
         //open the select building window and create a new building
-        if (target == CountryManager.instance.playerCountry)
+        if (targetCountry == CountryManager.instance.playerCountry)
         {
             selectBuildingWindow.gameObject.SetActive(true);
         }
@@ -603,7 +603,7 @@ public class WindowProvince : InteractableWindow
     {
         //toggle building marker
         //if has funds and is in building capacity
-        if (provinceTarget.holdings.Count < provinceTarget.buildingCapacity)
+        if (target.holdings.Count < target.buildingCapacity)
         {
             selectedBuildingType = buildingID;
             markBuildingSpot = true;
@@ -654,7 +654,7 @@ public class WindowProvince : InteractableWindow
     //eventually make it so players cant edit non players provinces
     public void IfPlayer()
     {
-        if (target == CountryManager.instance.playerCountry)
+        if (targetCountry == CountryManager.instance.playerCountry)
         {
             isPlayer = true;
         }

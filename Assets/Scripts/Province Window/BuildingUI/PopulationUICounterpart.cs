@@ -67,7 +67,7 @@ public class PopulationUICounterpart : ButtonSound
         }
         else
         {
-            if (interactable && buildingUI.provinceWindow.target == CountryManager.instance.playerCountry)
+            if (interactable && buildingUI.provinceWindow.targetCountry == CountryManager.instance.playerCountry)
             {
                 if (buttonType == ButtonType.click)
                 {
@@ -174,7 +174,7 @@ public class PopulationUICounterpart : ButtonSound
                 popCP = null;
             }
 
-            provinceWindow.provinceTarget.RefreshProvinceValues();
+            provinceWindow.target.RefreshProvinceValues();
             provinceWindow.RefreshWindow();
         }
         #endregion

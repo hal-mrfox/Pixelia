@@ -247,4 +247,9 @@ public class OldBuilding : MonoBehaviour, IClickable
     {
         return false;
     }
+
+    public bool IsHolding()
+    {
+        return false;
+    }
 }

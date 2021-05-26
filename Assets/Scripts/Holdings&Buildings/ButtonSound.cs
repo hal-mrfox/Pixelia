@@ -60,7 +60,7 @@ public class ButtonSound : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         }
         else
         {
-            if (interactable && buildingUI.provinceWindow.target == CountryManager.instance.playerCountry)
+            if (interactable && buildingUI.provinceWindow.targetCountry == CountryManager.instance.playerCountry)
             {
                 if (buttonType == ButtonType.click)
                 {
@@ -110,7 +110,7 @@ public class ButtonSound : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         }
         else
         {
-            if (interactable && buildingUI.provinceWindow.target == CountryManager.instance.playerCountry)
+            if (interactable && buildingUI.provinceWindow.targetCountry == CountryManager.instance.playerCountry)
             {
                 if (hover)
                 {
@@ -147,7 +147,7 @@ public class ButtonSound : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         }
         else
         {
-            if (buildingUI.provinceWindow.target == CountryManager.instance.playerCountry)
+            if (buildingUI.provinceWindow.targetCountry == CountryManager.instance.playerCountry)
             {
                 hover = true;
                 if (lower)

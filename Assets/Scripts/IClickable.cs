@@ -6,4 +6,5 @@ public interface IClickable
     void OnPointerExit();
     void OnPointerDown();
     bool IsProvince();
+    bool IsHolding();
 }
