@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buildings:
   - buildingType: 0
-    outputCapacity: 6
+    outputCapacity: 1
     creatableResources:
     - {fileID: 11400000, guid: 3ffb63fdf28f17247a4c08f682b6dfd1, type: 2}
     - {fileID: 11400000, guid: 3dee1f524513f6c4db617fd4c3699770, type: 2}
@@ -31,7 +31,7 @@ MonoBehaviour:
       moneyCost: 0
       resourceCost: []
     housingCapacity: 0
-    workerCapacity: 20
+    workerCapacity: 10
     allowedPops: 000000000100000002000000
     isHousing: 0
     isMilitary: 0
@@ -47,7 +47,7 @@ MonoBehaviour:
       moneyCost: 0
       resourceCost: []
     housingCapacity: 0
-    workerCapacity: 20
+    workerCapacity: 10
     allowedPops: 000000000100000002000000
     isHousing: 0
     isMilitary: 0
@@ -63,7 +63,7 @@ MonoBehaviour:
       moneyCost: 0
       resourceCost: []
     housingCapacity: 0
-    workerCapacity: 20
+    workerCapacity: 10
     allowedPops: 000000000100000002000000
     isHousing: 0
     isMilitary: 0
@@ -78,7 +78,7 @@ MonoBehaviour:
       moneyCost: 0
       resourceCost: []
     housingCapacity: 0
-    workerCapacity: 20
+    workerCapacity: 10
     allowedPops: 000000000100000002000000
     isHousing: 0
     isMilitary: 0
@@ -94,7 +94,7 @@ MonoBehaviour:
       moneyCost: 0
       resourceCost: []
     housingCapacity: 0
-    workerCapacity: 20
+    workerCapacity: 10
     allowedPops: 000000000100000002000000
     isHousing: 0
     isMilitary: 0
@@ -115,7 +115,7 @@ MonoBehaviour:
       moneyCost: 0
       resourceCost: []
     housingCapacity: 0
-    workerCapacity: 20
+    workerCapacity: 10
     allowedPops: 000000000100000002000000
     isHousing: 0
     isMilitary: 0
@@ -133,7 +133,7 @@ MonoBehaviour:
       moneyCost: 0
       resourceCost: []
     housingCapacity: 0
-    workerCapacity: 20
+    workerCapacity: 10
     allowedPops: 000000000100000002000000
     isHousing: 0
     isMilitary: 0

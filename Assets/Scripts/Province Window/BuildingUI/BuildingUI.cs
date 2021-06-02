@@ -394,25 +394,21 @@ public class BuildingUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     #region resource selection/buttons
     public void OpenResourceSelection(int outputValue, bool create)
     {
-        if (create
-            && 
-            provinceWindow.target.holdings[holdingCounterpart].buildings[buildingCounterpartIndex].resourceOutput.Count <= outputValue
-            &&
-            outputValue < Resources.Load<BuildingManager>("BuildingManager").buildings[(int)provinceWindow.target.holdings[holdingCounterpart].buildings[buildingCounterpartIndex].buildingType].outputCapacity)
+        if (create && buildingCounterpart.resourceOutput.Count <= outputValue && outputValue < Resources.Load<BuildingManager>("BuildingManager").buildings[(int)buildingType].outputCapacity)
         {
             for (int i = 0; i < resourceOptions.Count; i++)
             {
-                #region Raw Resource Gathering Holding Type
-                if (provinceWindow.target.holdings[holdingCounterpart].buildings[buildingCounterpartIndex].buildingType == BuildingType.Mine
-                    || provinceWindow.target.holdings[holdingCounterpart].buildings[buildingCounterpartIndex].buildingType == BuildingType.Logging
-                    || provinceWindow.target.holdings[holdingCounterpart].buildings[buildingCounterpartIndex].buildingType == BuildingType.Farm)
+                #region Raw Resource Gathering
+                if (buildingType == BuildingType.Mine || buildingType == BuildingType.Logging || buildingType == BuildingType.Farm)
                 {
-                    if (i < provinceWindow.target.rawResources.Count && Resources.Load<BuildingManager>("BuildingManager").buildings[(int)buildingType].creatableResources.Contains(provinceWindow.target.rawResources[i].resource))
+                    if (i < buildingCounterpart.holding.rawResources.Count
+                        && Resources.Load<BuildingManager>("BuildingManager").buildings[(int)buildingType].creatableResources.Contains(buildingCounterpart.holding.rawResources[i].resource)
+                        && buildingCounterpart.holding.rawResources[i].amount > 0)
                     {
-                        resourceOptions[i].resource = provinceWindow.target.rawResources[i].resource;
+                        resourceOptions[i].resource = buildingCounterpart.holding.rawResources[i].resource;
                         if (provinceWindow.target.holdings[holdingCounterpart].buildings[buildingCounterpartIndex].resourceOutput.Count > 0)
                         {
-                            for (int j = 0; j < provinceWindow.target.holdings[holdingCounterpart].buildings[buildingCounterpartIndex].resourceOutput.Count; j++)
+                            for (int j = 0; j < buildingCounterpart.resourceOutput.Count; j++)
                             {
                                 resourceOptions[i].GetComponent<Image>().sprite = resourceOptions[i].resource.icon;
                                 resourceOptions[i].GetComponent<Image>().SetNativeSize();
@@ -587,13 +583,20 @@ public class BuildingUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             var movingPop = provinceWindow.movingPop;
             if (!resourcesBuilding.isHousing)
             {
+                movingPop.workingHolding.pops.Remove(movingPop);
                 if (movingPop.job)
                 {
                     movingPop.job.pops.Remove(movingPop);
+                    movingPop.job.holding.pops.Remove(movingPop);
                 }
                 movingPop.job = buildingCounterpart;
                 movingPop.job.pops.Add(movingPop);
                 movingPop.transform.SetParent(buildingCounterpart.transform);
+
+                if (!movingPop.job.holding.pops.Contains(movingPop))
+                {
+                    movingPop.job.holding.pops.Add(movingPop);
+                }
             }
             else
             {
@@ -605,6 +608,7 @@ public class BuildingUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
                 movingPop.home.housedPops.Add(movingPop);
                 movingPop.popTier = resourcesBuilding.allowedPops[0];
             }
+            movingPop.workingHolding.RefreshValues();
         }
         provinceWindow.movingPop = null;
 

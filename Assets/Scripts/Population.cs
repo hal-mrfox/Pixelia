@@ -25,6 +25,7 @@ public class Population : MonoBehaviour, IClickable
     public Province provinceController;
     public bool selected;
     #endregion
+    public Holding workingHolding;
     public Building job;
     public Building home;
 
@@ -32,6 +33,7 @@ public class Population : MonoBehaviour, IClickable
     {
         job.pops.Remove(this);
         home.housedPops.Remove(this);
+        workingHolding.pops.Remove(this);
         provinceController.RefreshProvinceValues();
         provinceController.windowProvince.RefreshWindow();
         Destroy(this);

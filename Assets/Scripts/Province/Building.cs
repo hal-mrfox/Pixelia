@@ -45,28 +45,7 @@ public class Building : MonoBehaviour
     [Space(50)]
     public List<Population> housedPops = new List<Population>();
 
-    #region Add Pops
-    public void AddPop(PopTier popType, Building house, Holding holding)
-    {
-        if (pops.Count < Resources.Load<BuildingManager>("BuildingManager").buildings[(int)buildingType].workerCapacity)
-        {
-            pops.Add(Instantiate(Universal.popPrefab, transform));
-            var newPop = pops[pops.Count - 1];
-
-            var countryOwner = provinceOwner.owner;
-            newPop.popTier = popType;
-            newPop.religion = countryOwner.religion;
-            newPop.culture = countryOwner.culture;
-            newPop.ideology = countryOwner.ideology;
-            newPop.controller = countryOwner;
-            newPop.provinceController = provinceOwner;
-            newPop.job = this;
-            newPop.home = house;
-            newPop.name = "Pop " + (provinceOwner.pops.Count + 1).ToString();
-        }
-
-        provinceOwner.RefreshProvinceValues();
-    }
+    #region Destroy pop
     public void DestroyPop()
     {
         Destroy(pops[pops.Count - 1].gameObject);
@@ -102,7 +81,7 @@ public class Building : MonoBehaviour
     }
     #endregion
 
-    #region Refresh Building && Next Turn
+    #region Refresh Building
     public void RefreshBuilding()
     {
         //Fields
@@ -111,7 +90,10 @@ public class Building : MonoBehaviour
         var buildingManager = Resources.Load<BuildingManager>("BuildingManager");
 
         //Efficiency Calculation
-        Mathf.FloorToInt(efficiency = pops.Count / 20f * 100f);
+        if (!Resources.Load<BuildingManager>("BuildingManager").buildings[(int)buildingType].isHousing)
+        {
+            Mathf.FloorToInt(efficiency = pops.Count / Resources.Load<BuildingManager>("BuildingManager").buildings[(int)buildingType].workerCapacity * 100f);
+        }
 
         resourceInput.Clear();
         for (int i = 0; i < resourceOutput.Count; i++)
@@ -119,9 +101,9 @@ public class Building : MonoBehaviour
 
             //Refreshing stored resources
             bool foundResource = false;
-            for (int j = 0; j < provinceOwner.storedResources.Count; j++)
+            for (int j = 0; j < holding.storedResources.Count; j++)
             {
-                if (resourceOutput[i].resource == provinceOwner.storedResources[j].resource)
+                if (resourceOutput[i].resource == holding.storedResources[j].resource)
                 {
                     foundResource = true;
                     break;
@@ -129,20 +111,20 @@ public class Building : MonoBehaviour
             }
             if (!foundResource)
             {
-                provinceOwner.storedResources.Add(new Province.ProvinceResource(resourceOutput[i].resource, 0, 0));
+                holding.storedResources.Add(new Holding.ResourceAmount(resourceOutput[i].resource, 0));
             }
             //Resource Output Value Calculation and setting
 
-            int resourceQuality = 1;
-            for (int j = 0; j < provinceOwner.rawResources.Count; j++)
+            int resourceQuality = 0;
+            for (int j = 0; j < holding.rawResources.Count; j++)
             {
-                if (provinceOwner.rawResources[j].resource == resourceOutput[i].resource)
+                if (holding.rawResources[j].resource == resourceOutput[i].resource)
                 {
-                    resourceQuality = provinceOwner.rawResources[j].quality;
+                    resourceQuality = holding.rawResources[j].amount;
                     break;
                 }
-            }//                                                                        6, 26
-            resourceOutput[i].resourceCount = Mathf.CeilToInt((efficiency / Mathf.Lerp(1, 10, resourceOutput[i].resource.acquisitionDifficulty)) * resourceQuality /*/ resourceOutput.Count*/);
+            }//                                                                       6, 26
+            resourceOutput[i].resourceCount = Mathf.CeilToInt(efficiency / Mathf.Lerp(1, 10, resourceOutput[i].resource.acquisitionDifficulty) * resourceQuality /*/ resourceOutput.Count*/);
 
             int outputInt = ResourceManager.instance.resources.IndexOf(resourceOutput[i].resource);
             if (recipes.resourceRecipes[outputInt].requiredResources.Length > 0)
@@ -150,11 +132,11 @@ public class Building : MonoBehaviour
                 for (int j = 0; j < recipes.resourceRecipes[outputInt].requiredResources.Length; j++)
                 {
                     int resourceAmount = 0;
-                    for (int k = 0; k < provinceOwner.storedResources.Count; k++)
+                    for (int k = 0; k < holding.storedResources.Count; k++)
                     {
-                        if (recipes.resourceRecipes[outputInt].requiredResources[j].resource == provinceOwner.storedResources[k].resource)
+                        if (recipes.resourceRecipes[outputInt].requiredResources[j].resource == holding.storedResources[k].resource)
                         {
-                            resourceAmount = provinceOwner.storedResources[k].resourceCount - provinceOwner.storedResources[k].resourceNeedsCount;
+                            resourceAmount = holding.storedResources[k].amount - holding.storedResources[k].amount;
                             break;
                         }
                     }
@@ -193,6 +175,15 @@ public class Building : MonoBehaviour
         }
 
         #region Housing
+        for (int i = 0; i < pops.Count; i++)
+        {
+            pops[i].job = this;
+        }
+        for (int i = 0; i < housedPops.Count; i++)
+        {
+            housedPops[i].home = this;
+        }
+
         //if housing then setting pop growth
         if (Resources.Load<BuildingManager>("BuildingManager").buildings[(int)buildingType].isHousing && housedPops.Count >= 2)
         {
@@ -209,7 +200,7 @@ public class Building : MonoBehaviour
 
             #region Pop Growth Equation
             popGrowthMultiplier = (Universal.basePopGrowth * (Universal.instance.PopulationMultiplierGraph.Evaluate(popAmount / 100f) * 10));
-            //popGrowthMultiplier = 25;
+            //popGrowthMultiplier = 50;
             #endregion
         }
         else
@@ -253,11 +244,11 @@ public class Building : MonoBehaviour
         for (int i = 0; i < resourceOutput.Count; i++)
         {
             bool foundResource = false;
-            for (int j = 0; j < provinceOwner.storedResources.Count; j++)
+            for (int j = 0; j < holding.storedResources.Count; j++)
             {
-                if (resourceOutput[i].resource == provinceOwner.storedResources[j].resource)
+                if (resourceOutput[i].resource == holding.storedResources[j].resource)
                 {
-                    provinceOwner.storedResources[j].resourceCount += resourceOutput[i].resourceCount;
+                    holding.storedResources[j].amount += resourceOutput[i].resourceCount;
                     foundResource = true;
                     break;
                 }
@@ -265,7 +256,7 @@ public class Building : MonoBehaviour
 
             if (!foundResource)
             {
-                provinceOwner.storedResources.Add(new Province.ProvinceResource(resourceOutput[i].resource, resourceOutput[i].resourceCount, 0));
+                holding.storedResources.Add(new Holding.ResourceAmount(resourceOutput[i].resource, resourceOutput[i].resourceCount));
             }
         }
 
@@ -274,53 +265,20 @@ public class Building : MonoBehaviour
 
         if (popGrowth >= 100f)
         {
-            int buildingCount = 0;
-            for (int i = 0; i < provinceOwner.holdings.Count; i++)
-            {
-                for (int j = 0; j < provinceOwner.holdings[i].buildings.Count; j++)
-                {
-                    buildingCount++;
-                }
-            }
+            holding.CreatePop(Resources.Load<BuildingManager>("BuildingManager").buildings[(int)buildingType].allowedPops[0], this);
 
-            for (int i = 0; i < buildingCount; i++)
-            {
-                //choose random province (but it doesnt work sometimes?????!?!?!?!?!?!?!?!?!?!s)
-                int holdingIndex = Random.Range(0, provinceOwner.holdings.Count);
-                int buildingIndex = Random.Range(0, provinceOwner.holdings[holdingIndex].buildings.Count);
-
-                var allowedPop = Resources.Load<BuildingManager>("BuildingManager").buildings[(int)buildingType].allowedPops[0];
-                var targetallowedPop = Resources.Load<BuildingManager>("BuildingManager").buildings[(int)provinceOwner.holdings[holdingIndex].buildings[buildingIndex].buildingType].allowedPops[0];
-
-                if (!Resources.Load<BuildingManager>("BuildingManager").buildings[(int)provinceOwner.holdings[holdingIndex].buildings[buildingIndex].buildingType].isHousing
-                    && !Resources.Load<BuildingManager>("BuildingManager").buildings[(int)provinceOwner.holdings[holdingIndex].buildings[buildingIndex].buildingType].isMilitary
-                    && Resources.Load<BuildingManager>("BuildingManager").buildings[(int)provinceOwner.holdings[holdingIndex].buildings[buildingIndex].buildingType].allowedPops.Contains(allowedPop)
-                    && provinceOwner.holdings[holdingIndex].buildings[buildingIndex].pops.Count < Resources.Load<BuildingManager>("BuildingManager").buildings[(int)provinceOwner.holdings[holdingIndex].buildings[buildingIndex].buildingType].workerCapacity
-                    && provinceOwner.holdings[holdingIndex].buildings[buildingIndex] != this)
-                {
-                    var target = provinceOwner.holdings[holdingIndex].buildings[buildingIndex];
-                    target.AddPop(allowedPop, this, holding);
-                    housedPops.Add(target.pops[target.pops.Count - 1]);
-                    popGrowth = 0;
-                    break;
-                }
-                else
-                {
-                    popGrowth = 100;
-                }
-            }
-
+            popGrowth = 0;
         }
 
         //subtracting input from stored resources
         for (int i = 0; i < resourceInput.Count; i++)
         {
-            for (int j = 0; j < provinceOwner.storedResources.Count; j++)
+            for (int j = 0; j < holding.storedResources.Count; j++)
             {
-                if (resourceInput[i].resource == provinceOwner.storedResources[j].resource
+                if (resourceInput[i].resource == holding.storedResources[j].resource
                     && resourceOutput[0].resourceCount != 0)
                 {
-                    provinceOwner.storedResources[j].resourceCount -= resourceInput[i].resourceNeedsCount;
+                    holding.storedResources[j].amount -= resourceInput[i].resourceNeedsCount;
                 }
             }
         }
@@ -334,8 +292,8 @@ public class Building : MonoBehaviour
         {
             for (int i = 0; i < pops.Count; i++)
             {
+                pops[i].transform.SetParent(pops[i].workingHolding.transform);
                 pops[i].job = null;
-                pops[i].transform.SetParent(provinceOwner.unemployed.transform);
             }
         }
         else if (Resources.Load<BuildingManager>("BuildingManager").buildings[(int)buildingType].isHousing)
@@ -349,16 +307,18 @@ public class Building : MonoBehaviour
         {
             for (int i = 0; i < pops.Count; i++)
             {
+                pops[i].transform.SetParent(pops[i].workingHolding.transform);
                 pops[i].job = null;
-                pops[i].transform.SetParent(provinceOwner.unemployed.transform);
             }
         }
 
+
         pops.Clear();
+        housedPops.Clear();
+        holding.owner.Refresh();
+        holding.buildings.Remove(this);
 
         Destroy(gameObject);
-
-        holding.buildings.Remove(this);
     }
     #endregion
 }

@@ -1,0 +1,222 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b68ab9d90ebde8142917bcd4a4470af4, type: 3}
+  m_Name: TerrainManager
+  m_EditorClassIdentifier: 
+  terrainDetails:
+  - terrainType: 0
+    generatableResources:
+    - resource: {fileID: 11400000, guid: 7cfb003adb14cda4bbe2e566c4803988, type: 2}
+      min: 1
+      max: 3
+    - resource: {fileID: 11400000, guid: cb4aefd37b1bfde43a8ec613ead33cba, type: 2}
+      min: 1
+      max: 1
+    - resource: {fileID: 11400000, guid: 3ffb63fdf28f17247a4c08f682b6dfd1, type: 2}
+      min: 1
+      max: 1
+    - resource: {fileID: 11400000, guid: 3dee1f524513f6c4db617fd4c3699770, type: 2}
+      min: 1
+      max: 1
+    - resource: {fileID: 11400000, guid: b9ab2146badb2fb409fe5106e851f37e, type: 2}
+      min: 1
+      max: 1
+    - resource: {fileID: 11400000, guid: 6a921899f45dcd843b3dac8b3a9a70c5, type: 2}
+      min: 0
+      max: 1
+    - resource: {fileID: 11400000, guid: b35878d2163d4a14aad2c79a4ad73609, type: 2}
+      min: 1
+      max: 1
+  - terrainType: 1
+    generatableResources:
+    - resource: {fileID: 11400000, guid: 7cfb003adb14cda4bbe2e566c4803988, type: 2}
+      min: 1
+      max: 3
+    - resource: {fileID: 11400000, guid: cb4aefd37b1bfde43a8ec613ead33cba, type: 2}
+      min: 3
+      max: 3
+    - resource: {fileID: 11400000, guid: 3ffb63fdf28f17247a4c08f682b6dfd1, type: 2}
+      min: 1
+      max: 1
+    - resource: {fileID: 11400000, guid: 3dee1f524513f6c4db617fd4c3699770, type: 2}
+      min: 1
+      max: 1
+    - resource: {fileID: 11400000, guid: b9ab2146badb2fb409fe5106e851f37e, type: 2}
+      min: 1
+      max: 2
+    - resource: {fileID: 11400000, guid: 6a921899f45dcd843b3dac8b3a9a70c5, type: 2}
+      min: 0
+      max: 1
+    - resource: {fileID: 11400000, guid: b35878d2163d4a14aad2c79a4ad73609, type: 2}
+      min: 1
+      max: 1
+  - terrainType: 2
+    generatableResources:
+    - resource: {fileID: 11400000, guid: 7cfb003adb14cda4bbe2e566c4803988, type: 2}
+      min: 1
+      max: 2
+    - resource: {fileID: 11400000, guid: cb4aefd37b1bfde43a8ec613ead33cba, type: 2}
+      min: 1
+      max: 1
+    - resource: {fileID: 11400000, guid: 3ffb63fdf28f17247a4c08f682b6dfd1, type: 2}
+      min: 1
+      max: 2
+    - resource: {fileID: 11400000, guid: 3dee1f524513f6c4db617fd4c3699770, type: 2}
+      min: 1
+      max: 2
+    - resource: {fileID: 11400000, guid: b9ab2146badb2fb409fe5106e851f37e, type: 2}
+      min: 1
+      max: 2
+    - resource: {fileID: 11400000, guid: 6a921899f45dcd843b3dac8b3a9a70c5, type: 2}
+      min: 0
+      max: 2
+    - resource: {fileID: 11400000, guid: b35878d2163d4a14aad2c79a4ad73609, type: 2}
+      min: 1
+      max: 2
+  - terrainType: 3
+    generatableResources:
+    - resource: {fileID: 11400000, guid: 7cfb003adb14cda4bbe2e566c4803988, type: 2}
+      min: 1
+      max: 1
+    - resource: {fileID: 11400000, guid: cb4aefd37b1bfde43a8ec613ead33cba, type: 2}
+      min: 1
+      max: 2
+    - resource: {fileID: 11400000, guid: 3ffb63fdf28f17247a4c08f682b6dfd1, type: 2}
+      min: 2
+      max: 3
+    - resource: {fileID: 11400000, guid: 3dee1f524513f6c4db617fd4c3699770, type: 2}
+      min: 2
+      max: 3
+    - resource: {fileID: 11400000, guid: b9ab2146badb2fb409fe5106e851f37e, type: 2}
+      min: 2
+      max: 3
+    - resource: {fileID: 11400000, guid: 6a921899f45dcd843b3dac8b3a9a70c5, type: 2}
+      min: 1
+      max: 2
+    - resource: {fileID: 11400000, guid: b35878d2163d4a14aad2c79a4ad73609, type: 2}
+      min: 2
+      max: 3
+  - terrainType: 4
+    generatableResources:
+    - resource: {fileID: 11400000, guid: 7cfb003adb14cda4bbe2e566c4803988, type: 2}
+      min: 0
+      max: 1
+    - resource: {fileID: 11400000, guid: cb4aefd37b1bfde43a8ec613ead33cba, type: 2}
+      min: 0
+      max: 0
+    - resource: {fileID: 11400000, guid: 3ffb63fdf28f17247a4c08f682b6dfd1, type: 2}
+      min: 1
+      max: 2
+    - resource: {fileID: 11400000, guid: 3dee1f524513f6c4db617fd4c3699770, type: 2}
+      min: 1
+      max: 1
+    - resource: {fileID: 11400000, guid: b9ab2146badb2fb409fe5106e851f37e, type: 2}
+      min: 0
+      max: 1
+    - resource: {fileID: 11400000, guid: 6a921899f45dcd843b3dac8b3a9a70c5, type: 2}
+      min: 0
+      max: 1
+    - resource: {fileID: 11400000, guid: b35878d2163d4a14aad2c79a4ad73609, type: 2}
+      min: 1
+      max: 1
+  - terrainType: 5
+    generatableResources:
+    - resource: {fileID: 11400000, guid: 7cfb003adb14cda4bbe2e566c4803988, type: 2}
+      min: 0
+      max: 0
+    - resource: {fileID: 11400000, guid: cb4aefd37b1bfde43a8ec613ead33cba, type: 2}
+      min: 0
+      max: 0
+    - resource: {fileID: 11400000, guid: 3ffb63fdf28f17247a4c08f682b6dfd1, type: 2}
+      min: 3
+      max: 3
+    - resource: {fileID: 11400000, guid: 3dee1f524513f6c4db617fd4c3699770, type: 2}
+      min: 3
+      max: 3
+    - resource: {fileID: 11400000, guid: b9ab2146badb2fb409fe5106e851f37e, type: 2}
+      min: 3
+      max: 3
+    - resource: {fileID: 11400000, guid: 6a921899f45dcd843b3dac8b3a9a70c5, type: 2}
+      min: 2
+      max: 3
+    - resource: {fileID: 11400000, guid: b35878d2163d4a14aad2c79a4ad73609, type: 2}
+      min: 3
+      max: 3
+  - terrainType: 6
+    generatableResources:
+    - resource: {fileID: 11400000, guid: 7cfb003adb14cda4bbe2e566c4803988, type: 2}
+      min: 1
+      max: 3
+    - resource: {fileID: 11400000, guid: cb4aefd37b1bfde43a8ec613ead33cba, type: 2}
+      min: 2
+      max: 3
+    - resource: {fileID: 11400000, guid: 3ffb63fdf28f17247a4c08f682b6dfd1, type: 2}
+      min: 1
+      max: 2
+    - resource: {fileID: 11400000, guid: 3dee1f524513f6c4db617fd4c3699770, type: 2}
+      min: 1
+      max: 2
+    - resource: {fileID: 11400000, guid: b9ab2146badb2fb409fe5106e851f37e, type: 2}
+      min: 1
+      max: 2
+    - resource: {fileID: 11400000, guid: 6a921899f45dcd843b3dac8b3a9a70c5, type: 2}
+      min: 0
+      max: 2
+    - resource: {fileID: 11400000, guid: b35878d2163d4a14aad2c79a4ad73609, type: 2}
+      min: 1
+      max: 2
+  - terrainType: 7
+    generatableResources:
+    - resource: {fileID: 11400000, guid: 7cfb003adb14cda4bbe2e566c4803988, type: 2}
+      min: 1
+      max: 2
+    - resource: {fileID: 11400000, guid: cb4aefd37b1bfde43a8ec613ead33cba, type: 2}
+      min: 1
+      max: 2
+    - resource: {fileID: 11400000, guid: 3ffb63fdf28f17247a4c08f682b6dfd1, type: 2}
+      min: 1
+      max: 2
+    - resource: {fileID: 11400000, guid: 3dee1f524513f6c4db617fd4c3699770, type: 2}
+      min: 1
+      max: 2
+    - resource: {fileID: 11400000, guid: b9ab2146badb2fb409fe5106e851f37e, type: 2}
+      min: 1
+      max: 2
+    - resource: {fileID: 11400000, guid: 6a921899f45dcd843b3dac8b3a9a70c5, type: 2}
+      min: 0
+      max: 2
+    - resource: {fileID: 11400000, guid: b35878d2163d4a14aad2c79a4ad73609, type: 2}
+      min: 0
+      max: 1
+  - terrainType: 8
+    generatableResources:
+    - resource: {fileID: 11400000, guid: 7cfb003adb14cda4bbe2e566c4803988, type: 2}
+      min: 3
+      max: 3
+    - resource: {fileID: 11400000, guid: cb4aefd37b1bfde43a8ec613ead33cba, type: 2}
+      min: 2
+      max: 2
+    - resource: {fileID: 11400000, guid: 3ffb63fdf28f17247a4c08f682b6dfd1, type: 2}
+      min: 0
+      max: 1
+    - resource: {fileID: 11400000, guid: 3dee1f524513f6c4db617fd4c3699770, type: 2}
+      min: 0
+      max: 1
+    - resource: {fileID: 11400000, guid: b9ab2146badb2fb409fe5106e851f37e, type: 2}
+      min: 0
+      max: 1
+    - resource: {fileID: 11400000, guid: 6a921899f45dcd843b3dac8b3a9a70c5, type: 2}
+      min: 0
+      max: 0
+    - resource: {fileID: 11400000, guid: b35878d2163d4a14aad2c79a4ad73609, type: 2}
+      min: 1
+      max: 1

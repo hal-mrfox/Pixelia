@@ -5,11 +5,17 @@ using UnityEngine.UI;
 public class HoldingUI : MonoBehaviour
 {
     public WindowProvince provinceWindow;
-    public int holdingCounterpart;
+    public Holding holdingCounterpart;
+    public int holdingCounterpartIndex;
     [Space(10)]
 
     public TextMeshProUGUI holdingName;
+    public TextMeshProUGUI terrainTypeText;
+    public TextMeshProUGUI popsText;
+    public TextMeshProUGUI unemployedText;
+    public TextMeshProUGUI homelessText;
     public ButtonSound createHoldingButton;
+    public RawResourceUI[] rawResourcesUI;
 
     public void Refresh(bool built)
     {
@@ -22,6 +28,16 @@ public class HoldingUI : MonoBehaviour
         {
             createHoldingButton.gameObject.SetActive(true);
         }
+
+        for (int i = 0; i < rawResourcesUI.Length; i++)
+        {
+            rawResourcesUI[i].Refresh(holdingCounterpart.rawResources[i].resource, holdingCounterpart.rawResources[i].amount);
+        }
+
+        terrainTypeText.text = holdingCounterpart.terrainType.ToString();
+        popsText.text = holdingCounterpart.pops.Count.ToString();
+        unemployedText.text = holdingCounterpart.unemployedPops.Count.ToString();
+        homelessText.text = holdingCounterpart.homelessPops.Count.ToString();
     }
 
     public void CreateHolding()

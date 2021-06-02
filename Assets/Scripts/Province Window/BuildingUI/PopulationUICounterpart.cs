@@ -169,12 +169,13 @@ public class PopulationUICounterpart : ButtonSound
             if (uIType == UIType.job)
             {
                 popCP.job.pops.Remove(popCP);
-                popCP.transform.SetParent(popCP.provinceController.unemployed.transform);
+                popCP.transform.SetParent(popCP.job.holding.transform);
                 popCP.job = null;
                 popCP = null;
             }
 
             provinceWindow.target.RefreshProvinceValues();
+            provinceWindow.targetCountry.Refresh();
             provinceWindow.RefreshWindow();
         }
         #endregion
@@ -197,13 +198,37 @@ public class PopulationUICounterpart : ButtonSound
         }
     }
 
+    #region highlighting
     public override void OnPointerEnter(PointerEventData eventData)
     {
         base.OnPointerEnter(eventData);
 
         if (popCP)
         {
-            provinceWindow.HighlightPop(popCP, uIType);
+            if (uIType == UIType.home)
+            {
+                if (popCP.job)
+                {
+                    GetJob().SetActive(true);
+                }
+
+                if (popCP.home)
+                {
+                    GetHome().SetActive(false);
+                }
+            }
+            else
+            {
+                if (popCP.job)
+                {
+                    GetJob().SetActive(false);
+                }
+
+                if (popCP.home)
+                {
+                    GetHome().SetActive(true);
+                }
+            }
         }
     }
 
@@ -213,9 +238,38 @@ public class PopulationUICounterpart : ButtonSound
 
         if (popCP)
         {
-            provinceWindow.UnHighlightPops(popCP, uIType);
+            if (popCP.job)
+            {
+                GetJob().SetActive(false);
+            }
+
+            if (popCP.home)
+            {
+                GetHome().SetActive(false);
+            }
         }
     }
+
+    GameObject GetJob()
+    {
+        int jobHolding = provinceWindow.target.holdings.IndexOf(popCP.job.holding);
+        int jobBuilding = provinceWindow.target.holdings[jobHolding].buildings.IndexOf(popCP.job);
+        int jobPop = provinceWindow.target.holdings[jobHolding].buildings[jobBuilding].pops.IndexOf(popCP);
+        var jobPopIconsGameObject = provinceWindow.holdings[jobHolding].buildings[jobBuilding].jobPopIcons[jobPop].GetComponent<PopulationUICounterpart>().highlight.gameObject;
+
+        return jobPopIconsGameObject;
+    }
+
+    GameObject GetHome()
+    {
+        int homeHolding = provinceWindow.target.holdings.IndexOf(popCP.home.holding);
+        int homeBuilding = provinceWindow.target.holdings[homeHolding].buildings.IndexOf(popCP.home);
+        int homePop = provinceWindow.target.holdings[homeHolding].buildings[homeBuilding].housedPops.IndexOf(popCP);
+        var homePopIconsGameObject = provinceWindow.holdings[homeHolding].buildings[homeBuilding].housedPopIcons[homePop].GetComponent<PopulationUICounterpart>().highlight.gameObject;
+
+        return homePopIconsGameObject;
+    }
+    #endregion
 
     public void Update()
     {

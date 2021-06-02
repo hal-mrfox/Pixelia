@@ -325,20 +325,20 @@ public class WindowProvince : InteractableWindow
             {
                 var house = holdings[i].buildings[j].housingHighlight;
                 var job = holdings[i].buildings[j].jobHighlight;
-
+    
                 if (house.gameObject.activeSelf || job.gameObject.activeSelf)
                 {
                     holdings[i].buildings[j].MovePop();
                     house.gameObject.SetActive(false);
                     job.gameObject.SetActive(false);
-
+    
                     goto end;
                 }
             }
         }
-
+    
     end:
-
+    
         return;
     }
 
@@ -380,16 +380,6 @@ public class WindowProvince : InteractableWindow
                 commodities[i].gameObject.SetActive(true);
             }
         }
-
-        for (int i = 0; i < rawResources.Length; i++)
-        {
-            rawResources[i].gameObject.SetActive(false);
-            if (i < target.rawResources.Count)
-            {
-                rawResources[i].Refresh(target.rawResources[i].resource.icon, target.rawResources[i].quality);
-                rawResources[i].gameObject.SetActive(true);
-            }
-        }
         #endregion
         #region Name and Colors
         provinceName.text = target.name;
@@ -405,47 +395,47 @@ public class WindowProvince : InteractableWindow
         capitolIcon.gameObject.SetActive(target == CountryManager.instance.playerCountry.capitalProvince);
         #endregion
         #region Demographics
-        popsCount.text = target.pops.Count.ToString();
+        //popsCount.text = target.pops.Count.ToString();
         //province religion, culture, and ideology text
         //religionText.text = provinceTarget.religion.religionName;
         //cultureText.text = provinceTarget.culture.cultureName;
         //ideologyText.text = provinceTarget.ideology.ideologyName;
-        if (target.religion == CountryManager.instance.playerCountry.religion)
-        {
-            religionText.color = CountryManager.instance.green;
-        }
-        else
-        {
-            religionText.color = CountryManager.instance.red;
-        }
-
-        if (target.culture == CountryManager.instance.playerCountry.culture)
-        {
-            cultureText.color = CountryManager.instance.green;
-        }
-        else
-        {
-            cultureText.color = CountryManager.instance.red;
-        }
-
-        if (target.ideology == CountryManager.instance.playerCountry.ideology)
-        {
-            ideologyText.color = CountryManager.instance.green;
-        }
-        else
-        {
-            ideologyText.color = CountryManager.instance.red;
-        }
-
-        if (target.pops.Count == 0)
-        {
-            religionText.text = "-";
-            religionText.color = CountryManager.instance.yellow;
-            cultureText.text = "-";
-            cultureText.color = CountryManager.instance.yellow;
-            ideologyText.text = "-";
-            ideologyText.color = CountryManager.instance.yellow;
-        }
+        //if (target.religion == CountryManager.instance.playerCountry.religion)
+        //{
+        //    religionText.color = CountryManager.instance.green;
+        //}
+        //else
+        //{
+        //    religionText.color = CountryManager.instance.red;
+        //}
+        //
+        //if (target.culture == CountryManager.instance.playerCountry.culture)
+        //{
+        //    cultureText.color = CountryManager.instance.green;
+        //}
+        //else
+        //{
+        //    cultureText.color = CountryManager.instance.red;
+        //}
+        //
+        //if (target.ideology == CountryManager.instance.playerCountry.ideology)
+        //{
+        //    ideologyText.color = CountryManager.instance.green;
+        //}
+        //else
+        //{
+        //    ideologyText.color = CountryManager.instance.red;
+        //}
+        //
+        //if (target.pops.Count == 0)
+        //{
+        //    religionText.text = "-";
+        //    religionText.color = CountryManager.instance.yellow;
+        //    cultureText.text = "-";
+        //    cultureText.color = CountryManager.instance.yellow;
+        //    ideologyText.text = "-";
+        //    ideologyText.color = CountryManager.instance.yellow;
+        //}
 
         #endregion
         #region Holdings and Buildings
@@ -455,7 +445,8 @@ public class WindowProvince : InteractableWindow
             if (i < target.holdings.Count && target.holdings[i].owner == CountryManager.instance.playerCountry)
             {
                 holdings[i].gameObject.SetActive(true);
-                holdings[i].holdingCounterpart = i;
+                holdings[i].holdingCounterpartIndex = i;
+                holdings[i].holdingCounterpart = target.holdings[i];
                 holdings[i].Refresh(true);
 
                 for (int j = 0; j < holdings[i].buildings.Length; j++)
@@ -481,56 +472,46 @@ public class WindowProvince : InteractableWindow
                     }
                 }
             }
-            //show create holding ui (not a real holding)
-            if (i == target.holdings.Count && target.holdings[i].owner == CountryManager.instance.playerCountry)
-            {
-                holdings[i].gameObject.SetActive(true);
-                holdings[i].Refresh(false);
-                for (int j = 0; j < holdings[i].buildings.Length; j++)
-                {
-                    holdings[i].buildings[j].gameObject.SetActive(false);
-                }
-            }
         }
         #endregion
         #region PopList
-        for (int i = 0; i < popList.Count; i++)
-        {
-            Destroy(popList[i].gameObject);
-        }
-        popList.Clear();
+        //for (int i = 0; i < popList.Count; i++)
+        //{
+        //    Destroy(popList[i].gameObject);
+        //}
+        //popList.Clear();
 
-        for (int i = 0; i < target.pops.Count; i++)
-        {
-            popList.Add(Instantiate(popListPrefab, popListGridLayout.transform));
-        }
+        //for (int i = 0; i < target.pops.Count; i++)
+        //{
+        //    popList.Add(Instantiate(popListPrefab, popListGridLayout.transform));
+        //}
 
-        for (int i = 0; i < popList.Count; i++)
-        {
-            popList[i].popCP = target.pops[i];
-            popList[i].provinceWindow = this;
-            popList[i].uIType = PopulationUICounterpart.UIType.list;
-            popList[i].popTierUIStrip.color = PopulationManager.instance.popTierDetails[(int)popList[i].popCP.popTier].popColor;
-            popList[i].popNameText.text = target.pops[i].name;
+        //for (int i = 0; i < popList.Count; i++)
+        //{
+        //    popList[i].popCP = target.pops[i];
+        //    popList[i].provinceWindow = this;
+        //    popList[i].uIType = PopulationUICounterpart.UIType.list;
+        //    popList[i].popTierUIStrip.color = PopulationManager.instance.popTierDetails[(int)popList[i].popCP.popTier].popColor;
+        //    popList[i].popNameText.text = target.pops[i].name;
 
-            if (target.pops[i].job)
-            {
-                popList[i].jobStatus.text = target.pops[i].job.name;
-            }
-            else
-            {
-                popList[i].jobStatus.text = "unemployed";
-            }
+        //    if (target.pops[i].job)
+        //    {
+        //        popList[i].jobStatus.text = target.pops[i].job.name;
+        //    }
+        //    else
+        //    {
+        //        popList[i].jobStatus.text = "unemployed";
+        //    }
 
-            if (target.pops[i].home)
-            {
-                popList[i].homeStatus.text = target.pops[i].home.name;
-            }
-            else
-            {
-                popList[i].homeStatus.text = "homeless";
-            }
-        }
+        //    if (target.pops[i].home)
+        //    {
+        //        popList[i].homeStatus.text = target.pops[i].home.name;
+        //    }
+        //    else
+        //    {
+        //        popList[i].homeStatus.text = "homeless";
+        //    }
+        //}
         #endregion
 
         targetCountry.CalculateResources();

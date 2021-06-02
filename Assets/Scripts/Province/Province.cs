@@ -102,18 +102,12 @@ public class Province : MonoBehaviour, IClickable
         //{
         //    Destroy(highlightedCountry.transform.GetChild(i).gameObject);
         //}
-        unemployed = new GameObject();
-        unemployed.transform.SetParent(transform);
-        unemployed.name = "Unemployed";
-
-        homeless = new GameObject();
-        homeless.transform.SetParent(transform);
-        homeless.name = "Homeless";
 
         for (int h = 0; h < holdings.Count; h++)
         {
             holdings[h].provinceOwner = this;
             holdings[h].transform.position = transform.position;
+            holdings[h].RefreshUI();
         }
 
         RefreshProvinceValues();
@@ -124,13 +118,13 @@ public class Province : MonoBehaviour, IClickable
     #region Next Turn
     public void NextTurn()
     {
-        for (int h = 0; h < holdings.Count; h++)
-        {
-            for (int b = 0; b < holdings[h].buildings.Count; b++)
-            {
-                holdings[h].buildings[b].NextTurn();
-            }
-        }
+        //for (int h = 0; h < holdings.Count; h++)
+        //{
+        //    for (int b = 0; b < holdings[h].buildings.Count; b++)
+        //    {
+        //       holdings[h].buildings[b].NextTurn();
+        //    }
+        //}
 
         RefreshProvinceColors();
     }
@@ -355,17 +349,17 @@ public class Province : MonoBehaviour, IClickable
         unemployedPops.Clear();
         homelessPops.Clear();
 
-        for (int i = 0; i < pops.Count; i++)
-        {
-            if (!pops[i].job)
-            {
-                unemployedPops.Add(pops[i]);
-            }
-            if (!pops[i].home)
-            {
-                homelessPops.Add(pops[i]);
-            }
-        }
+        //for (int i = 0; i < pops.Count; i++)
+        //{
+        //    if (!pops[i].job)
+        //    {
+        //        unemployedPops.Add(pops[i]);
+        //    }
+        //    if (!pops[i].home)
+        //    {
+        //        homelessPops.Add(pops[i]);
+        //    }
+        //}
 
         pops.Clear();
         for (int i = 0; i < holdings.Count; i++)
@@ -397,7 +391,7 @@ public class Province : MonoBehaviour, IClickable
         //Refresh Buildings
         for (int i = 0; i < holdings.Count; i++)
         {
-            holdings[i].Refresh();
+            holdings[i].RefreshUI();
             for (int j = 0; j < holdings[i].buildings.Count; j++)
             {
                 holdings[i].buildings[j].RefreshBuilding();
@@ -451,6 +445,7 @@ public class Province : MonoBehaviour, IClickable
                     v = 0;
                 }
                 GetComponent<Image>().color = Color.HSVToRGB(h, s, v);
+                //GetComponent<Image>().color = owner.countryColor;
             }
             else
             {
@@ -460,7 +455,7 @@ public class Province : MonoBehaviour, IClickable
 
         for (int i = 0; i < holdings.Count; i++)
         {
-            holdings[i].Refresh();
+            holdings[i].RefreshUI();
         }
     }
     #endregion
@@ -471,43 +466,43 @@ public class Province : MonoBehaviour, IClickable
     public void OnPointerDown()
     {
         //right click on province to open up diplomacy with owner
-        if (Input.GetKeyDown(KeyCode.Mouse1))
-        {
-            if (CountryManager.instance.selectedPop != null && hovering == true && popCanMove && CountryManager.instance.available == false)
-            {
-                CountryManager.instance.selectedPop.provinceController.pops.Remove(CountryManager.instance.selectedPop);
-                if (owner == CountryManager.instance.playerCountry)
-                {
-                    pops.Add(CountryManager.instance.selectedPop);
-                    CountryManager.instance.selectedPop.provinceController = this;
-                }
-                CountryManager.instance.selectedPop.transform.position = Input.mousePosition;
-                CountryManager.instance.available = true;
-                CountryManager.instance.selectedPop = null;
-                CountryManager.instance.VisibleMouse();
-            }
-            else if (CountryManager.instance.selectedPop != null && popCanMove == false && CountryManager.instance.available == true)
-            {
-                print("You cannot move here because you have no military access");
-            }
-            else if (CountryManager.instance.selectedPop == null && CountryManager.instance.available == true)
-            {
-                CountryManager.instance.window.target = owner;
-                CountryManager.instance.window.provinceTarget = this;
-                CountryManager.instance.window.gameObject.SetActive(true);
-                CountryManager.instance.window.OnClicked();
-                CountryManager.instance.openWindowSound.Play();
-            }
-        }
-        //left click on province to open up province viewer
-        if (Input.GetKeyDown(KeyCode.Mouse0) && CountryManager.instance.available == true)
-        {
-            CountryManager.instance.windowProvince.buildingInfoWindow.gameObject.SetActive(false);
-            CountryManager.instance.windowProvince.targetCountry = owner;
-            CountryManager.instance.windowProvince.target = this;
-            CountryManager.instance.windowProvince.gameObject.SetActive(true);
-            CountryManager.instance.windowProvince.OnClicked();
-        }
+        //if (Input.GetKeyDown(KeyCode.Mouse1))
+        //{
+        //    if (CountryManager.instance.selectedPop != null && hovering == true && popCanMove && CountryManager.instance.available == false)
+        //    {
+        //        CountryManager.instance.selectedPop.provinceController.pops.Remove(CountryManager.instance.selectedPop);
+        //        if (owner == CountryManager.instance.playerCountry)
+        //        {
+        //            pops.Add(CountryManager.instance.selectedPop);
+        //            CountryManager.instance.selectedPop.provinceController = this;
+        //        }
+        //        CountryManager.instance.selectedPop.transform.position = Input.mousePosition;
+        //        CountryManager.instance.available = true;
+        //        CountryManager.instance.selectedPop = null;
+        //        CountryManager.instance.VisibleMouse();
+        //    }
+        //    else if (CountryManager.instance.selectedPop != null && popCanMove == false && CountryManager.instance.available == true)
+        //    {
+        //        print("You cannot move here because you have no military access");
+        //    }
+        //    else if (CountryManager.instance.selectedPop == null && CountryManager.instance.available == true)
+        //    {
+        //        CountryManager.instance.window.target = owner;
+        //        CountryManager.instance.window.provinceTarget = this;
+        //        CountryManager.instance.window.gameObject.SetActive(true);
+        //        CountryManager.instance.window.OnClicked();
+        //        CountryManager.instance.openWindowSound.Play();
+        //    }
+        //}
+        ////left click on province to open up province viewer
+        //if (Input.GetKeyDown(KeyCode.Mouse0) && CountryManager.instance.available == true)
+        //{
+        //    CountryManager.instance.windowProvince.buildingInfoWindow.gameObject.SetActive(false);
+        //    CountryManager.instance.windowProvince.targetCountry = owner;
+        //    CountryManager.instance.windowProvince.target = this;
+        //    CountryManager.instance.windowProvince.gameObject.SetActive(true);
+        //    CountryManager.instance.windowProvince.OnClicked();
+        //}
     }
     #endregion
 

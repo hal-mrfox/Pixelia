@@ -36,6 +36,8 @@ public class Country : MonoBehaviour
     [BoxGroup("Statistics")]
     public List<Province> ownedProvinces;
     [BoxGroup("Statistics")]
+    public List<Holding> ownedHoldings;
+    [BoxGroup("Statistics")]
     public List<Population> population;
     [BoxGroup("Statistics")]
     public List<Population> militaryPops;
@@ -55,11 +57,26 @@ public class Country : MonoBehaviour
 
     public void Start()
     {
+        for (int i = 0; i < ownedHoldings.Count; i++)
+        {
+            ownedHoldings[i].owner = this;
+            for (int j = 0; j < ownedHoldings[i].buildings.Count; j++)
+            {
+                ownedHoldings[i].buildings[j].holding = ownedHoldings[i];
+            }
+            for (int j = 0; j < ownedHoldings[i].pops.Count; j++)
+            {
+                ownedHoldings[i].pops[j].controller = this;
+            }
+        }
+
         for (int i = 0; i < ownedProvinces.Count; i++)
         {
             ownedProvinces[i].owner = this;
             ownedProvinces[i].FirstStart();
         }
+
+        Refresh();
     }
 
     #region Resource Class
@@ -77,11 +94,19 @@ public class Country : MonoBehaviour
     }
     #endregion
 
+    public void Refresh()
+    {
+        for (int i = 0; i < ownedHoldings.Count; i++)
+        {
+            ownedHoldings[i].RefreshValues();
+        }
+    }
+
     public void NextTurn()
     {
-        for (int i = 0; i < ownedProvinces.Count; i++)
+        for (int i = 0; i < ownedHoldings.Count; i++)
         {
-            ownedProvinces[i].NextTurn();
+            ownedHoldings[i].NextTurn();
         }
     }
 

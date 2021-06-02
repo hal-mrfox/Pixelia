@@ -6,6 +6,9 @@ public class MilitaryManager : MonoBehaviour
 {
     public static MilitaryManager instance;
     public Unit unitPrefab;
+    public Unit selectedUnit;
+
+    public Holding hoveringHolding;
 
     public void Awake()
     {

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using NaughtyAttributes;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
@@ -38,16 +39,33 @@ public class Unit : ButtonSound
         numPopsText.text = numPops.ToString();
     }
 
+    [Button]
+    public void TakeHolding()
+    {
+        MilitaryManager.instance.hoveringHolding.TransferOwnership(owner);
+    }
+
     public override void OnPointerDown(PointerEventData eventData)
     {
         base.OnPointerDown(eventData);
 
-        clicking = true;
+        if (Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            MilitaryManager.instance.selectedUnit = this;
+            clicking = true;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Mouse1))
+        {
+            TakeHolding();
+        }
     }
 
     public override void OnPointerUp(PointerEventData eventData)
     {
         base.OnPointerUp(eventData);
+
+        MilitaryManager.instance.selectedUnit = null;
 
         clicking = false;
     }
