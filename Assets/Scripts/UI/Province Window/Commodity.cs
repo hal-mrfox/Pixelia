@@ -1,20 +1,46 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UnityEngine;
 using TMPro;
 
-public class Commodity : MonoBehaviour
+public class Commodity : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler
 {
+    public HoldingUI holding;
+
+    public Resource resourceActual;
     public Image resource;
     public Image surplusDefecit;
     public Image outline;
     public TextMeshProUGUI quantity;
     public TextMeshProUGUI difference;
 
-    public void Refresh(Sprite resource, int quantity, int difference)
+    bool hovering;
+
+    public void OnPointerDown(PointerEventData eventData)
     {
-        this.resource.sprite = resource;
+        if (hovering && Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            holding.CreateTradeRoute(resourceActual);
+        }
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        hovering = true;
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        hovering = false;
+    }
+
+    public void Refresh(Resource resource, int quantity, int difference, HoldingUI holding)
+    {
+        this.holding = holding;
+        resourceActual = resource;
+        this.resource.sprite = resource.icon;
         this.quantity.text = quantity.ToString();
         this.difference.text = difference.ToString(difference >= 0 ? "+0" : "0");
         if (difference > 0)

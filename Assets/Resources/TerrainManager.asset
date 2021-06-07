@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   terrainDetails:
   - terrainType: 0
+    mapColor: {r: 0.26931292, g: 0.6415094, b: 0.32275048, a: 1}
     generatableResources:
     - resource: {fileID: 11400000, guid: 7cfb003adb14cda4bbe2e566c4803988, type: 2}
       min: 1
@@ -36,7 +37,14 @@ MonoBehaviour:
     - resource: {fileID: 11400000, guid: b35878d2163d4a14aad2c79a4ad73609, type: 2}
       min: 1
       max: 1
+    - resource: {fileID: 11400000, guid: e9a9a6eb829a730489d54ae84e7c5ff7, type: 2}
+      min: 0
+      max: 0
+    - resource: {fileID: 11400000, guid: e977f1736bb1ffb46b63e2574fb0c64d, type: 2}
+      min: 0
+      max: 0
   - terrainType: 1
+    mapColor: {r: 0.1670305, g: 0.397, b: 0.19849999, a: 1}
     generatableResources:
     - resource: {fileID: 11400000, guid: 7cfb003adb14cda4bbe2e566c4803988, type: 2}
       min: 1
@@ -59,7 +67,14 @@ MonoBehaviour:
     - resource: {fileID: 11400000, guid: b35878d2163d4a14aad2c79a4ad73609, type: 2}
       min: 1
       max: 1
+    - resource: {fileID: 11400000, guid: e9a9a6eb829a730489d54ae84e7c5ff7, type: 2}
+      min: 0
+      max: 1
+    - resource: {fileID: 11400000, guid: e977f1736bb1ffb46b63e2574fb0c64d, type: 2}
+      min: 0
+      max: 0
   - terrainType: 2
+    mapColor: {r: 0.6087059, g: 0.78039217, b: 0.63445884, a: 1}
     generatableResources:
     - resource: {fileID: 11400000, guid: 7cfb003adb14cda4bbe2e566c4803988, type: 2}
       min: 1
@@ -82,7 +97,14 @@ MonoBehaviour:
     - resource: {fileID: 11400000, guid: b35878d2163d4a14aad2c79a4ad73609, type: 2}
       min: 1
       max: 2
+    - resource: {fileID: 11400000, guid: e9a9a6eb829a730489d54ae84e7c5ff7, type: 2}
+      min: 0
+      max: 1
+    - resource: {fileID: 11400000, guid: e977f1736bb1ffb46b63e2574fb0c64d, type: 2}
+      min: 0
+      max: 0
   - terrainType: 3
+    mapColor: {r: 0.39991993, g: 0.4056604, b: 0.40279016, a: 1}
     generatableResources:
     - resource: {fileID: 11400000, guid: 7cfb003adb14cda4bbe2e566c4803988, type: 2}
       min: 1
@@ -105,7 +127,14 @@ MonoBehaviour:
     - resource: {fileID: 11400000, guid: b35878d2163d4a14aad2c79a4ad73609, type: 2}
       min: 2
       max: 3
+    - resource: {fileID: 11400000, guid: e9a9a6eb829a730489d54ae84e7c5ff7, type: 2}
+      min: 1
+      max: 2
+    - resource: {fileID: 11400000, guid: e977f1736bb1ffb46b63e2574fb0c64d, type: 2}
+      min: 0
+      max: 1
   - terrainType: 4
+    mapColor: {r: 0.8396226, g: 0.76996475, b: 0.38416696, a: 1}
     generatableResources:
     - resource: {fileID: 11400000, guid: 7cfb003adb14cda4bbe2e566c4803988, type: 2}
       min: 0
@@ -128,7 +157,14 @@ MonoBehaviour:
     - resource: {fileID: 11400000, guid: b35878d2163d4a14aad2c79a4ad73609, type: 2}
       min: 1
       max: 1
+    - resource: {fileID: 11400000, guid: e9a9a6eb829a730489d54ae84e7c5ff7, type: 2}
+      min: 0
+      max: 1
+    - resource: {fileID: 11400000, guid: e977f1736bb1ffb46b63e2574fb0c64d, type: 2}
+      min: 0
+      max: 0
   - terrainType: 5
+    mapColor: {r: 0.38679248, g: 0.33861786, b: 0.0748042, a: 1}
     generatableResources:
     - resource: {fileID: 11400000, guid: 7cfb003adb14cda4bbe2e566c4803988, type: 2}
       min: 0
@@ -151,7 +187,14 @@ MonoBehaviour:
     - resource: {fileID: 11400000, guid: b35878d2163d4a14aad2c79a4ad73609, type: 2}
       min: 3
       max: 3
+    - resource: {fileID: 11400000, guid: e9a9a6eb829a730489d54ae84e7c5ff7, type: 2}
+      min: 1
+      max: 3
+    - resource: {fileID: 11400000, guid: e977f1736bb1ffb46b63e2574fb0c64d, type: 2}
+      min: 1
+      max: 2
   - terrainType: 6
+    mapColor: {r: 0.29411772, g: 0.85882354, b: 0.60498416, a: 1}
     generatableResources:
     - resource: {fileID: 11400000, guid: 7cfb003adb14cda4bbe2e566c4803988, type: 2}
       min: 1
@@ -174,7 +217,14 @@ MonoBehaviour:
     - resource: {fileID: 11400000, guid: b35878d2163d4a14aad2c79a4ad73609, type: 2}
       min: 1
       max: 2
+    - resource: {fileID: 11400000, guid: e9a9a6eb829a730489d54ae84e7c5ff7, type: 2}
+      min: 0
+      max: 0
+    - resource: {fileID: 11400000, guid: e977f1736bb1ffb46b63e2574fb0c64d, type: 2}
+      min: 0
+      max: 0
   - terrainType: 7
+    mapColor: {r: 0.5, g: 0.46977317, b: 0.3042453, a: 1}
     generatableResources:
     - resource: {fileID: 11400000, guid: 7cfb003adb14cda4bbe2e566c4803988, type: 2}
       min: 1
@@ -197,7 +247,14 @@ MonoBehaviour:
     - resource: {fileID: 11400000, guid: b35878d2163d4a14aad2c79a4ad73609, type: 2}
       min: 0
       max: 1
+    - resource: {fileID: 11400000, guid: e9a9a6eb829a730489d54ae84e7c5ff7, type: 2}
+      min: 0
+      max: 1
+    - resource: {fileID: 11400000, guid: e977f1736bb1ffb46b63e2574fb0c64d, type: 2}
+      min: 0
+      max: 0
   - terrainType: 8
+    mapColor: {r: 0.27772337, g: 0.50047106, b: 0.745283, a: 1}
     generatableResources:
     - resource: {fileID: 11400000, guid: 7cfb003adb14cda4bbe2e566c4803988, type: 2}
       min: 3
@@ -220,3 +277,9 @@ MonoBehaviour:
     - resource: {fileID: 11400000, guid: b35878d2163d4a14aad2c79a4ad73609, type: 2}
       min: 1
       max: 1
+    - resource: {fileID: 11400000, guid: e9a9a6eb829a730489d54ae84e7c5ff7, type: 2}
+      min: 0
+      max: 1
+    - resource: {fileID: 11400000, guid: e977f1736bb1ffb46b63e2574fb0c64d, type: 2}
+      min: 0
+      max: 0

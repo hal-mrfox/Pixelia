@@ -43,6 +43,12 @@ public class BuildingManager : ScriptableObject
         public PopTier[] allowedPops;
         public bool isHousing;
         public bool isMilitary;
+        public bool isManufactury;
+
+        [Space(10)]
+
+        [Header("Tiers")]
+        public Tier[] tiers;
 
         #region Cost
         [System.Serializable]
@@ -60,5 +66,13 @@ public class BuildingManager : ScriptableObject
             public int amount;
         }
         #endregion
+        [System.Serializable]
+        public class Tier
+        {
+            public string tierName;
+            public int defensePoints;
+
+            public Resource[] producableResources;
+        }
     }
 }

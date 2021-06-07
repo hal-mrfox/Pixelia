@@ -16,6 +16,8 @@ public class BuildingUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     public int holdingCounterpart;
     public int buildingCounterpartIndex;
     public Image highlight;
+    public Image notActive;
+    public bool notActiveBool;
     public Image overlay;
     public ButtonSound toggleBuilding;
     #region Sounds
@@ -51,7 +53,7 @@ public class BuildingUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     public Image militaryUI;
     #endregion
 
-    #region Input and Output
+    #region Input & Output
 
     #region Output
 
@@ -167,9 +169,10 @@ public class BuildingUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     public void Refresh(int holding, int building)
     {
-        if (active)
+        if (active && !notActiveBool)
         {
             createBuildingButton.gameObject.SetActive(false);
+            notActive.gameObject.SetActive(false);
 
             #region Housing
             if (Resources.Load<BuildingManager>("BuildingManager").buildings[(int)buildingType].isHousing)
@@ -271,7 +274,8 @@ public class BuildingUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
                     outputUI[i].icon.sprite = provinceWindow.target.holdings[holding].buildings[building].resourceOutput[i].resource.icon;
                     outputUI[i].icon.SetNativeSize();
                     outputUI[i].icon.color = Color.white;
-                    outputUI[i].amount.text = resourceOutputUI[i].resourceCount.ToString();
+                    outputUI[i].amount.text = "+" + resourceOutputUI[i].resourceCount.ToString();
+                    outputUI[i].resourceName.text = provinceWindow.target.holdings[holding].buildings[building].resourceOutput[i].resource.name;
                 }
                 else if (i < Resources.Load<BuildingManager>("BuildingManager").buildings[(int)provinceWindow.target.holdings[holding].buildings[building].buildingType].outputCapacity)
                 {
@@ -281,6 +285,7 @@ public class BuildingUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
                     outputUI[i].icon.GetComponent<RectTransform>().sizeDelta = new Vector2(16, 16);
                     outputUI[i].icon.color = grayblue;
                     outputUI[i].amount.text = null;
+                    outputUI[i].resourceName.text = null;
                 }
                 else
                 {
@@ -330,9 +335,15 @@ public class BuildingUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             #endregion
             #endregion
         }
-        else
+        else if (!active && !notActiveBool)
         {
             createBuildingButton.gameObject.SetActive(true);
+            notActive.gameObject.SetActive(false);
+        }
+        else if (!active && notActiveBool)
+        {
+            createBuildingButton.gameObject.SetActive(false);
+            notActive.gameObject.SetActive(true);
         }
     }
 

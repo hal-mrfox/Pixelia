@@ -1,6 +1,10 @@
-using UnityEngine;
+using System.Collections;
+using NaughtyAttributes;
 using TMPro;
+using System.Collections.Generic;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using UnityEngine;
 
 public class HoldingUI : MonoBehaviour
 {
@@ -16,7 +20,13 @@ public class HoldingUI : MonoBehaviour
     public TextMeshProUGUI homelessText;
     public ButtonSound createHoldingButton;
     public RawResourceUI[] rawResourcesUI;
+    public Commodity[] commodities;
+    public GridLayoutGroup tradeRoutesLayout;
+    public List<TradeRouteUI> tradeRoutes;
+    public TradeRouteUI tradeRoutePrefab;
+    public TradeRoute realTradeRoutePrefab;
 
+    #region refresh
     public void Refresh(bool built)
     {
         if (built)
@@ -38,11 +48,80 @@ public class HoldingUI : MonoBehaviour
         popsText.text = holdingCounterpart.pops.Count.ToString();
         unemployedText.text = holdingCounterpart.unemployedPops.Count.ToString();
         homelessText.text = holdingCounterpart.homelessPops.Count.ToString();
-    }
 
-    public void CreateHolding()
+        for (int i = 0; i < commodities.Length; i++)
+        {
+            commodities[i].gameObject.SetActive(false);
+            if (i < holdingCounterpart.storedResources.Count)
+            {
+                int resourceOutputValue = 0;
+                //shows output number as "+000"
+                for (int k = 0; k < holdingCounterpart.buildings.Count; k++)
+                {
+                    //adding
+                    for (int h = 0; h < holdingCounterpart.buildings[k].resourceOutput.Count; h++)
+                    {
+                        if (holdingCounterpart.storedResources[i].resource == holdingCounterpart.buildings[k].resourceOutput[h].resource)
+                        {
+                            resourceOutputValue += holdingCounterpart.buildings[k].resourceOutput[h].resourceCount;
+                        }
+                    }
+
+                    //subtracting
+                    for (int o = 0; o < holdingCounterpart.buildings[k].resourceInput.Count; o++)
+                    {
+                        if (holdingCounterpart.storedResources[i].resource == holdingCounterpart.buildings[k].resourceInput[o].resource
+                            && holdingCounterpart.buildings[k].resourceOutput[0].resourceCount != 0)
+                        {
+                            resourceOutputValue -= holdingCounterpart.buildings[k].resourceInput[o].resourceNeedsCount;
+                        }
+                    }
+                }
+                commodities[i].Refresh(holdingCounterpart.storedResources[i].resource, holdingCounterpart.storedResources[i].amount, resourceOutputValue, this);
+                commodities[i].gameObject.SetActive(true);
+            }
+        }
+    }
+#endregion
+
+    public void CreateTradeRoute(Resource resource)
     {
-        //provinceWindow.provinceTarget.CreateHolding();
+        holdingCounterpart.tradeRoutes.Add(Instantiate(realTradeRoutePrefab, holdingCounterpart.transform));
+        var tradeRoute = holdingCounterpart.tradeRoutes[holdingCounterpart.tradeRoutes.Count - 1];
+        tradeRoute.name = "Trade Route " + (holdingCounterpart.tradeRoutes.Count - 1);
+        tradeRoute.resource = resource;
+        tradeRoute.amount = 0;
+        tradeRoute.progress = 0;
+        tradeRoute.progressGain = 0;
+        tradeRoute.continuous = false;
+
+        tradeRoutes.Add(Instantiate(tradeRoutePrefab, tradeRoutesLayout.transform));
+        tradeRoutes[tradeRoutes.Count - 1].cP = tradeRoute;
+        tradeRoutes[tradeRoutes.Count - 1].holding = holdingCounterpart;
+        tradeRoutes[tradeRoutes.Count - 1].holdingUI = this;
+        tradeRoutes[tradeRoutes.Count - 1].Refresh();
+
+        //Dropdown
+        tradeRoutes[holdingCounterpart.tradeRoutes.Count - 1].destinations.ClearOptions();
+        for (int i = 0; i < holdingCounterpart.owner.ownedHoldings.Count; i++)
+        {
+            if (holdingCounterpart.owner.ownedHoldings[i] != holdingCounterpart)
+            {
+                tradeRoutes[holdingCounterpart.tradeRoutes.Count - 1].destinations.options.Add(new TMP_Dropdown.OptionData(holdingCounterpart.owner.ownedHoldings[i].name, null));
+            }
+        }
+
+        for (int i = 0; i < CountryManager.instance.countries.Count; i++)
+        {
+            for (int j = 0; j < CountryManager.instance.countries[i].ownedHoldings.Count; j++)
+            {
+                if (CountryManager.instance.countries[i].ownedHoldings[j].name == tradeRoutes[holdingCounterpart.tradeRoutes.Count - 1].destinations.options[tradeRoutes[holdingCounterpart.tradeRoutes.Count - 1].destinations.value].text)
+                {
+                    tradeRoute.destination = CountryManager.instance.countries[i].ownedHoldings[j];
+                    break;
+                }
+            }
+        }
     }
 
     public void Awake()

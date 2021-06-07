@@ -8,9 +8,17 @@ public class Holding : MonoBehaviour, IClickable
 {
     public Country owner;
     public Province provinceOwner;
+
+    [Header("Holding Type & Level")]
+    public HoldingType holdingType;
+    public int holdingLevel;
+
     public bool hovering;
     public List<Building> buildings = new List<Building>();
     public AudioClip clickSound;
+    public Vector2 position;
+
+    [Header("Pops")]
     public List<Population> pops;
     public List<Population> unemployedPops;
     public List<Population> homelessPops;
@@ -19,6 +27,10 @@ public class Holding : MonoBehaviour, IClickable
     public TerrainType terrainType;
     public List<ResourceAmount> storedResources = new List<ResourceAmount>();
     public List<ResourceAmount> rawResources = new List<ResourceAmount>();
+
+    [Header("Trade Routes")]
+    public List<TradeRoute> tradeRoutes;
+    public int routeCapacity;
 
     [System.Serializable]
     public class ResourceAmount
@@ -33,6 +45,11 @@ public class Holding : MonoBehaviour, IClickable
         }
     }
 
+    public void Awake()
+    {
+        position = transform.position;
+    }
+
     public void Start()
     {
         var terrainManager = Resources.Load<TerrainManager>("TerrainManager").terrainDetails[(int)terrainType];
@@ -40,6 +57,14 @@ public class Holding : MonoBehaviour, IClickable
         {
             int random = Random.Range(terrainManager.generatableResources[i].min, terrainManager.generatableResources[i].max + 1);
             rawResources.Add(new ResourceAmount(terrainManager.generatableResources[i].resource, random));
+        }
+
+        //Add all building children to building list
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            buildings.Add(transform.GetChild(i).GetComponent<Building>());
+            transform.GetChild(i).GetComponent<Building>().provinceOwner = provinceOwner;
+            transform.GetChild(i).GetComponent<Building>().holding = this;
         }
     }
 
@@ -58,7 +83,8 @@ public class Holding : MonoBehaviour, IClickable
         newPop.provinceController = provinceOwner;
         newPop.name = "Pop " + (provinceOwner.pops.Count + 1).ToString();
 
-        RefreshValues();
+        provinceOwner.RefreshProvinceValues();
+        provinceOwner.windowProvince.RefreshWindow();
     }
 
     public void OnPointerDown()
@@ -68,6 +94,7 @@ public class Holding : MonoBehaviour, IClickable
             CountryManager.instance.windowProvince.target = provinceOwner;
             CountryManager.instance.windowProvince.targetCountry = owner;
             CountryManager.instance.windowProvince.gameObject.SetActive(true);
+            CountryManager.instance.windowProvince.holdings[provinceOwner.holdings.IndexOf(this)].transform.SetAsLastSibling();
             CountryManager.instance.windowProvince.OnClicked();
         }
     }
@@ -99,27 +126,57 @@ public class Holding : MonoBehaviour, IClickable
         {
             buildings[i].NextTurn();
         }
+
+        RefreshValues();
     }
 
     public void RefreshUI()
     {
-        if (owner == CountryManager.instance.playerCountry)
+        if (Resources.Load<MapModeManager>("MapModeManager").mapMode == MapModes.Nations)
         {
-            transform.position = new Vector3(provinceOwner.transform.position.x, provinceOwner.transform.position.y + 2);
+            if (owner == CountryManager.instance.playerCountry)
+            {
+                transform.position = new Vector3(position.x, position.y + 2);
+                GetComponent<Image>().color = owner.countryColor;
+            }
+            else
+            {
+                transform.position = new Vector3(position.x, position.y);
+                GetComponent<Image>().color = owner.countryColor;
+            }
+
+            //if (owner)
+            //{
+            //    GetComponent<Image>().color = owner.countryColor;
+            //}
+            //else
+            //{
+            //    GetComponent<Image>().color = CountryManager.instance.niceGray;
+            //}
         }
-        else
+        else if (Resources.Load<MapModeManager>("MapModeManager").mapMode == MapModes.Terrain)
         {
-            transform.position = new Vector3(provinceOwner.transform.position.x, provinceOwner.transform.position.y);
+            GetComponent<Image>().color = Resources.Load<TerrainManager>("TerrainManager").terrainDetails[(int)terrainType].mapColor;
+            transform.position = position;
         }
 
-        if (owner)
-        {
-            GetComponent<Image>().color = owner.countryColor;
-        }
-        else
-        {
-            GetComponent<Image>().color = CountryManager.instance.niceGray;
-        }
+        //for (int i = 0; i < roads.Count; i++)
+        //{
+        //    Destroy(roads[i].gameObject);
+        //}
+        //roads.Clear();
+
+        //for (int i = 0; i < connectedHoldings.Count; i++)
+        //{
+        //    GameObject newLine = new GameObject();
+        //    newLine.AddComponent<LineRenderer>();
+        //    roads.Add(newLine.GetComponent<LineRenderer>());
+
+        //    newLine.GetComponent<LineRenderer>().SetPosition(0, transform.position);
+        //    newLine.GetComponent<LineRenderer>().SetPosition(1, connectedHoldings[i].transform.position);
+        //    newLine.GetComponent<LineRenderer>().sharedMaterial = RoadManager.instance.lineMaterial;
+        //    newLine.transform.SetParent(RoadManager.instance.roadsHolder.transform);
+        //}
     }
 
     public void RefreshValues()
@@ -129,6 +186,7 @@ public class Holding : MonoBehaviour, IClickable
             buildings[i].RefreshBuilding();
         }
 
+        #region Pops Refresh
         unemployedPops.Clear();
         homelessPops.Clear();
         for (int i = 0; i < pops.Count; i++)
@@ -143,6 +201,43 @@ public class Holding : MonoBehaviour, IClickable
             }
 
             pops[i].workingHolding = this;
+        }
+
+        pops.Clear();
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            if (transform.GetChild(i).GetComponent<Population>())
+            {
+                pops.Add(transform.GetChild(i).GetComponent<Population>());
+            }
+            else if (transform.GetChild(i).GetComponent<Building>())
+            {
+                for (int j = 0; j < transform.GetChild(i).GetComponent<Building>().pops.Count; j++)
+                {
+                    pops.Add(transform.GetChild(i).GetComponent<Building>().pops[j]);
+                }
+            }
+        }
+        #endregion
+
+        for (int o = 0; o < storedResources.Count; o++)
+        {
+            bool foundResource = false;
+            for (int j = 0; j < buildings.Count; j++)
+            {
+                for (int k = 0; k < buildings[j].resourceOutput.Count; k++)
+                {
+                    if (storedResources[o].resource == buildings[j].resourceOutput[k].resource)
+                    {
+                        foundResource = true;
+                        break;
+                    }
+                }
+            }
+            if (!foundResource && storedResources[o].amount == 0)
+            {
+                storedResources.RemoveAt(o);
+            }
         }
     }
 

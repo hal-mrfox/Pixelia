@@ -106,7 +106,7 @@ public class Province : MonoBehaviour, IClickable
         for (int h = 0; h < holdings.Count; h++)
         {
             holdings[h].provinceOwner = this;
-            holdings[h].transform.position = transform.position;
+            //holdings[h].transform.position = transform.position;
             holdings[h].RefreshUI();
         }
 
@@ -364,14 +364,13 @@ public class Province : MonoBehaviour, IClickable
         pops.Clear();
         for (int i = 0; i < holdings.Count; i++)
         {
-            for (int j = 0; j < holdings[i].buildings.Count; j++)
+            holdings[i].RefreshValues();
+            for (int j = 0; j < holdings[i].pops.Count; j++)
             {
-                for (int k = 0; k < holdings[i].buildings[j].pops.Count; k++)
-                {
-                    pops.Add(holdings[i].buildings[j].pops[k]);
-                }
+                pops.Add(holdings[i].pops[j]);
             }
         }
+
         for (int i = 0; i < unemployedPops.Count; i++)
         {
             if (!pops.Contains(unemployedPops[i]))
@@ -379,6 +378,7 @@ public class Province : MonoBehaviour, IClickable
                 pops.Add(unemployedPops[i]);
             }
         }
+
         for (int i = 0; i < homelessPops.Count; i++)
         {
             if (!pops.Contains(homelessPops[i]))
@@ -434,23 +434,30 @@ public class Province : MonoBehaviour, IClickable
     #region Province Color
     public void RefreshProvinceColors()
     {
-        if (owner)
+        if (Resources.Load<MapModeManager>("MapModeManager").mapMode == MapModes.Nations)
         {
-            if (owner == CountryManager.instance.playerCountry)
+            if (owner)
             {
-                Color.RGBToHSV(owner.countryColor, out float h, out float s, out float v);
-                v -= 0.3f;
-                if (v < 0)
+                if (owner == CountryManager.instance.playerCountry)
                 {
-                    v = 0;
+                    Color.RGBToHSV(owner.countryColor, out float h, out float s, out float v);
+                    v -= 0.3f;
+                    if (v < 0)
+                    {
+                        v = 0;
+                    }
+                    GetComponent<Image>().color = Color.HSVToRGB(h, s, v);
+                    //GetComponent<Image>().color = owner.countryColor;
                 }
-                GetComponent<Image>().color = Color.HSVToRGB(h, s, v);
-                //GetComponent<Image>().color = owner.countryColor;
+                else
+                {
+                    GetComponent<Image>().color = owner.countryColor;
+                }
             }
-            else
-            {
-                GetComponent<Image>().color = owner.countryColor;
-            }
+        }
+        else if (Resources.Load<MapModeManager>("MapModeManager").mapMode == MapModes.Terrain)
+        {
+            
         }
 
         for (int i = 0; i < holdings.Count; i++)

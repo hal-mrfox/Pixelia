@@ -20,6 +20,8 @@ public class TerrainManager : ScriptableObject
     {
         public TerrainType terrainType;
 
+        public Color mapColor;
+
         public ResourceDetails[] generatableResources;
     }
 

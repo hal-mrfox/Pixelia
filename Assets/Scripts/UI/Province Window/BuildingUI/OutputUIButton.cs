@@ -20,6 +20,7 @@ public class OutputUIButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     public Image outline;
     public Image icon;
     public TextMeshProUGUI amount;
+    public TextMeshProUGUI resourceName;
     public int outputValue;
 
 

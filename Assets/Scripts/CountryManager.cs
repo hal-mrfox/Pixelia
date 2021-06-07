@@ -59,7 +59,6 @@ public class CountryManager : MonoBehaviour
     public float buildingPrestige;
     public float popPrestige;
 
-
     public void Awake()
     {
         instance = this;
@@ -110,10 +109,10 @@ public class CountryManager : MonoBehaviour
 
         SetUI();
 
-        //if (playerCountry != countries[0])
-        //{
-        //    NextTurn();
-        //}
+        if (playerCountry != countries[0])
+        {
+            NextTurn();
+        }
 
         windowProvince.RefreshWindow();
     }

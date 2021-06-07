@@ -55,6 +55,7 @@ public class Country : MonoBehaviour
     public List<Country> atWar;
     #endregion
 
+    #region All Country Stuff
     public void Start()
     {
         for (int i = 0; i < ownedHoldings.Count; i++)
@@ -135,4 +136,5 @@ public class Country : MonoBehaviour
             }
         }
     }
+    #endregion
 }

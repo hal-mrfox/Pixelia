@@ -8,6 +8,8 @@ public class Building : MonoBehaviour
     public Province provinceOwner;
     public Holding holding;
     public WindowProvince provinceWindow;
+
+    [System.Serializable]
     public class ProvinceBuildingResource
     {
         public Resource resource;
@@ -92,13 +94,14 @@ public class Building : MonoBehaviour
         //Efficiency Calculation
         if (!Resources.Load<BuildingManager>("BuildingManager").buildings[(int)buildingType].isHousing)
         {
-            Mathf.FloorToInt(efficiency = pops.Count / Resources.Load<BuildingManager>("BuildingManager").buildings[(int)buildingType].workerCapacity * 100f);
+
         }
+        //Resources.Load<BuildingManager>("BuildingManager").buildings[(int)buildingType].workerCapacity)
+        Mathf.FloorToInt(efficiency = pops.Count / 10f * 100f);
 
         resourceInput.Clear();
         for (int i = 0; i < resourceOutput.Count; i++)
         {
-
             //Refreshing stored resources
             bool foundResource = false;
             for (int j = 0; j < holding.storedResources.Count; j++)
@@ -124,7 +127,7 @@ public class Building : MonoBehaviour
                     break;
                 }
             }//                                                                       6, 26
-            resourceOutput[i].resourceCount = Mathf.CeilToInt(efficiency / Mathf.Lerp(1, 10, resourceOutput[i].resource.acquisitionDifficulty) * resourceQuality /*/ resourceOutput.Count*/);
+            resourceOutput[i].resourceCount = Mathf.CeilToInt(efficiency / Mathf.Lerp(1, 10, resourceOutput[i].resource.acquisitionDifficulty) * (Resources.Load<BuildingManager>("BuildingManager").buildings[(int)buildingType].isManufactury ? 1 : resourceQuality) /*/ resourceOutput.Count*/);
 
             int outputInt = ResourceManager.instance.resources.IndexOf(resourceOutput[i].resource);
             if (recipes.resourceRecipes[outputInt].requiredResources.Length > 0)
@@ -136,7 +139,7 @@ public class Building : MonoBehaviour
                     {
                         if (recipes.resourceRecipes[outputInt].requiredResources[j].resource == holding.storedResources[k].resource)
                         {
-                            resourceAmount = holding.storedResources[k].amount - holding.storedResources[k].amount;
+                            resourceAmount = holding.storedResources[k].amount;
                             break;
                         }
                     }
@@ -153,6 +156,7 @@ public class Building : MonoBehaviour
             }
         }
 
+        //upkeep
         for (int i = 0; i < buildingManager.buildings.Count; i++)
         {
             if (buildingType == buildingManager.buildings[i].buildingType)

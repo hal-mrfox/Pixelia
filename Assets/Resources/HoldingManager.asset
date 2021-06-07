@@ -14,50 +14,36 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   holdings:
   - holdingType: 0
-    buildCost:
-      moneyCost: 0
-      resourceCost: []
-    upkeepCost:
-      moneyCost: 0
-      resourceCost: []
-    holdables: 000000000100000002000000
+    holdingLevels:
+    - levelName: Motte & Bailey
+      buildingSlots: 2
+      defenseLevel: 1
+      whiteListedBuildings: 
+      blackListedBuildings: 
+    - levelName: Palisade Fort
+      buildingSlots: 3
+      defenseLevel: 2
+      whiteListedBuildings: 
+      blackListedBuildings: 
+    - levelName: Stone Keep
+      buildingSlots: 4
+      defenseLevel: 3
+      whiteListedBuildings: 
+      blackListedBuildings: 
   - holdingType: 1
-    buildCost:
-      moneyCost: 0
-      resourceCost: []
-    upkeepCost:
-      moneyCost: 0
-      resourceCost: []
-    holdables: 050000000600000004000000
-  - holdingType: 2
-    buildCost:
-      moneyCost: 0
-      resourceCost: []
-    upkeepCost:
-      moneyCost: 0
-      resourceCost: []
-    holdables: 0700000008000000
-  - holdingType: 3
-    buildCost:
-      moneyCost: 0
-      resourceCost: []
-    upkeepCost:
-      moneyCost: 0
-      resourceCost: []
-    holdables: 01000000070000000a0000000b0000000c000000
-  - holdingType: 4
-    buildCost:
-      moneyCost: 0
-      resourceCost: []
-    upkeepCost:
-      moneyCost: 0
-      resourceCost: []
-    holdables: 09000000
-  - holdingType: 5
-    buildCost:
-      moneyCost: 0
-      resourceCost: []
-    upkeepCost:
-      moneyCost: 0
-      resourceCost: []
-    holdables: 0a0000000b0000000c000000
+    holdingLevels:
+    - levelName: Small Village
+      buildingSlots: 3
+      defenseLevel: 0
+      whiteListedBuildings: 
+      blackListedBuildings: 
+    - levelName: Village
+      buildingSlots: 4
+      defenseLevel: 0
+      whiteListedBuildings: 
+      blackListedBuildings: 
+    - levelName: Town
+      buildingSlots: 6
+      defenseLevel: 0
+      whiteListedBuildings: 
+      blackListedBuildings: 

@@ -46,12 +46,10 @@ public class ButtonSound : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
                         if (toggled)
                         {
                             image.color = clicked;
-                            buildingUI.ToggleBuilding(toggled);
                         }
                         else
                         {
                             image.color = hovering;
-                            buildingUI.ToggleBuilding(toggled);
                         }
                         audioSource.PlayOneShot(sound);
                     }

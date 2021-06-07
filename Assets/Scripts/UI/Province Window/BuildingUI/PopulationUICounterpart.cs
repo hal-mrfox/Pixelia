@@ -18,11 +18,9 @@ public class PopulationUICounterpart : ButtonSound
     [BoxGroup("Pop List")]
     public Image popTierUIStrip;
     [BoxGroup("Pop List")]
-    public TextMeshProUGUI jobStatus;
+    public Image jobStatus;
     [BoxGroup("Pop List")]
-    public TextMeshProUGUI homeStatus;
-    [BoxGroup("Pop List")]
-    public TextMeshProUGUI popNameText;
+    public Image homeStatus;
     #endregion
 
     bool clicking;
@@ -170,6 +168,7 @@ public class PopulationUICounterpart : ButtonSound
             {
                 popCP.job.pops.Remove(popCP);
                 popCP.transform.SetParent(popCP.job.holding.transform);
+                popCP.job.holding.unemployedPops.Add(popCP);
                 popCP.job = null;
                 popCP = null;
             }
@@ -205,31 +204,36 @@ public class PopulationUICounterpart : ButtonSound
 
         if (popCP)
         {
-            if (uIType == UIType.home)
-            {
-                if (popCP.job)
-                {
-                    GetJob().SetActive(true);
-                }
-
-                if (popCP.home)
-                {
-                    GetHome().SetActive(false);
-                }
-            }
-            else
-            {
-                if (popCP.job)
-                {
-                    GetJob().SetActive(false);
-                }
-
-                if (popCP.home)
-                {
-                    GetHome().SetActive(true);
-                }
-            }
+            provinceWindow.HighlightPop(popCP, uIType);
         }
+
+        //if (popCP)
+        //{
+        //    if (uIType == UIType.home)
+        //    {
+        //        if (popCP.job)
+        //        {
+        //            GetJob().SetActive(true);
+        //        }
+
+        //        if (popCP.home)
+        //        {
+        //            GetHome().SetActive(false);
+        //        }
+        //    }
+        //    else
+        //    {
+        //        if (popCP.job)
+        //        {
+        //            GetJob().SetActive(false);
+        //        }
+
+        //        if (popCP.home)
+        //        {
+        //            GetHome().SetActive(true);
+        //        }
+        //    }
+        //}
     }
 
     public override void OnPointerExit(PointerEventData eventData)
@@ -238,16 +242,21 @@ public class PopulationUICounterpart : ButtonSound
 
         if (popCP)
         {
-            if (popCP.job)
-            {
-                GetJob().SetActive(false);
-            }
-
-            if (popCP.home)
-            {
-                GetHome().SetActive(false);
-            }
+            provinceWindow.UnHighlightPops(popCP, uIType);
         }
+
+        //if (popCP)
+        //{
+        //    if (popCP.job)
+        //    {
+        //        GetJob().SetActive(false);
+        //    }
+
+        //    if (popCP.home)
+        //    {
+        //        GetHome().SetActive(false);
+        //    }
+        //}
     }
 
     GameObject GetJob()

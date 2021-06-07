@@ -1,13 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using NaughtyAttributes;
 using UnityEngine;
 
-public enum HoldingType { ResourceExtraction, Manufactury, City, Castle, Temple, Military }
+public enum HoldingType { Settlement, Castle, City }
 
 [CreateAssetMenu(fileName = "HoldingManager", menuName = "HoldingManager")]
 public class HoldingManager : ScriptableObject
 {
-    public List<Holding> holdings;
+    public Holding[] holdings;
 
 
     [System.Serializable]
@@ -15,25 +16,18 @@ public class HoldingManager : ScriptableObject
     {
         public HoldingType holdingType;
 
-        public Cost buildCost;
-        public Cost upkeepCost;
-        public BuildingType[] holdables;
+        public Level[] holdingLevels;
 
-        #region Cost
+
         [System.Serializable]
-        public struct Cost
+        public class Level
         {
-            public int moneyCost;
-            public ResourceCount[] resourceCost;
+            public string levelName;
+            public int buildingSlots;
+            public int defenseLevel;
+
+            public BuildingType[] whiteListedBuildings;
+            public BuildingType[] blackListedBuildings;
         }
-        #endregion
-        #region Resource Struct
-        [System.Serializable]
-        public struct ResourceCount
-        {
-            public Resource type;
-            public int amount;
-        }
-        #endregion
     }
 }

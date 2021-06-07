@@ -64,6 +64,8 @@ public class WindowProvince : InteractableWindow
 
     #region Improvements
 
+    public GameObject holdingsLayoutGroup;
+
     #region Create Holding
     [BoxGroup("Holding Creation")]
     public CreateImprovement createHolding;
@@ -344,43 +346,6 @@ public class WindowProvince : InteractableWindow
 
     public void RefreshWindow()
     {
-        #region Commodities & Raw Resources
-        for (int i = 0; i < commodities.Length; i++)
-        {
-            commodities[i].gameObject.SetActive(false);
-            if (i < target.storedResources.Count)
-            {
-                int resourceOutputValue = 0;
-                //shows output number as "+000"
-                for (int j = 0; j < target.holdings.Count; j++)
-                {
-                    for (int k = 0; k < target.holdings[j].buildings.Count; k++)
-                    {
-                        //adding
-                        for (int h = 0; h < target.holdings[j].buildings[k].resourceOutput.Count; h++)
-                        {
-                            if (target.storedResources[i].resource == target.holdings[j].buildings[k].resourceOutput[h].resource)
-                            {
-                                resourceOutputValue += target.holdings[j].buildings[k].resourceOutput[h].resourceCount;
-                            }
-                        }
-
-                        //subtracting
-                        for (int o = 0; o < target.holdings[j].buildings[k].resourceInput.Count; o++)
-                        {
-                            if (target.storedResources[i].resource == target.holdings[j].buildings[k].resourceInput[o].resource
-                                && target.holdings[j].buildings[k].resourceOutput[0].resourceCount != 0)
-                            {
-                                resourceOutputValue -= target.holdings[j].buildings[k].resourceInput[o].resourceNeedsCount;
-                            }
-                        }
-                    }
-                }
-                commodities[i].Refresh(target.storedResources[i].resource.icon, target.storedResources[i].resourceCount, resourceOutputValue);
-                commodities[i].gameObject.SetActive(true);
-            }
-        }
-        #endregion
         #region Name and Colors
         provinceName.text = target.name;
         if (isPlayer)
@@ -442,7 +407,11 @@ public class WindowProvince : InteractableWindow
         for (int i = 0; i < holdings.Length; i++)
         {
             holdings[i].gameObject.SetActive(false);
-            if (i < target.holdings.Count && target.holdings[i].owner == CountryManager.instance.playerCountry)
+
+            int childIndex = holdingsLayoutGroup.transform.childCount - 1;
+            GameObject lastChild = holdingsLayoutGroup.transform.GetChild(childIndex).gameObject;
+
+            if (i < target.holdings.Count && target.holdings[i].owner == CountryManager.instance.playerCountry && holdings[i].gameObject == lastChild)
             {
                 holdings[i].gameObject.SetActive(true);
                 holdings[i].holdingCounterpartIndex = i;
@@ -457,17 +426,27 @@ public class WindowProvince : InteractableWindow
                     {
                         holdings[i].buildings[j].gameObject.SetActive(true);
                         holdings[i].buildings[j].active = true;
+                        holdings[i].buildings[j].notActiveBool = false;
                         holdings[i].buildings[j].holdingCounterpart = i;
                         holdings[i].buildings[j].buildingCounterpartIndex = j;
                         holdings[i].buildings[j].buildingCounterpart = target.holdings[i].buildings[j];
                         holdings[i].buildings[j].buildingType = target.holdings[i].buildings[j].buildingType;
                         holdings[i].buildings[j].Refresh(i, j);
                     }
-                    if (j == target.holdings[i].buildings.Count && target.holdings[i].owner == CountryManager.instance.playerCountry)
+                    else if (j == target.holdings[i].buildings.Count && target.holdings[i].owner == CountryManager.instance.playerCountry)
+                    {
+                        holdings[i].buildings[j].holdingCounterpart = i;
+                        holdings[i].buildings[j].gameObject.SetActive(true);
+                        holdings[i].buildings[j].notActiveBool = false;
+                        holdings[i].buildings[j].active = false;
+                        holdings[i].buildings[j].Refresh(i, j);
+                    }
+                    else if (j > target.holdings[i].buildings.Count && target.holdings[i].owner == CountryManager.instance.playerCountry)
                     {
                         holdings[i].buildings[j].holdingCounterpart = i;
                         holdings[i].buildings[j].gameObject.SetActive(true);
                         holdings[i].buildings[j].active = false;
+                        holdings[i].buildings[j].notActiveBool = true;
                         holdings[i].buildings[j].Refresh(i, j);
                     }
                 }
@@ -475,43 +454,42 @@ public class WindowProvince : InteractableWindow
         }
         #endregion
         #region PopList
-        //for (int i = 0; i < popList.Count; i++)
-        //{
-        //    Destroy(popList[i].gameObject);
-        //}
-        //popList.Clear();
+        for (int i = 0; i < popList.Count; i++)
+        {
+            Destroy(popList[i].gameObject);
+        }
+        popList.Clear();
 
-        //for (int i = 0; i < target.pops.Count; i++)
-        //{
-        //    popList.Add(Instantiate(popListPrefab, popListGridLayout.transform));
-        //}
+        for (int i = 0; i < target.pops.Count; i++)
+        {
+            popList.Add(Instantiate(popListPrefab, popListGridLayout.transform));
+        }
 
-        //for (int i = 0; i < popList.Count; i++)
-        //{
-        //    popList[i].popCP = target.pops[i];
-        //    popList[i].provinceWindow = this;
-        //    popList[i].uIType = PopulationUICounterpart.UIType.list;
-        //    popList[i].popTierUIStrip.color = PopulationManager.instance.popTierDetails[(int)popList[i].popCP.popTier].popColor;
-        //    popList[i].popNameText.text = target.pops[i].name;
+        for (int i = 0; i < popList.Count; i++)
+        {
+            popList[i].popCP = target.pops[i];
+            popList[i].provinceWindow = this;
+            popList[i].uIType = PopulationUICounterpart.UIType.list;
+            popList[i].popTierUIStrip.color = PopulationManager.instance.popTierDetails[(int)popList[i].popCP.popTier].popColor;
 
-        //    if (target.pops[i].job)
-        //    {
-        //        popList[i].jobStatus.text = target.pops[i].job.name;
-        //    }
-        //    else
-        //    {
-        //        popList[i].jobStatus.text = "unemployed";
-        //    }
+            if (target.pops[i].job)
+            {
+                popList[i].jobStatus.color = Resources.Load<UIManager>("UIManager").popWhite;
+            }
+            else
+            {
+                popList[i].jobStatus.color = Resources.Load<UIManager>("UIManager").popGray;
+            }
 
-        //    if (target.pops[i].home)
-        //    {
-        //        popList[i].homeStatus.text = target.pops[i].home.name;
-        //    }
-        //    else
-        //    {
-        //        popList[i].homeStatus.text = "homeless";
-        //    }
-        //}
+            if (target.pops[i].home)
+            {
+                popList[i].homeStatus.color = Resources.Load<UIManager>("UIManager").popWhite;
+            }
+            else
+            {
+                popList[i].homeStatus.color = Resources.Load<UIManager>("UIManager").popGray;
+            }
+        }
         #endregion
 
         targetCountry.CalculateResources();

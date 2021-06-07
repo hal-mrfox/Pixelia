@@ -15,6 +15,7 @@ public class PopulationManager : MonoBehaviour
     {
         public PopTier popTier;
         public Color popColor;
+        public Resource[] needs;
     }
 
     public void Awake()

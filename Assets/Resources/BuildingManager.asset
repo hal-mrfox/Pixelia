@@ -35,6 +35,11 @@ MonoBehaviour:
     allowedPops: 000000000100000002000000
     isHousing: 0
     isMilitary: 0
+    isManufactury: 0
+    tiers:
+    - tierName: Mining Settlement
+      defensePoints: 0
+      producableResources: []
   - buildingType: 1
     outputCapacity: 1
     creatableResources:
@@ -51,6 +56,8 @@ MonoBehaviour:
     allowedPops: 000000000100000002000000
     isHousing: 0
     isMilitary: 0
+    isManufactury: 0
+    tiers: []
   - buildingType: 2
     outputCapacity: 1
     creatableResources:
@@ -67,6 +74,8 @@ MonoBehaviour:
     allowedPops: 000000000100000002000000
     isHousing: 0
     isMilitary: 0
+    isManufactury: 0
+    tiers: []
   - buildingType: 3
     outputCapacity: 0
     creatableResources: []
@@ -82,6 +91,8 @@ MonoBehaviour:
     allowedPops: 000000000100000002000000
     isHousing: 0
     isMilitary: 0
+    isManufactury: 0
+    tiers: []
   - buildingType: 4
     outputCapacity: 1
     creatableResources:
@@ -98,6 +109,8 @@ MonoBehaviour:
     allowedPops: 000000000100000002000000
     isHousing: 0
     isMilitary: 0
+    isManufactury: 1
+    tiers: []
   - buildingType: 5
     outputCapacity: 1
     creatableResources:
@@ -107,6 +120,8 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 1ba6512ab079df140836db8ee176e975, type: 2}
     - {fileID: 11400000, guid: 520a60df004d6d7428d244f88701120d, type: 2}
     - {fileID: 11400000, guid: 858c587ecc796564192a03cd55417792, type: 2}
+    - {fileID: 11400000, guid: 47beb15ff1f6cf547be409eb97a7e970, type: 2}
+    - {fileID: 11400000, guid: fb7526caf90b99b4d9cf7f7f81aa4897, type: 2}
     constructionSound: {fileID: 8300000, guid: fe0c7686fe64b6546aa44a17fccc4fb6, type: 3}
     buildCost:
       moneyCost: 0
@@ -119,6 +134,8 @@ MonoBehaviour:
     allowedPops: 000000000100000002000000
     isHousing: 0
     isMilitary: 0
+    isManufactury: 1
+    tiers: []
   - buildingType: 6
     outputCapacity: 1
     creatableResources:
@@ -137,6 +154,8 @@ MonoBehaviour:
     allowedPops: 000000000100000002000000
     isHousing: 0
     isMilitary: 0
+    isManufactury: 1
+    tiers: []
   - buildingType: 7
     outputCapacity: 0
     creatableResources: []
@@ -152,6 +171,8 @@ MonoBehaviour:
     allowedPops: 03000000
     isHousing: 1
     isMilitary: 0
+    isManufactury: 0
+    tiers: []
   - buildingType: 8
     outputCapacity: 0
     creatableResources: []
@@ -167,6 +188,8 @@ MonoBehaviour:
     allowedPops: 03000000
     isHousing: 0
     isMilitary: 0
+    isManufactury: 0
+    tiers: []
   - buildingType: 9
     outputCapacity: 0
     creatableResources: []
@@ -182,6 +205,8 @@ MonoBehaviour:
     allowedPops: 00000000010000000200000003000000
     isHousing: 0
     isMilitary: 0
+    isManufactury: 0
+    tiers: []
   - buildingType: 10
     outputCapacity: 0
     creatableResources: []
@@ -197,6 +222,8 @@ MonoBehaviour:
     allowedPops: 000000000100000002000000
     isHousing: 0
     isMilitary: 1
+    isManufactury: 0
+    tiers: []
   - buildingType: 11
     outputCapacity: 0
     creatableResources: []
@@ -212,6 +239,8 @@ MonoBehaviour:
     allowedPops: 000000000100000002000000
     isHousing: 0
     isMilitary: 1
+    isManufactury: 0
+    tiers: []
   - buildingType: 12
     outputCapacity: 0
     creatableResources: []
@@ -227,6 +256,8 @@ MonoBehaviour:
     allowedPops: 000000000100000002000000
     isHousing: 0
     isMilitary: 1
+    isManufactury: 0
+    tiers: []
   - buildingType: 13
     outputCapacity: 0
     creatableResources: []
@@ -242,6 +273,8 @@ MonoBehaviour:
     allowedPops: 02000000
     isHousing: 1
     isMilitary: 0
+    isManufactury: 0
+    tiers: []
   - buildingType: 14
     outputCapacity: 0
     creatableResources: []
@@ -257,6 +290,8 @@ MonoBehaviour:
     allowedPops: 01000000
     isHousing: 1
     isMilitary: 0
+    isManufactury: 0
+    tiers: []
   - buildingType: 15
     outputCapacity: 0
     creatableResources: []
@@ -272,3 +307,5 @@ MonoBehaviour:
     allowedPops: 00000000
     isHousing: 1
     isMilitary: 0
+    isManufactury: 0
+    tiers: []

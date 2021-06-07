@@ -104,3 +104,21 @@ MonoBehaviour:
     requiredResources:
     - resource: {fileID: 11400000, guid: cb4aefd37b1bfde43a8ec613ead33cba, type: 2}
       amount: 1
+  - type: {fileID: 11400000, guid: 47beb15ff1f6cf547be409eb97a7e970, type: 2}
+    building: 5
+    requiredResources:
+    - resource: {fileID: 11400000, guid: 7cfb003adb14cda4bbe2e566c4803988, type: 2}
+      amount: 2
+    - resource: {fileID: 11400000, guid: a19910d51f96ca247870c6d54e4a58b0, type: 2}
+      amount: 1
+  - type: {fileID: 11400000, guid: fb7526caf90b99b4d9cf7f7f81aa4897, type: 2}
+    building: 5
+    requiredResources:
+    - resource: {fileID: 11400000, guid: 7cfb003adb14cda4bbe2e566c4803988, type: 2}
+      amount: 4
+    - resource: {fileID: 11400000, guid: a19910d51f96ca247870c6d54e4a58b0, type: 2}
+      amount: 2
+    - resource: {fileID: 11400000, guid: e977f1736bb1ffb46b63e2574fb0c64d, type: 2}
+      amount: 1
+    - resource: {fileID: 11400000, guid: cb4aefd37b1bfde43a8ec613ead33cba, type: 2}
+      amount: 2
