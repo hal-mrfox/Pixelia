@@ -53,7 +53,7 @@ public class BuildingUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     public Image militaryUI;
     #endregion
 
-    #region Input & Output
+    #region Input & Output & Needs
 
     #region Output
 
@@ -80,6 +80,11 @@ public class BuildingUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     [Space(5)]
 
+    #endregion
+
+    #region Needs
+    [BoxGroup("Needs")]
+    public InputUIButton[] needsUI;
     #endregion
 
     #endregion
@@ -230,15 +235,15 @@ public class BuildingUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             popTypeIcon.color = PopulationManager.instance.popTierDetails[(int)Resources.Load<BuildingManager>("BuildingManager").buildings[(int)buildingCounterpart.buildingType].allowedPops[0]].popColor;
             #endregion
             #region Pops
-            int pops = provinceWindow.target.holdings[holding].buildings[building].pops.Count;
+            int pops = provinceWindow.target.holdings[holding].buildings[building].workingPops.Count;
             for (int i = 0; i < jobPopIcons.Count; i++)
             {
                 if (i < pops)
                 {
-                    Color popColor = PopulationManager.instance.popTierDetails[(int)provinceWindow.target.holdings[holding].buildings[building].pops[i].popTier].popColor;
+                    Color popColor = PopulationManager.instance.popTierDetails[(int)provinceWindow.target.holdings[holding].buildings[building].workingPops[i].popTier].popColor;
                     jobPopIcons[i].GetComponent<Image>().color = popColor;
                     jobPopIcons[i].GetComponent<PopulationUICounterpart>().lower = false;
-                    jobPopIcons[i].GetComponent<PopulationUICounterpart>().popCP = buildingCounterpart.pops[i];
+                    jobPopIcons[i].GetComponent<PopulationUICounterpart>().popCP = buildingCounterpart.workingPops[i];
                     jobPopIcons[i].GetComponent<PopulationUICounterpart>().uIType = PopulationUICounterpart.UIType.job;
                     jobPopIcons[i].GetComponent<PopulationUICounterpart>().provinceWindow = provinceWindow;
                 }
@@ -330,6 +335,23 @@ public class BuildingUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
                     inputUI[i].outline.gameObject.SetActive(false);
                     inputUI[i].icon.sprite = null;
                     inputUI[i].outline.sprite = null;
+                }
+            }
+            #endregion
+            #region Needs
+            for (int i = 0; i < needsUI.Length; i++)
+            {
+                if (i < buildingCounterpart.popsNeeds.Count)
+                {
+                    needsUI[i].gameObject.SetActive(true);
+                    needsUI[i].icon.sprite = buildingCounterpart.popsNeeds[i].resource.icon;
+                    needsUI[i].outline.sprite = buildingCounterpart.popsNeeds[i].resource.outline;
+                    needsUI[i].outline.SetNativeSize();
+                    needsUI[i].resource = buildingCounterpart.popsNeeds[i].resource;
+                }
+                else if (i >= buildingCounterpart.popsNeeds.Count)
+                {
+                    needsUI[i].gameObject.SetActive(false);
                 }
             }
             #endregion
@@ -547,7 +569,7 @@ public class BuildingUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             Color newRed = new Color(CountryManager.instance.niceRed.r, CountryManager.instance.niceRed.g, CountryManager.instance.niceRed.b, 0.5f);
 
             if (Resources.Load<BuildingManager>("BuildingManager").buildings[(int)buildingType].allowedPops.Contains(provinceWindow.movingPop.popTier)
-                && buildingCounterpart.pops.Count < Resources.Load<BuildingManager>("BuildingManager").buildings[(int)buildingType].workerCapacity
+                && buildingCounterpart.workingPops.Count < Resources.Load<BuildingManager>("BuildingManager").buildings[(int)buildingType].workerCapacity
                 || buildingCounterpart.housedPops.Count < Resources.Load<BuildingManager>("BuildingManager").buildings[(int)buildingType].housingCapacity)
             {
                 jobHighlight.color = newGreen;
@@ -589,7 +611,7 @@ public class BuildingUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     public void MovePop()
     {
         var resourcesBuilding = Resources.Load<BuildingManager>("BuildingManager").buildings[(int)buildingType];
-        if (provinceWindow.movingPop && hovering && active && resourcesBuilding.allowedPops.Contains(provinceWindow.movingPop.popTier) && buildingCounterpart.pops.Count < resourcesBuilding.workerCapacity || buildingCounterpart.housedPops.Count < resourcesBuilding.housingCapacity)
+        if (provinceWindow.movingPop && hovering && active && resourcesBuilding.allowedPops.Contains(provinceWindow.movingPop.popTier) && buildingCounterpart.workingPops.Count < resourcesBuilding.workerCapacity || buildingCounterpart.housedPops.Count < resourcesBuilding.housingCapacity)
         {
             var movingPop = provinceWindow.movingPop;
             if (!resourcesBuilding.isHousing)
@@ -597,11 +619,11 @@ public class BuildingUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
                 movingPop.workingHolding.pops.Remove(movingPop);
                 if (movingPop.job)
                 {
-                    movingPop.job.pops.Remove(movingPop);
+                    movingPop.job.workingPops.Remove(movingPop);
                     movingPop.job.holding.pops.Remove(movingPop);
                 }
                 movingPop.job = buildingCounterpart;
-                movingPop.job.pops.Add(movingPop);
+                movingPop.job.workingPops.Add(movingPop);
                 movingPop.transform.SetParent(buildingCounterpart.transform);
 
                 if (!movingPop.job.holding.pops.Contains(movingPop))

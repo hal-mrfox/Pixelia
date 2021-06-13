@@ -29,9 +29,19 @@ public class Population : MonoBehaviour, IClickable
     public Building job;
     public Building home;
 
+    #region Needs
+    public List<Need> needs;
+
+    public class Need
+    {
+        public Resource resource;
+        public float progress;
+    }
+    #endregion
+
     public void DestroyPop()
     {
-        job.pops.Remove(this);
+        job.workingPops.Remove(this);
         home.housedPops.Remove(this);
         workingHolding.pops.Remove(this);
         provinceController.RefreshProvinceValues();

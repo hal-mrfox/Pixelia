@@ -166,7 +166,7 @@ public class PopulationUICounterpart : ButtonSound
 
             if (uIType == UIType.job)
             {
-                popCP.job.pops.Remove(popCP);
+                popCP.job.workingPops.Remove(popCP);
                 popCP.transform.SetParent(popCP.job.holding.transform);
                 popCP.job.holding.unemployedPops.Add(popCP);
                 popCP.job = null;
@@ -263,7 +263,7 @@ public class PopulationUICounterpart : ButtonSound
     {
         int jobHolding = provinceWindow.target.holdings.IndexOf(popCP.job.holding);
         int jobBuilding = provinceWindow.target.holdings[jobHolding].buildings.IndexOf(popCP.job);
-        int jobPop = provinceWindow.target.holdings[jobHolding].buildings[jobBuilding].pops.IndexOf(popCP);
+        int jobPop = provinceWindow.target.holdings[jobHolding].buildings[jobBuilding].workingPops.IndexOf(popCP);
         var jobPopIconsGameObject = provinceWindow.holdings[jobHolding].buildings[jobBuilding].jobPopIcons[jobPop].GetComponent<PopulationUICounterpart>().highlight.gameObject;
 
         return jobPopIconsGameObject;

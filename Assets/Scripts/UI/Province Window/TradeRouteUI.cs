@@ -22,11 +22,16 @@ public class TradeRouteUI : MonoBehaviour, IPointerDownHandler, IPointerEnterHan
     {
         if (hovering && Input.GetKeyDown(KeyCode.Mouse2))
         {
-            Destroy(cP.gameObject);
-            holding.tradeRoutes.Remove(cP);
-            holdingUI.tradeRoutes.Remove(this);
-            Destroy(gameObject);
+            Destroy();
         }
+    }
+
+    public void Destroy()
+    {
+        Destroy(cP.gameObject);
+        holding.tradeRoutes.Remove(cP);
+        holdingUI.tradeRoutes.Remove(this);
+        Destroy(gameObject);
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -50,21 +55,29 @@ public class TradeRouteUI : MonoBehaviour, IPointerDownHandler, IPointerEnterHan
 
             if (int.TryParse(amountText.text, out int myInt))
             {
-                for (int i = 0; i < holding.storedResources.Count; i++)
+                if (holding.storedResources.Count > 0)
                 {
-                    if (holding.storedResources[i].resource == cP.resource)
+                    for (int i = 0; i < holding.storedResources.Count; i++)
                     {
-                        if (myInt > holding.storedResources[i].amount)
+                        if (holding.storedResources[i].resource == cP.resource)
                         {
-                            cP.amount = holding.storedResources[i].amount;
-                            amountText.text = holding.storedResources[i].amount.ToString();
-                        }
-                        else
-                        {
-                            cP.amount = myInt;
-                            amountText.text = myInt.ToString();
+                            if (myInt > holding.storedResources[i].amount)
+                            {
+                                cP.amount = holding.storedResources[i].amount;
+                                amountText.text = holding.storedResources[i].amount.ToString();
+                            }
+                            else
+                            {
+                                cP.amount = myInt;
+                                amountText.text = myInt.ToString();
+                            }
                         }
                     }
+                }
+                else
+                {
+                    cP.amount = 0;
+                    amountText.text = "0";
                 }
             }
 
@@ -91,42 +104,37 @@ public class TradeRouteUI : MonoBehaviour, IPointerDownHandler, IPointerEnterHan
 
     public void SendResources()
     {
-        for (int i = 0; i < CountryManager.instance.countries.Count; i++)
+        for (int k = 0; k < holding.storedResources.Count; k++)
         {
-            for (int j = 0; j < CountryManager.instance.countries[i].ownedHoldings.Count; j++)
+            if (holding.storedResources[k].resource == cP.resource)
             {
-                if (CountryManager.instance.countries[i].ownedHoldings[j].name == destinations.options[destinations.value].text)
+                holding.storedResources[k].amount -= cP.amount;
+            }
+        }
+        if (cP.destination.storedResources.Count > 0)
+        {
+            bool foundResource = false;
+            for (int k = 0; k < cP.destination.storedResources.Count; k++)
+            {
+                if (cP.destination.storedResources[k].resource == cP.resource)
                 {
-                    for (int k = 0; k < holding.storedResources.Count; k++)
-                    {
-                        if (holding.storedResources[k].resource == cP.resource)
-                        {
-                            holding.storedResources[k].amount -= cP.amount;
-                        }
-                    }
-                    if (cP.destination.storedResources.Count > 0)
-                    {
-                        for (int k = 0; k < cP.destination.storedResources.Count; k++)
-                        {
-                            if (cP.destination.storedResources[k].resource == cP.resource)
-                            {
-                                cP.destination.storedResources[k].amount += cP.amount;
-                            }
-                            else
-                            {
-                                cP.destination.storedResources.Add(new Holding.ResourceAmount(cP.resource, cP.amount));
-                            }
-                        }
-                    }
-                    else
-                    {
-                        cP.destination.storedResources.Add(new Holding.ResourceAmount(cP.resource, cP.amount));
-                    }
+                    cP.destination.storedResources[k].amount += cP.amount;
+                    foundResource = true;
+                    break;
                 }
             }
+            if (!foundResource)
+            {
+                cP.destination.storedResources.Add(new Holding.ResourceAmount(cP.resource, cP.amount));
+            }
+        }
+        else
+        {
+            cP.destination.storedResources.Add(new Holding.ResourceAmount(cP.resource, cP.amount));
         }
 
         holding.owner.Refresh();
+        Refresh();
         holdingUI.provinceWindow.RefreshWindow();
     }
 }

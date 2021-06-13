@@ -233,7 +233,7 @@ public class WindowProvince : InteractableWindow
         {
             int jobHolding = target.holdings.IndexOf(highlightedPop.job.holding);
             int jobBuilding = target.holdings[jobHolding].buildings.IndexOf(highlightedPop.job);
-            int jobPop = target.holdings[jobHolding].buildings[jobBuilding].pops.IndexOf(highlightedPop);
+            int jobPop = target.holdings[jobHolding].buildings[jobBuilding].workingPops.IndexOf(highlightedPop);
             var jobPopIconsGameObject = holdings[jobHolding].buildings[jobBuilding].jobPopIcons[jobPop].GetComponent<PopulationUICounterpart>().highlight.gameObject;
 
             return jobPopIconsGameObject;
@@ -298,7 +298,7 @@ public class WindowProvince : InteractableWindow
         {
             int jobHolding = target.holdings.IndexOf(highlightedPop.job.holding);
             int jobBuilding = target.holdings[jobHolding].buildings.IndexOf(highlightedPop.job);
-            int jobPop = target.holdings[jobHolding].buildings[jobBuilding].pops.IndexOf(highlightedPop);
+            int jobPop = target.holdings[jobHolding].buildings[jobBuilding].workingPops.IndexOf(highlightedPop);
             var jobPopIconsGameObject = holdings[jobHolding].buildings[jobBuilding].jobPopIcons[jobPop].GetComponent<PopulationUICounterpart>().highlight.gameObject;
 
             return jobPopIconsGameObject;

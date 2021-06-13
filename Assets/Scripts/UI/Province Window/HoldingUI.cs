@@ -81,6 +81,16 @@ public class HoldingUI : MonoBehaviour
                 commodities[i].gameObject.SetActive(true);
             }
         }
+
+        for (int i = 0; i < tradeRoutes.Count; i++)
+        {
+            tradeRoutes[i].gameObject.SetActive(false);
+        }
+        for (int i = 0; i < holdingCounterpart.tradeRoutes.Count; i++)
+        {
+            tradeRoutes[i].gameObject.SetActive(true);
+            tradeRoutes[i].Refresh();
+        }
     }
 #endregion
 

@@ -134,15 +134,23 @@ public class Holding : MonoBehaviour, IClickable
     {
         if (Resources.Load<MapModeManager>("MapModeManager").mapMode == MapModes.Nations)
         {
-            if (owner == CountryManager.instance.playerCountry)
+            if (owner)
             {
-                transform.position = new Vector3(position.x, position.y + 2);
-                GetComponent<Image>().color = owner.countryColor;
+                if (owner == CountryManager.instance.playerCountry)
+                {
+                    transform.position = new Vector3(position.x, position.y + 2);
+                    GetComponent<Image>().color = owner.countryColor;
+                }
+                else
+                {
+                    transform.position = new Vector3(position.x, position.y);
+                    GetComponent<Image>().color = owner.countryColor;
+                }
             }
             else
             {
                 transform.position = new Vector3(position.x, position.y);
-                GetComponent<Image>().color = owner.countryColor;
+                GetComponent<Image>().color = Color.white;
             }
 
             //if (owner)
@@ -212,9 +220,9 @@ public class Holding : MonoBehaviour, IClickable
             }
             else if (transform.GetChild(i).GetComponent<Building>())
             {
-                for (int j = 0; j < transform.GetChild(i).GetComponent<Building>().pops.Count; j++)
+                for (int j = 0; j < transform.GetChild(i).GetComponent<Building>().workingPops.Count; j++)
                 {
-                    pops.Add(transform.GetChild(i).GetComponent<Building>().pops[j]);
+                    pops.Add(transform.GetChild(i).GetComponent<Building>().workingPops[j]);
                 }
             }
         }

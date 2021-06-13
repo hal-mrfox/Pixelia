@@ -120,5 +120,5 @@ MonoBehaviour:
       amount: 2
     - resource: {fileID: 11400000, guid: e977f1736bb1ffb46b63e2574fb0c64d, type: 2}
       amount: 1
-    - resource: {fileID: 11400000, guid: cb4aefd37b1bfde43a8ec613ead33cba, type: 2}
+    - resource: {fileID: 11400000, guid: e9a9a6eb829a730489d54ae84e7c5ff7, type: 2}
       amount: 2

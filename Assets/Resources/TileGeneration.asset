@@ -10,6 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 97bb772ce52f0b14a935bc2704b9c85c, type: 3}
-  m_Name: CellGeneration
+  m_Name: TileGeneration
   m_EditorClassIdentifier: 
-  yes: 0
+  dimensions: {x: 0, y: 0}
+  tiles: []

@@ -21,6 +21,7 @@ public class CountryManager : MonoBehaviour
 
     public List<Country> countries;
     public List<Province> provinces;
+    public Holding hoveringHolding;
     public Population selectedPop;
     public PopInfo popInfo;
     public bool available;
@@ -109,10 +110,10 @@ public class CountryManager : MonoBehaviour
 
         SetUI();
 
-        if (playerCountry != countries[0])
-        {
-            NextTurn();
-        }
+        //if (playerCountry != countries[0])
+        //{
+        //    NextTurn();
+        //}
 
         windowProvince.RefreshWindow();
     }

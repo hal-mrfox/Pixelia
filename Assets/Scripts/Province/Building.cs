@@ -43,15 +43,17 @@ public class Building : MonoBehaviour
     [Space(50)]
     public List<ProvinceBuildingResource> resourceInput = new List<ProvinceBuildingResource>();
     [Space(50)]
-    public List<Population> pops = new List<Population>();
+    public List<ProvinceBuildingResource> popsNeeds = new List<ProvinceBuildingResource>();
+    [Space(50)]
+    public List<Population> workingPops = new List<Population>();
     [Space(50)]
     public List<Population> housedPops = new List<Population>();
 
     #region Destroy pop
     public void DestroyPop()
     {
-        Destroy(pops[pops.Count - 1].gameObject);
-        pops.RemoveAt(pops.Count - 1);
+        Destroy(workingPops[workingPops.Count - 1].gameObject);
+        workingPops.RemoveAt(workingPops.Count - 1);
     }
     #endregion
 
@@ -59,9 +61,9 @@ public class Building : MonoBehaviour
     public void CreateUnit()
     {
         //set unit stats based on pops stats
-        for (int i = 0; i < pops.Count; i++)
+        for (int i = 0; i < workingPops.Count; i++)
         {
-            pops[i].DestroyPop();
+            workingPops[i].DestroyPop();
 
             if (provinceOwner.units.Count < 1)
             {
@@ -86,18 +88,19 @@ public class Building : MonoBehaviour
     #region Refresh Building
     public void RefreshBuilding()
     {
+        #region Production
         //Fields
         var recipes = Resources.Load<Recipes>("Recipes");
         var holdingManager = Resources.Load<HoldingManager>("HoldingManager");
         var buildingManager = Resources.Load<BuildingManager>("BuildingManager");
 
-        //Efficiency Calculation
+        //Efficiency Calculation REDO NEEDED
         if (!Resources.Load<BuildingManager>("BuildingManager").buildings[(int)buildingType].isHousing)
         {
 
         }
         //Resources.Load<BuildingManager>("BuildingManager").buildings[(int)buildingType].workerCapacity)
-        Mathf.FloorToInt(efficiency = pops.Count / 10f * 100f);
+        Mathf.FloorToInt(efficiency = workingPops.Count / 10f * 100f);
 
         resourceInput.Clear();
         for (int i = 0; i < resourceOutput.Count; i++)
@@ -116,8 +119,8 @@ public class Building : MonoBehaviour
             {
                 holding.storedResources.Add(new Holding.ResourceAmount(resourceOutput[i].resource, 0));
             }
-            //Resource Output Value Calculation and setting
 
+            //Resource Output Value Calculation and setting
             int resourceQuality = 0;
             for (int j = 0; j < holding.rawResources.Count; j++)
             {
@@ -177,15 +180,42 @@ public class Building : MonoBehaviour
                 resourceOutput[i].resourceCount = 0;
             }
         }
+        #endregion
 
         #region Housing
-        for (int i = 0; i < pops.Count; i++)
+        for (int i = 0; i < workingPops.Count; i++)
         {
-            pops[i].job = this;
+            workingPops[i].job = this;
         }
         for (int i = 0; i < housedPops.Count; i++)
         {
             housedPops[i].home = this;
+        }
+
+        if (Resources.Load<BuildingManager>("BuildingManager").buildings[(int)buildingType].isHousing)
+        {
+            for (int i = 0; i < PopulationManager.instance.popTierDetails.Length; i++)
+            {
+                if (PopulationManager.instance.popTierDetails[i].popTier == Resources.Load<BuildingManager>("BuildingManager").buildings[(int)buildingType].allowedPops[0])
+                {
+                    bool foundResource = false;
+                    for (int j = 0; j < PopulationManager.instance.popTierDetails[i].needs.Length; j++)
+                    {
+                        for (int k = 0; k < popsNeeds.Count; k++)
+                        {
+                            if (popsNeeds[k].resource == PopulationManager.instance.popTierDetails[i].needs[j])
+                            {
+                                foundResource = true;
+                                popsNeeds[k].resourceNeedsCount = housedPops.Count;
+                            }
+                        }
+                        if (!foundResource)
+                        {
+                            popsNeeds.Add(new ProvinceBuildingResource(PopulationManager.instance.popTierDetails[i].needs[j], 0, housedPops.Count));
+                        }
+                    }
+                }
+            }
         }
 
         //if housing then setting pop growth
@@ -211,31 +241,6 @@ public class Building : MonoBehaviour
         {
             popGrowthMultiplier = 0;
         }
-
-        //over capacity
-        //if (housedPops.Count > Resources.Load<BuildingManager>("BuildingManager").buildings[(int)buildingType].housingCapacity)
-        //{
-        //    for (int i = 0; i < provinceOwner.holdings.Count; i++)
-        //    {
-        //        for (int j = 0; j < provinceOwner.holdings[i].buildings.Count; j++)
-        //        {
-        //            var building = provinceOwner.holdings[i].buildings[j];
-        //            var buildingType = Resources.Load<BuildingManager>("BuildingManager").buildings[(int)building.buildingType];
-        //
-        //            int difference = buildingType.housingCapacity - building.housedPops.Count;
-        //
-        //            //make it so it doesnt try to add wrong pops to wrong buildings
-        //            if (buildingType.isHousing && building.housedPops.Count <= buildingType.housingCapacity && building != this)
-        //            {
-        //                for (int k = 0; k < difference; k++)
-        //                {
-        //                    building.housedPops.Add(this.housedPops[this.housedPops.Count - 1]);
-        //                    this.housedPops.RemoveAt(this.housedPops.Count - 1);
-        //                }
-        //            }
-        //        }
-        //    }
-        //}
         #endregion
 
         #region Military
@@ -294,10 +299,10 @@ public class Building : MonoBehaviour
     {
         if (!Resources.Load<BuildingManager>("BuildingManager").buildings[(int)buildingType].isHousing)
         {
-            for (int i = 0; i < pops.Count; i++)
+            for (int i = 0; i < workingPops.Count; i++)
             {
-                pops[i].transform.SetParent(pops[i].workingHolding.transform);
-                pops[i].job = null;
+                workingPops[i].transform.SetParent(workingPops[i].workingHolding.transform);
+                workingPops[i].job = null;
             }
         }
         else if (Resources.Load<BuildingManager>("BuildingManager").buildings[(int)buildingType].isHousing)
@@ -309,15 +314,15 @@ public class Building : MonoBehaviour
         }
         else if (Resources.Load<BuildingManager>("BuildingManager").buildings[(int)buildingType].isMilitary)
         {
-            for (int i = 0; i < pops.Count; i++)
+            for (int i = 0; i < workingPops.Count; i++)
             {
-                pops[i].transform.SetParent(pops[i].workingHolding.transform);
-                pops[i].job = null;
+                workingPops[i].transform.SetParent(workingPops[i].workingHolding.transform);
+                workingPops[i].job = null;
             }
         }
 
 
-        pops.Clear();
+        workingPops.Clear();
         housedPops.Clear();
         holding.owner.Refresh();
         holding.buildings.Remove(this);
