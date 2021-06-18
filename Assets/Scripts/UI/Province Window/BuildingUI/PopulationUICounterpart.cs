@@ -14,6 +14,8 @@ public class PopulationUICounterpart : ButtonSound
     public enum UIType { job, home, list }
     public UIType uIType;
 
+    public TextMeshProUGUI popName;
+
     #region Pop List Stuff
     [BoxGroup("Pop List")]
     public Image popTierUIStrip;
@@ -21,6 +23,22 @@ public class PopulationUICounterpart : ButtonSound
     public Image jobStatus;
     [BoxGroup("Pop List")]
     public Image homeStatus;
+    #endregion
+    #region Housing
+    public Image[] hungerPips;
+    public Image[] moodPips;
+
+    public class ResourceConsuming
+    {
+        public Image resource;
+        public Image progress;
+
+        public ResourceConsuming(Image resource, Image progress)
+        {
+            this.resource = resource;
+            this.progress = progress;
+        }
+    }
     #endregion
 
     bool clicking;
@@ -279,6 +297,37 @@ public class PopulationUICounterpart : ButtonSound
         return homePopIconsGameObject;
     }
     #endregion
+
+    public void Refresh()
+    {
+        popName.text = popCP.popName;
+
+        for (int i = 0; i < hungerPips.Length; i++)
+        {
+            if (i < popCP.hunger)
+            {
+                hungerPips[i].color = Resources.Load<UIManager>("UIManager").popWhite;
+            }
+            else
+            {
+                hungerPips[i].color = Resources.Load<UIManager>("UIManager").popGray;
+            }
+        }
+
+        for (int i = 0; i < moodPips.Length; i++)
+        {
+            if (i < popCP.mood)
+            {
+                moodPips[i].color = Resources.Load<UIManager>("UIManager").popWhite;
+            }
+            else
+            {
+                moodPips[i].color = Resources.Load<UIManager>("UIManager").popGray;
+            }
+        }
+
+
+    }
 
     public void Update()
     {

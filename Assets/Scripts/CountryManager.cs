@@ -110,10 +110,10 @@ public class CountryManager : MonoBehaviour
 
         SetUI();
 
-        //if (playerCountry != countries[0])
-        //{
-        //    NextTurn();
-        //}
+        if (playerCountry != countries[0])
+        {
+            NextTurn();
+        }
 
         windowProvince.RefreshWindow();
     }

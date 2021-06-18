@@ -4,14 +4,15 @@ using UnityEngine;
 
 public enum ResourceType { Wood, Stone, Coal, Sulfur, LightMetalOre, Gold, Food, Gunpowder, SulfurOre, HeavyMetalOre, LightMetal, HeavyMetal, LuxuryGem, Opium, Sword, Spear, Bow, Rifle, Club, ConsumerGoods, LuxuryGoods }
 
-public class ResourceManager : MonoBehaviour
+[CreateAssetMenu(fileName = "ResourceManager", menuName = "ResourceManager")]
+public class ResourceManager : ScriptableObject
 {
-    public List<Resource> resources;
+    public List<ResourceDetails> resources;
 
-    public static ResourceManager instance;
-
-    public void Awake()
+    [System.Serializable]
+    public class ResourceDetails
     {
-        instance = this;
+        public Resource resource;
+        public int baseUses;
     }
 }

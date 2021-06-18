@@ -28,14 +28,24 @@ public class Population : MonoBehaviour, IClickable
     public Holding workingHolding;
     public Building job;
     public Building home;
+    public float happiness;
 
     #region Needs
     public List<Need> needs;
+    [Range(0, 10)] public int hunger;
+    [Range(0, 10)] public int mood;
 
+    [System.Serializable]
     public class Need
     {
         public Resource resource;
         public float progress;
+
+        public Need(Resource resource, float progress)
+        {
+            this.resource = resource;
+            this.progress = progress;
+        }
     }
     #endregion
 
@@ -47,6 +57,36 @@ public class Population : MonoBehaviour, IClickable
         provinceController.RefreshProvinceValues();
         provinceController.windowProvince.RefreshWindow();
         Destroy(this);
+    }
+
+    public void Start()
+    {
+        //for (int i = 0; i < PopulationManager.instance.popTierDetails[(int)popTier].needs.Length; i++)
+        //{
+        //    needs.Add(new Need(PopulationManager.instance.popTierDetails[(int)popTier].needs[i], 0));
+        //}
+    }
+
+    public void CalculateProgress()
+    {
+        for (int i = 0; i < needs.Count; i++)
+        {
+            //quality or smth?
+            needs[i].progress -= .25f;
+            if (needs[i].progress < 0)
+            {
+                needs[i].progress = 0;
+            }
+        }
+    }
+
+    public void Calculate()
+    {
+
+        for (int i = 0; i < needs.Count; i++)
+        {
+
+        }
     }
 
     public void OnPointerDown()

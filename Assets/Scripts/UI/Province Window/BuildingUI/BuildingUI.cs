@@ -17,7 +17,7 @@ public class BuildingUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     public int buildingCounterpartIndex;
     public Image highlight;
     public Image notActive;
-    public bool notActiveBool;
+    public bool fullyInactive;
     public Image overlay;
     public ButtonSound toggleBuilding;
     #region Sounds
@@ -174,7 +174,7 @@ public class BuildingUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     public void Refresh(int holding, int building)
     {
-        if (active && !notActiveBool)
+        if (active && !fullyInactive)
         {
             createBuildingButton.gameObject.SetActive(false);
             notActive.gameObject.SetActive(false);
@@ -208,7 +208,7 @@ public class BuildingUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
                 {
                     Color popColor = PopulationManager.instance.popTierDetails[(int)Resources.Load<BuildingManager>("BuildingManager").buildings[(int)buildingType].allowedPops[0]].popColor;
                     housedPopIcons[i].gameObject.SetActive(true);
-                    housedPopIcons[i].GetComponent<Image>().color = popColor;
+                    housedPopIcons[i].GetComponent<PopulationUICounterpart>().image.color = popColor;
                     housedPopIcons[i].GetComponent<PopulationUICounterpart>().normal = popColor;
                     housedPopIcons[i].GetComponent<PopulationUICounterpart>().hovering = popColor;
                     housedPopIcons[i].GetComponent<PopulationUICounterpart>().clicked = popColor;
@@ -252,6 +252,14 @@ public class BuildingUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
                     jobPopIcons[i].GetComponent<PopulationUICounterpart>().popCP = null;
                     jobPopIcons[i].GetComponent<Image>().color = empty;
                     jobPopIcons[i].GetComponent<PopulationUICounterpart>().lower = true;
+                }
+            }
+
+            for (int i = 0; i < housedPopIcons.Length; i++)
+            {
+                if (i < buildingCounterpart.housedPops.Count)
+                {
+                    housedPopIcons[i].Refresh();
                 }
             }
             #region Highlight
@@ -338,31 +346,14 @@ public class BuildingUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
                 }
             }
             #endregion
-            #region Needs
-            for (int i = 0; i < needsUI.Length; i++)
-            {
-                if (i < buildingCounterpart.popsNeeds.Count)
-                {
-                    needsUI[i].gameObject.SetActive(true);
-                    needsUI[i].icon.sprite = buildingCounterpart.popsNeeds[i].resource.icon;
-                    needsUI[i].outline.sprite = buildingCounterpart.popsNeeds[i].resource.outline;
-                    needsUI[i].outline.SetNativeSize();
-                    needsUI[i].resource = buildingCounterpart.popsNeeds[i].resource;
-                }
-                else if (i >= buildingCounterpart.popsNeeds.Count)
-                {
-                    needsUI[i].gameObject.SetActive(false);
-                }
-            }
-            #endregion
             #endregion
         }
-        else if (!active && !notActiveBool)
+        else if (!active && !fullyInactive)
         {
             createBuildingButton.gameObject.SetActive(true);
             notActive.gameObject.SetActive(false);
         }
-        else if (!active && notActiveBool)
+        else if (!active && fullyInactive)
         {
             createBuildingButton.gameObject.SetActive(false);
             notActive.gameObject.SetActive(true);

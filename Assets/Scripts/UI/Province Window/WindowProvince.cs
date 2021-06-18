@@ -418,38 +418,38 @@ public class WindowProvince : InteractableWindow
                 holdings[i].holdingCounterpart = target.holdings[i];
                 holdings[i].Refresh(true);
 
-                for (int j = 0; j < holdings[i].buildings.Length; j++)
-                {
-                    //setting buildings active
-                    holdings[i].buildings[j].gameObject.SetActive(false);
-                    if (j < target.holdings[i].buildings.Count && target.holdings[i].owner == CountryManager.instance.playerCountry)
-                    {
-                        holdings[i].buildings[j].gameObject.SetActive(true);
-                        holdings[i].buildings[j].active = true;
-                        holdings[i].buildings[j].notActiveBool = false;
-                        holdings[i].buildings[j].holdingCounterpart = i;
-                        holdings[i].buildings[j].buildingCounterpartIndex = j;
-                        holdings[i].buildings[j].buildingCounterpart = target.holdings[i].buildings[j];
-                        holdings[i].buildings[j].buildingType = target.holdings[i].buildings[j].buildingType;
-                        holdings[i].buildings[j].Refresh(i, j);
-                    }
-                    else if (j == target.holdings[i].buildings.Count && target.holdings[i].owner == CountryManager.instance.playerCountry)
-                    {
-                        holdings[i].buildings[j].holdingCounterpart = i;
-                        holdings[i].buildings[j].gameObject.SetActive(true);
-                        holdings[i].buildings[j].notActiveBool = false;
-                        holdings[i].buildings[j].active = false;
-                        holdings[i].buildings[j].Refresh(i, j);
-                    }
-                    else if (j > target.holdings[i].buildings.Count && target.holdings[i].owner == CountryManager.instance.playerCountry)
-                    {
-                        holdings[i].buildings[j].holdingCounterpart = i;
-                        holdings[i].buildings[j].gameObject.SetActive(true);
-                        holdings[i].buildings[j].active = false;
-                        holdings[i].buildings[j].notActiveBool = true;
-                        holdings[i].buildings[j].Refresh(i, j);
-                    }
-                }
+                //for (int j = 0; j < holdings[i].buildings.Length; j++)
+                //{
+                //    //setting buildings active
+                //    holdings[i].buildings[j].gameObject.SetActive(false);
+                //    if (j < target.holdings[i].buildings.Count && target.holdings[i].owner == CountryManager.instance.playerCountry)
+                //    {
+                //        holdings[i].buildings[j].gameObject.SetActive(true);
+                //        holdings[i].buildings[j].active = true;
+                //        holdings[i].buildings[j].fullyInactive = false;
+                //        holdings[i].buildings[j].holdingCounterpart = i;
+                //        holdings[i].buildings[j].buildingCounterpartIndex = j;
+                //        holdings[i].buildings[j].buildingCounterpart = target.holdings[i].buildings[j];
+                //        holdings[i].buildings[j].buildingType = target.holdings[i].buildings[j].buildingType;
+                //        holdings[i].buildings[j].Refresh(i, j);
+                //    }
+                //    else if (j == target.holdings[i].buildings.Count && target.holdings[i].owner == CountryManager.instance.playerCountry)
+                //    {
+                //        holdings[i].buildings[j].holdingCounterpart = i;
+                //        holdings[i].buildings[j].gameObject.SetActive(true);
+                //        holdings[i].buildings[j].fullyInactive = false;
+                //        holdings[i].buildings[j].active = false;
+                //        holdings[i].buildings[j].Refresh(i, j);
+                //    }
+                //    else if (j > target.holdings[i].buildings.Count && target.holdings[i].owner == CountryManager.instance.playerCountry)
+                //    {
+                //        holdings[i].buildings[j].holdingCounterpart = i;
+                //        holdings[i].buildings[j].gameObject.SetActive(true);
+                //        holdings[i].buildings[j].active = false;
+                //        holdings[i].buildings[j].fullyInactive = true;
+                //        holdings[i].buildings[j].Refresh(i, j);
+                //    }
+                //}
             }
         }
         #endregion

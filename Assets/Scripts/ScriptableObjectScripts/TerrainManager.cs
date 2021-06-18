@@ -22,6 +22,8 @@ public class TerrainManager : ScriptableObject
 
         public Color mapColor;
 
+        public int defenseModifier;
+
         public ResourceDetails[] generatableResources;
     }
 

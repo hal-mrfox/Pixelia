@@ -1,18 +1,18 @@
 fileFormatVersion: 2
-guid: 77b79bfcc11b47244bb4485b12c9f3fb
+guid: 14fd496bc7e105a449cce9664631111e
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
   fontSize: 16
-  forceTextureCase: -2
+  forceTextureCase: 0
   characterSpacing: 0
   characterPadding: 1
   includeFontData: 1
   fontNames:
-  - OwreKynge
+  - Minecraftia
   fallbackFontReferences: []
   customCharacters: 
-  fontRenderingMode: 0
+  fontRenderingMode: 2
   ascentCalculationMode: 1
   useLegacyBoundsCalculation: 0
   shouldRoundAdvanceValue: 1

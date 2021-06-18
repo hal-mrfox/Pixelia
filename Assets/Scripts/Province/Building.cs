@@ -132,21 +132,21 @@ public class Building : MonoBehaviour
             }//                                                                       6, 26
             resourceOutput[i].resourceCount = Mathf.CeilToInt(efficiency / Mathf.Lerp(1, 10, resourceOutput[i].resource.acquisitionDifficulty) * (Resources.Load<BuildingManager>("BuildingManager").buildings[(int)buildingType].isManufactury ? 1 : resourceQuality) /*/ resourceOutput.Count*/);
 
-            int outputInt = ResourceManager.instance.resources.IndexOf(resourceOutput[i].resource);
-            if (recipes.resourceRecipes[outputInt].requiredResources.Length > 0)
+            var resource = Resources.Load<ResourceManager>("ResourceManager").resources[(int)resourceOutput[i].resource.Type].resource;
+            if (recipes.resourceRecipes[(int)resource.Type].requiredResources.Length > 0)
             {
-                for (int j = 0; j < recipes.resourceRecipes[outputInt].requiredResources.Length; j++)
+                for (int j = 0; j < recipes.resourceRecipes[(int)resource.Type].requiredResources.Length; j++)
                 {
                     int resourceAmount = 0;
                     for (int k = 0; k < holding.storedResources.Count; k++)
                     {
-                        if (recipes.resourceRecipes[outputInt].requiredResources[j].resource == holding.storedResources[k].resource)
+                        if (recipes.resourceRecipes[(int)resource.Type].requiredResources[j].resource == holding.storedResources[k].resource)
                         {
                             resourceAmount = holding.storedResources[k].amount;
                             break;
                         }
                     }
-                    resourceInput.Add(new ProvinceBuildingResource(recipes.resourceRecipes[outputInt].requiredResources[j].resource, resourceAmount, recipes.resourceRecipes[outputInt].requiredResources[j].amount * resourceOutput[i].resourceCount));
+                    resourceInput.Add(new ProvinceBuildingResource(recipes.resourceRecipes[(int)resource.Type].requiredResources[j].resource, resourceAmount, recipes.resourceRecipes[(int)resource.Type].requiredResources[j].amount * resourceOutput[i].resourceCount));
                 }
             }
 
@@ -192,27 +192,27 @@ public class Building : MonoBehaviour
             housedPops[i].home = this;
         }
 
+        popsNeeds.Clear();
         if (Resources.Load<BuildingManager>("BuildingManager").buildings[(int)buildingType].isHousing)
         {
             for (int i = 0; i < PopulationManager.instance.popTierDetails.Length; i++)
             {
                 if (PopulationManager.instance.popTierDetails[i].popTier == Resources.Load<BuildingManager>("BuildingManager").buildings[(int)buildingType].allowedPops[0])
                 {
-                    bool foundResource = false;
                     for (int j = 0; j < PopulationManager.instance.popTierDetails[i].needs.Length; j++)
                     {
-                        for (int k = 0; k < popsNeeds.Count; k++)
-                        {
-                            if (popsNeeds[k].resource == PopulationManager.instance.popTierDetails[i].needs[j])
-                            {
-                                foundResource = true;
-                                popsNeeds[k].resourceNeedsCount = housedPops.Count;
-                            }
-                        }
-                        if (!foundResource)
-                        {
-                            popsNeeds.Add(new ProvinceBuildingResource(PopulationManager.instance.popTierDetails[i].needs[j], 0, housedPops.Count));
-                        }
+                        popsNeeds.Add(new ProvinceBuildingResource(PopulationManager.instance.popTierDetails[i].needs[j], 0, housedPops.Count));
+                    }
+                }
+            }
+
+            for (int i = 0; i < popsNeeds.Count; i++)
+            {
+                for (int j = 0; j < holding.storedResources.Count; j++)
+                {
+                    if (holding.storedResources[j].resource == popsNeeds[i].resource)
+                    {
+                        popsNeeds[i].resourceCount = holding.storedResources[j].amount;
                     }
                 }
             }
@@ -250,6 +250,12 @@ public class Building : MonoBehaviour
 
     public void NextTurn()
     {
+        int total = 0;
+        for (int i = 0; i < holding.storedResources.Count; i++)
+        {
+            total += holding.storedResources[i].amount;
+        }
+
         for (int i = 0; i < resourceOutput.Count; i++)
         {
             bool foundResource = false;
@@ -257,9 +263,28 @@ public class Building : MonoBehaviour
             {
                 if (resourceOutput[i].resource == holding.storedResources[j].resource)
                 {
-                    holding.storedResources[j].amount += resourceOutput[i].resourceCount;
-                    foundResource = true;
-                    break;
+                    if (total + resourceOutput[i].resourceCount <= holding.storageCap)
+                    {
+                        holding.storedResources[j].amount += resourceOutput[i].resourceCount;
+                        foundResource = true;
+                        break;
+                    }
+                    else
+                    {
+                        int diff = 0;
+                        if (holding.storageCap - holding.totalStored > 0)
+                        {
+                            diff = holding.storageCap - holding.totalStored;
+
+                            if (resourceOutput[i].resourceCount >= diff)
+                            {
+                                holding.storedResources[j].amount += diff;
+                            }
+                        }
+                        print("Storage Full");
+                        foundResource = true;
+                        break;
+                    }
                 }
             }
 

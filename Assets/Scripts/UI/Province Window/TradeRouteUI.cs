@@ -50,39 +50,6 @@ public class TradeRouteUI : MonoBehaviour, IPointerDownHandler, IPointerEnterHan
 
         if (!cP.moving)
         {
-            amountText.readOnly = false;
-            destinations.enabled = true;
-
-            if (int.TryParse(amountText.text, out int myInt))
-            {
-                if (holding.storedResources.Count > 0)
-                {
-                    for (int i = 0; i < holding.storedResources.Count; i++)
-                    {
-                        if (holding.storedResources[i].resource == cP.resource)
-                        {
-                            if (myInt > holding.storedResources[i].amount)
-                            {
-                                cP.amount = holding.storedResources[i].amount;
-                                amountText.text = holding.storedResources[i].amount.ToString();
-                            }
-                            else
-                            {
-                                cP.amount = myInt;
-                                amountText.text = myInt.ToString();
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    cP.amount = 0;
-                    amountText.text = "0";
-                }
-            }
-
-            cP.continuous = continuous;
-
             for (int i = 0; i < CountryManager.instance.countries.Count; i++)
             {
                 for (int j = 0; j < CountryManager.instance.countries[i].ownedHoldings.Count; j++)
@@ -94,6 +61,58 @@ public class TradeRouteUI : MonoBehaviour, IPointerDownHandler, IPointerEnterHan
                     }
                 }
             }
+
+            amountText.readOnly = false;
+            destinations.enabled = true;
+
+            if (int.TryParse(amountText.text, out int myInt))
+            {
+                if (holding.storedResources.Count > 0)
+                {
+                    bool foundResource = false;
+                    for (int i = 0; i < holding.storedResources.Count; i++)
+                    {
+                        if (holding.storedResources[i].resource == cP.resource)
+                        {
+                            foundResource = true;
+                            if (myInt <= holding.storedResources[i].amount)
+                            {
+                                if (cP.destination.totalStored + myInt <= cP.destination.storageCap)
+                                {
+                                    cP.amount = myInt;
+                                }
+                                else
+                                {
+                                    cP.amount = cP.destination.storageCap - cP.destination.totalStored;
+                                }
+                            }
+                            else
+                            {
+                                if (cP.destination.totalStored + myInt <= cP.destination.storageCap)
+                                {
+                                    cP.amount = holding.storedResources[i].amount;
+                                }
+                                else
+                                {
+                                    cP.amount = cP.destination.storageCap - cP.destination.totalStored;
+                                }
+                            }
+                        }
+                        else if (i == holding.storedResources.Count - 1 && !foundResource)
+                        {
+                            cP.amount = 0;
+                        }
+                    }
+                }
+                else
+                {
+                    cP.amount = 0;
+                }
+
+                amountText.text = cP.amount.ToString();
+            }
+
+            cP.continuous = continuous;
         }
         else
         {
@@ -104,6 +123,7 @@ public class TradeRouteUI : MonoBehaviour, IPointerDownHandler, IPointerEnterHan
 
     public void SendResources()
     {
+        Refresh();
         for (int k = 0; k < holding.storedResources.Count; k++)
         {
             if (holding.storedResources[k].resource == cP.resource)

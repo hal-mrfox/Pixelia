@@ -25,6 +25,8 @@ public class HoldingManager : ScriptableObject
             public string levelName;
             public int buildingSlots;
             public int defenseLevel;
+            public int baseStorage;
+            public int garrisonCap;
 
             public BuildingType[] whiteListedBuildings;
             public BuildingType[] blackListedBuildings;

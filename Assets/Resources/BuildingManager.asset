@@ -166,7 +166,7 @@ MonoBehaviour:
     upkeepCost:
       moneyCost: 0
       resourceCost: []
-    housingCapacity: 10
+    housingCapacity: 4
     workerCapacity: 0
     allowedPops: 03000000
     isHousing: 1
@@ -268,7 +268,7 @@ MonoBehaviour:
     upkeepCost:
       moneyCost: 0
       resourceCost: []
-    housingCapacity: 10
+    housingCapacity: 4
     workerCapacity: 0
     allowedPops: 02000000
     isHousing: 1
@@ -285,7 +285,7 @@ MonoBehaviour:
     upkeepCost:
       moneyCost: 0
       resourceCost: []
-    housingCapacity: 10
+    housingCapacity: 4
     workerCapacity: 0
     allowedPops: 01000000
     isHousing: 1
@@ -302,7 +302,7 @@ MonoBehaviour:
     upkeepCost:
       moneyCost: 0
       resourceCost: []
-    housingCapacity: 10
+    housingCapacity: 4
     workerCapacity: 0
     allowedPops: 00000000
     isHousing: 1

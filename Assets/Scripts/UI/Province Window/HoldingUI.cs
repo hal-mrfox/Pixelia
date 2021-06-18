@@ -18,6 +18,9 @@ public class HoldingUI : MonoBehaviour
     public TextMeshProUGUI popsText;
     public TextMeshProUGUI unemployedText;
     public TextMeshProUGUI homelessText;
+    public TextMeshProUGUI holdingLevel;
+    public TextMeshProUGUI buildingsCount;
+    public TextMeshProUGUI storageCap;
     public ButtonSound createHoldingButton;
     public RawResourceUI[] rawResourcesUI;
     public Commodity[] commodities;
@@ -31,7 +34,6 @@ public class HoldingUI : MonoBehaviour
     {
         if (built)
         {
-            holdingName.text = "holding";
             createHoldingButton.gameObject.SetActive(false);
         }
         else
@@ -45,10 +47,39 @@ public class HoldingUI : MonoBehaviour
         }
 
         terrainTypeText.text = holdingCounterpart.terrainType.ToString();
-        popsText.text = holdingCounterpart.pops.Count.ToString();
+        int houseCount = 0;
+        for (int i = 0; i < holdingCounterpart.buildings.Count; i++)
+        {
+            if (Resources.Load<BuildingManager>("BuildingManager").buildings[(int)holdingCounterpart.buildings[i].buildingType].isHousing)
+            {
+                houseCount++;
+            }
+        }
+        //Resources.Load<HoldingManager>("HoldingManager").holdings[holdingCounterpart.holdingType].holdingLevels[holdingCounterpart.holdingLevel]
+        popsText.text = holdingCounterpart.pops.Count.ToString() + "/" +  holdingCounterpart.housedPopCap;
+        buildingsCount.text = holdingCounterpart.buildings.Count.ToString() + "/" + holdingCounterpart.buildingCap;
+        #region Storage
+        int total = 0;
+        for (int i = 0; i < holdingCounterpart.storedResources.Count; i++)
+        {
+            total += holdingCounterpart.storedResources[i].amount;
+        }
+
+        if (total < holdingCounterpart.storageCap)
+        {
+            storageCap.color = CountryManager.instance.tan;
+        }
+        else
+        {
+            storageCap.color = CountryManager.instance.yellow;
+        }
+
+        storageCap.text = total + "/" + holdingCounterpart.storageCap;
+        #endregion
         unemployedText.text = holdingCounterpart.unemployedPops.Count.ToString();
         homelessText.text = holdingCounterpart.homelessPops.Count.ToString();
 
+        #region Commodities
         for (int i = 0; i < commodities.Length; i++)
         {
             commodities[i].gameObject.SetActive(false);
@@ -76,12 +107,51 @@ public class HoldingUI : MonoBehaviour
                             resourceOutputValue -= holdingCounterpart.buildings[k].resourceInput[o].resourceNeedsCount;
                         }
                     }
+
+                    //subtracting pops
+                    if (Resources.Load<BuildingManager>("BuildingManager").buildings[(int)holdingCounterpart.buildings[k].buildingType].isHousing)
+                    {
+                        for (int o = 0; o < holdingCounterpart.buildings[k].popsNeeds.Count; o++)
+                        {
+                            if (holdingCounterpart.buildings[k].popsNeeds[o].resource == holdingCounterpart.storedResources[i].resource
+                                && holdingCounterpart.buildings[k].popsNeeds[o].resourceCount >= holdingCounterpart.buildings[k].popsNeeds[o].resourceNeedsCount)
+                            {
+                                bool found = false;
+                                int amount = 0;
+                                for (int u = 0; u < holdingCounterpart.buildings[k].housedPops.Count; u++)
+                                {
+                                    for (int y = 0; y < holdingCounterpart.buildings[k].housedPops[u].needs.Count; y++)
+                                    {
+                                        if (holdingCounterpart.buildings[k].housedPops[u].needs[y].resource == holdingCounterpart.buildings[k].popsNeeds[o].resource)
+                                        {
+                                            if (holdingCounterpart.buildings[k].housedPops[u].needs[y].progress == 0)
+                                            {
+                                                found = true;
+                                                amount += 1;
+                                            }
+                                            else if (holdingCounterpart.buildings[k].housedPops[u].needs[y].progress != 0)
+                                            {
+                                                found = false;
+                                            }
+                                        }
+                                    }
+                                }
+                                if (found)
+                                {
+                                    resourceOutputValue -= amount;
+                                }
+                            }
+                        }
+                    }
                 }
+
                 commodities[i].Refresh(holdingCounterpart.storedResources[i].resource, holdingCounterpart.storedResources[i].amount, resourceOutputValue, this);
                 commodities[i].gameObject.SetActive(true);
             }
         }
+        #endregion
 
+        #region Trade Routes
         for (int i = 0; i < tradeRoutes.Count; i++)
         {
             tradeRoutes[i].gameObject.SetActive(false);
@@ -91,8 +161,51 @@ public class HoldingUI : MonoBehaviour
             tradeRoutes[i].gameObject.SetActive(true);
             tradeRoutes[i].Refresh();
         }
+        #endregion
+
+        holdingLevel.text = Resources.Load<HoldingManager>("HoldingManager").holdings[(int)holdingCounterpart.holdingType].holdingLevels[holdingCounterpart.holdingLevel].levelName;
+
+        #region Buildings
+        for (int i = 0; i < buildings.Length; i++)
+        {
+            buildings[i].gameObject.SetActive(false);
+
+            if (i < holdingCounterpart.buildingCap && holdingCounterpart.owner == CountryManager.instance.playerCountry)
+            {
+                if (i < holdingCounterpart.buildings.Count)
+                {
+                    buildings[i].active = true;
+                    buildings[i].fullyInactive = false;
+                    buildings[i].gameObject.SetActive(true);
+                    buildings[i].holdingCounterpart = holdingCounterpartIndex;
+                    buildings[i].buildingCounterpartIndex = i;
+                    buildings[i].buildingCounterpart = holdingCounterpart.buildings[i];
+                    buildings[i].buildingType = holdingCounterpart.buildings[i].buildingType;
+                    buildings[i].Refresh(holdingCounterpartIndex, i);
+                }
+                else if (i == holdingCounterpart.buildings.Count)
+                {
+                    buildings[i].active = false;
+                    buildings[i].fullyInactive = false;
+                    buildings[i].gameObject.SetActive(true);
+                    buildings[i].holdingCounterpart = holdingCounterpartIndex;
+                    buildings[i].Refresh(holdingCounterpartIndex, i);
+                }
+                else if (i > holdingCounterpart.buildings.Count)
+                {
+                    buildings[i].active = false;
+                    buildings[i].fullyInactive = true;
+                }
+            }
+            else if (i >= holdingCounterpart.buildingCap && holdingCounterpart.owner == CountryManager.instance.playerCountry)
+            {
+                buildings[i].active = false;
+                buildings[i].fullyInactive = true;
+            }
+        }
+        #endregion
     }
-#endregion
+    #endregion
 
     public void CreateTradeRoute(Resource resource)
     {

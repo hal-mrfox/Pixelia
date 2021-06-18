@@ -14,17 +14,23 @@ public class Holding : MonoBehaviour, IClickable
     public int holdingLevel;
 
     public bool hovering;
-    public List<Building> buildings = new List<Building>();
     public AudioClip clickSound;
     public Vector2 position;
 
+    [Header("Buildings")]
+    public int buildingCap;
+    public List<Building> buildings = new List<Building>();
+
     [Header("Pops")]
+    public int housedPopCap;
     public List<Population> pops;
     public List<Population> unemployedPops;
     public List<Population> homelessPops;
 
-    [Header("Terrain & Resources")]
+    [Header("Terrain, Resources & Storage")]
     public TerrainType terrainType;
+    public int storageCap;
+    public int totalStored;
     public List<ResourceAmount> storedResources = new List<ResourceAmount>();
     public List<ResourceAmount> rawResources = new List<ResourceAmount>();
 
@@ -127,9 +133,15 @@ public class Holding : MonoBehaviour, IClickable
             buildings[i].NextTurn();
         }
 
+        for (int i = 0; i < pops.Count; i++)
+        {
+            pops[i].CalculateProgress();
+        }
+
         RefreshValues();
     }
 
+    #region RefreshMap
     public void RefreshUI()
     {
         if (Resources.Load<MapModeManager>("MapModeManager").mapMode == MapModes.Nations)
@@ -186,6 +198,7 @@ public class Holding : MonoBehaviour, IClickable
         //    newLine.transform.SetParent(RoadManager.instance.roadsHolder.transform);
         //}
     }
+    #endregion
 
     public void RefreshValues()
     {
@@ -193,6 +206,11 @@ public class Holding : MonoBehaviour, IClickable
         {
             buildings[i].RefreshBuilding();
         }
+
+        #region Buildings
+        //Building Capacity
+        buildingCap = Resources.Load<HoldingManager>("HoldingManager").holdings[(int)holdingType].holdingLevels[holdingLevel].buildingSlots;
+        #endregion
 
         #region Pops Refresh
         unemployedPops.Clear();
@@ -226,7 +244,25 @@ public class Holding : MonoBehaviour, IClickable
                 }
             }
         }
+
+        int cap = 0;
+        for (int i = 0; i < buildings.Count; i++)
+        {
+            cap += Resources.Load<BuildingManager>("BuildingManager").buildings[(int)buildings[i].buildingType].housingCapacity;
+        }
+        housedPopCap = cap;
+
+
         #endregion
+
+        #region Resources
+        totalStored = 0;
+        for (int i = 0; i < storedResources.Count; i++)
+        {
+            totalStored += storedResources[i].amount;
+        }
+
+        storageCap = Resources.Load<HoldingManager>("HoldingManager").holdings[(int)holdingType].holdingLevels[holdingLevel].baseStorage;
 
         for (int o = 0; o < storedResources.Count; o++)
         {
@@ -247,6 +283,7 @@ public class Holding : MonoBehaviour, IClickable
                 storedResources.RemoveAt(o);
             }
         }
+        #endregion
     }
 
     public void TransferOwnership(Country newOwner)

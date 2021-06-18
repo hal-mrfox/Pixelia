@@ -97,9 +97,14 @@ public class Country : MonoBehaviour
 
     public void Refresh()
     {
+        population.Clear();
         for (int i = 0; i < ownedHoldings.Count; i++)
         {
             ownedHoldings[i].RefreshValues();
+            for (int j = 0; j < ownedHoldings[i].pops.Count; j++)
+            {
+                population.Add(ownedHoldings[i].pops[j]);
+            }
         }
     }
 
