@@ -35,7 +35,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 6, y: 11}
+  m_SizeDelta: {x: 18, y: 18}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3580927419491742946
 CanvasRenderer:
@@ -216,7 +216,7 @@ GameObject:
   - component: {fileID: 3124923298294958191}
   - component: {fileID: 1326764386002007702}
   m_Layer: 5
-  m_Name: PopIcon
+  m_Name: JobPopIcon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -240,8 +240,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 2, y: -4.5}
-  m_SizeDelta: {x: 4, y: 9}
+  m_AnchoredPosition: {x: 8, y: -8}
+  m_SizeDelta: {x: 16, y: 16}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7495136187457027093
 CanvasRenderer:
@@ -271,7 +271,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 65648cadea1cce74aa5950fe6e21303f, type: 3}
+  m_Sprite: {fileID: 21300000, guid: fa4eac1d7a5455f4196a2ce334a7032b, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -347,9 +347,11 @@ MonoBehaviour:
       m_Calls: []
   provinceWindow: {fileID: 0}
   popCP: {fileID: 0}
-  work: 1
-  isList: 0
+  uIType: 0
+  popName: {fileID: 0}
   popTierUIStrip: {fileID: 0}
   jobStatus: {fileID: 0}
   homeStatus: {fileID: 0}
-  popNameText: {fileID: 0}
+  hungerPips: []
+  moodPips: []
+  resources: []

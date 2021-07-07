@@ -17,6 +17,9 @@ public class Holding : MonoBehaviour, IClickable
     public AudioClip clickSound;
     public Vector2 position;
 
+    [Header("Defense")]
+    public int defense;
+
     [Header("Buildings")]
     public int buildingCap;
     public List<Building> buildings = new List<Building>();
@@ -135,7 +138,7 @@ public class Holding : MonoBehaviour, IClickable
 
         for (int i = 0; i < pops.Count; i++)
         {
-            pops[i].CalculateProgress();
+            pops[i].NextTurn();
         }
 
         RefreshValues();
@@ -206,6 +209,11 @@ public class Holding : MonoBehaviour, IClickable
         {
             buildings[i].RefreshBuilding();
         }
+
+        #region Defense
+        //base defense + buildings
+        defense = Resources.Load<HoldingManager>("HoldingManager").holdings[(int)holdingType].holdingLevels[holdingLevel].defenseLevel;
+        #endregion
 
         #region Buildings
         //Building Capacity
@@ -294,8 +302,11 @@ public class Holding : MonoBehaviour, IClickable
         for (int i = 0; i < pops.Count; i++)
         {
             pops[i].controller = owner;
-            pops[i].home.housedPops.Remove(pops[i]);
-            pops[i].home = null;
+            if (pops[i].home)
+            {
+                pops[i].home.housedPops.Remove(pops[i]);
+                pops[i].home = null;
+            }
         }
 
         owner.ownedHoldings.Add(this);

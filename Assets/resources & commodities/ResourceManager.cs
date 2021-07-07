@@ -13,6 +13,5 @@ public class ResourceManager : ScriptableObject
     public class ResourceDetails
     {
         public Resource resource;
-        public int baseUses;
     }
 }

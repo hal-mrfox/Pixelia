@@ -44,6 +44,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   popTier: 0
+  popName: 
   religion: {fileID: 0}
   culture: {fileID: 0}
   ideology: {fileID: 0}
@@ -52,4 +53,16 @@ MonoBehaviour:
   controller: {fileID: 0}
   provinceController: {fileID: 0}
   selected: 0
-  containingBuilding: {fileID: 0}
+  workingHolding: {fileID: 0}
+  job: {fileID: 0}
+  home: {fileID: 0}
+  happiness: 0
+  needs:
+  - resource: {fileID: 11400000, guid: 7cfb003adb14cda4bbe2e566c4803988, type: 2}
+    progress: 0
+  - resource: {fileID: 11400000, guid: 47beb15ff1f6cf547be409eb97a7e970, type: 2}
+    progress: 0
+  - resource: {fileID: 11400000, guid: fb7526caf90b99b4d9cf7f7f81aa4897, type: 2}
+    progress: 0
+  hunger: 0
+  mood: 0

@@ -21,6 +21,7 @@ public class HoldingUI : MonoBehaviour
     public TextMeshProUGUI holdingLevel;
     public TextMeshProUGUI buildingsCount;
     public TextMeshProUGUI storageCap;
+    public TextMeshProUGUI defense;
     public ButtonSound createHoldingButton;
     public RawResourceUI[] rawResourcesUI;
     public Commodity[] commodities;
@@ -76,6 +77,7 @@ public class HoldingUI : MonoBehaviour
 
         storageCap.text = total + "/" + holdingCounterpart.storageCap;
         #endregion
+        defense.text = holdingCounterpart.defense.ToString();
         unemployedText.text = holdingCounterpart.unemployedPops.Count.ToString();
         homelessText.text = holdingCounterpart.homelessPops.Count.ToString();
 
@@ -120,7 +122,7 @@ public class HoldingUI : MonoBehaviour
                                 int amount = 0;
                                 for (int u = 0; u < holdingCounterpart.buildings[k].housedPops.Count; u++)
                                 {
-                                    for (int y = 0; y < holdingCounterpart.buildings[k].housedPops[u].needs.Count; y++)
+                                    for (int y = 0; y < holdingCounterpart.buildings[k].housedPops[u].needs.Length; y++)
                                     {
                                         if (holdingCounterpart.buildings[k].housedPops[u].needs[y].resource == holdingCounterpart.buildings[k].popsNeeds[o].resource)
                                         {

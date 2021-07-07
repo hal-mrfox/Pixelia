@@ -15,7 +15,7 @@ MonoBehaviour:
   holdings:
   - holdingType: 0
     holdingLevels:
-    - levelName: Small Outpost
+    - levelName: Small Settlement
       buildingSlots: 2
       defenseLevel: 0
       baseStorage: 50
@@ -26,21 +26,21 @@ MonoBehaviour:
     holdingLevels:
     - levelName: Motte & Bailey
       buildingSlots: 2
-      defenseLevel: 1
+      defenseLevel: 4
       baseStorage: 100
       garrisonCap: 0
       whiteListedBuildings: 
       blackListedBuildings: 
     - levelName: Palisade Fort
       buildingSlots: 3
-      defenseLevel: 2
+      defenseLevel: 8
       baseStorage: 200
       garrisonCap: 0
       whiteListedBuildings: 
       blackListedBuildings: 
     - levelName: Stone Keep
       buildingSlots: 4
-      defenseLevel: 3
+      defenseLevel: 14
       baseStorage: 500
       garrisonCap: 0
       whiteListedBuildings: 
@@ -62,6 +62,20 @@ MonoBehaviour:
       whiteListedBuildings: 
       blackListedBuildings: 
     - levelName: Town
+      buildingSlots: 6
+      defenseLevel: 0
+      baseStorage: 650
+      garrisonCap: 0
+      whiteListedBuildings: 
+      blackListedBuildings: 
+    - levelName: Large Town
+      buildingSlots: 6
+      defenseLevel: 0
+      baseStorage: 650
+      garrisonCap: 0
+      whiteListedBuildings: 
+      blackListedBuildings: 
+    - levelName: Large Town
       buildingSlots: 6
       defenseLevel: 0
       baseStorage: 650

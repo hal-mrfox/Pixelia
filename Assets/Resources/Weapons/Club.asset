@@ -1,0 +1,52 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e63a4e3ee4f2a2b41b626ebc7eeb364f, type: 3}
+  m_Name: Club
+  m_EditorClassIdentifier: 
+  weaponType: 0
+  material: 0
+  weaponName: Club
+  weaponIcon: {fileID: 21300000, guid: 8fd8e0d2082ff0945b9a21ca79fea5e3, type: 3}
+  headDamage: 35
+  torsoDamage: 18
+  legsDamage: 12
+  accuracy: 0.852
+  blockChance: 0.229
+  rangeEffectiveness:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: -744.7273
+      outSlope: -744.7273
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.0013427734
+      value: 0
+      inSlope: -744.7273
+      outSlope: -744.7273
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  durability: 8
+  woodEffectiveness: 1
+  lightMetalEffectiveness: 0
+  heavyMetalEffectiveness: 0
+  bonusFlankingRange: 0

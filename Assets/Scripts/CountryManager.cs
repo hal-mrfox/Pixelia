@@ -103,10 +103,10 @@ public class CountryManager : MonoBehaviour
             provinces[i].RefreshProvinceColors();
         }
 
-        for (int i = 0; i < totalUnits.Count; i++)
-        {
-            totalUnits[i].Refresh();
-        }
+        //for (int i = 0; i < totalUnits.Count; i++)
+        //{
+        //    totalUnits[i].Refresh();
+        //}
 
         SetUI();
 

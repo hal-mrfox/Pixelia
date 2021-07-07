@@ -1,0 +1,94 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cdcc796c97a49d244bc18bc088186ffa, type: 3}
+  m_Name: UnitManager
+  m_EditorClassIdentifier: 
+  armyPrefab: {fileID: 6489664531281644205, guid: 2eb431de4a9911545bfa57d36918e54e,
+    type: 3}
+  unitPrefab: {fileID: 461130171347037730, guid: a06b3c6e83d6ddf4bbc0cf30ee2a0846,
+    type: 3}
+  armies:
+  - armyType: 0
+    unitCap: 5
+  - armyType: 0
+    unitCap: 10
+  - armyType: 0
+    unitCap: 20
+  - armyType: 0
+    unitCap: 50
+  units:
+  - unitType: 0
+    icon: {fileID: 21300000, guid: b0ff772dd33c33b489523ddc7f410b07, type: 3}
+    baseFlankingRange: 1
+    baseSpeed: 1
+    baseRange: 0
+    baseValue: 0
+    maxMorale: 100
+    allowedArmor: 
+    allowedWeapons: 
+  - unitType: 1
+    icon: {fileID: 21300000, guid: adc39091a95c5fc41892c9626a128fd9, type: 3}
+    baseFlankingRange: 2
+    baseSpeed: 1
+    baseRange: 2
+    baseValue: 0
+    maxMorale: 100
+    allowedArmor: 
+    allowedWeapons: 
+  - unitType: 2
+    icon: {fileID: 21300000, guid: 3544414c55ff7be4ca40906b80fe508d, type: 3}
+    baseFlankingRange: 3
+    baseSpeed: 4
+    baseRange: 0
+    baseValue: 0
+    maxMorale: 100
+    allowedArmor: 
+    allowedWeapons: 
+  infantryUnits:
+  - unitType: 0
+    icon: {fileID: 21300000, guid: b0ff772dd33c33b489523ddc7f410b07, type: 3}
+    baseFlankingRange: 1
+    baseSpeed: 1
+    baseRange: 0
+    baseValue: 0
+    maxMorale: 100
+    allowedArmor: 
+    allowedWeapons: 
+    baseHeadHealth: 75
+    baseTorsoHealth: 80
+    baseLegsHealth: 60
+  - unitType: 1
+    icon: {fileID: 21300000, guid: adc39091a95c5fc41892c9626a128fd9, type: 3}
+    baseFlankingRange: 2
+    baseSpeed: 1
+    baseRange: 2
+    baseValue: 0
+    maxMorale: 100
+    allowedArmor: 
+    allowedWeapons: 
+    baseHeadHealth: 75
+    baseTorsoHealth: 80
+    baseLegsHealth: 60
+  cavalryUnits:
+  - unitType: 2
+    icon: {fileID: 21300000, guid: 3544414c55ff7be4ca40906b80fe508d, type: 3}
+    baseFlankingRange: 3
+    baseSpeed: 4
+    baseRange: 0
+    baseValue: 0
+    maxMorale: 100
+    allowedArmor: 
+    allowedWeapons: 
+    baseHeadHealth: 75
+    baseTorsoHealth: 80
+    baseLegsHealth: 60
+    baseAnimalHealth: 120

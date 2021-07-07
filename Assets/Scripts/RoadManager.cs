@@ -8,7 +8,7 @@ public class RoadManager : MonoBehaviour
 
     public GameObject roadsHolder;
 
-    public Material lineMaterial;
+    public UnityEngine.Material lineMaterial;
 
     public void Awake()
     {

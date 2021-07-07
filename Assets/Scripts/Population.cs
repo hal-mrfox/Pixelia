@@ -31,7 +31,7 @@ public class Population : MonoBehaviour, IClickable
     public float happiness;
 
     #region Needs
-    public List<Need> needs;
+    public Need[] needs;
     [Range(0, 10)] public int hunger;
     [Range(0, 10)] public int mood;
 
@@ -39,9 +39,9 @@ public class Population : MonoBehaviour, IClickable
     public class Need
     {
         public Resource resource;
-        public float progress;
+        public int progress;
 
-        public Need(Resource resource, float progress)
+        public Need(Resource resource, int progress)
         {
             this.resource = resource;
             this.progress = progress;
@@ -67,25 +67,59 @@ public class Population : MonoBehaviour, IClickable
         //}
     }
 
-    public void CalculateProgress()
+    public void NextTurn()
     {
-        for (int i = 0; i < needs.Count; i++)
+        hunger--;
+        mood--;
+
+        for (int i = 0; i < needs.Length; i++)
         {
-            //quality or smth?
-            needs[i].progress -= .25f;
-            if (needs[i].progress < 0)
+            if (needs[i].progress == 0 && home)
             {
-                needs[i].progress = 0;
+                for (int j = 0; j < workingHolding.storedResources.Count; j++)
+                {
+                    if (workingHolding.storedResources[j].resource == needs[i].resource && workingHolding.storedResources[j].amount > 0)
+                    {
+                        workingHolding.storedResources[j].amount -= 1;
+                        needs[i].progress = 10;
+                    }
+                }
             }
-        }
-    }
-
-    public void Calculate()
-    {
-
-        for (int i = 0; i < needs.Count; i++)
-        {
-
+            else
+            {
+                if (needs[i].resource.Type == ResourceType.Food)
+                {
+                    if (needs[i].progress > 0)
+                    {
+                        needs[i].progress -= Resources.Load<ResourceManager>("ResourceManager").resources[(int)needs[i].resource.Type].resource.baseUses;
+                        hunger += 2; //need resource pips things
+                    }
+                    if (hunger > 10)
+                    {
+                        hunger = 10;
+                    }
+                    if (hunger < 0)
+                    {
+                        hunger = 0;
+                    }
+                }
+                else
+                {
+                    if (needs[i].progress > 0)
+                    {
+                        needs[i].progress -= Resources.Load<ResourceManager>("ResourceManager").resources[(int)needs[i].resource.Type].resource.baseUses;
+                        mood += 2;
+                    }
+                    if (mood > 10)
+                    {
+                        mood = 10;
+                    }
+                    if (mood < 0)
+                    {
+                        mood = 0;
+                    }
+                }
+            }
         }
     }
 

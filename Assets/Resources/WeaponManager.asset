@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 97bb772ce52f0b14a935bc2704b9c85c, type: 3}
-  m_Name: TileGeneration
+  m_Script: {fileID: 11500000, guid: 2239be613695a6749880e603ba26fedc, type: 3}
+  m_Name: WeaponManager
   m_EditorClassIdentifier: 
-  dimensions: {x: 0, y: 0}
-  tiles: []
+  weapons:
+  - {fileID: 11400000, guid: 668150c6115a82c459cb4063b928d440, type: 2}

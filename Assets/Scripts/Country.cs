@@ -43,6 +43,8 @@ public class Country : MonoBehaviour
     public List<Population> militaryPops;
     [BoxGroup("Statistics")]
     public List<OldBuilding> buildings;
+    [BoxGroup("Statistics")]
+    public List<Army> armies;
     #endregion
     #region Money & Resources
     [BoxGroup("Money & Resources")]
@@ -54,7 +56,40 @@ public class Country : MonoBehaviour
     [BoxGroup("Diplomacy")]
     public List<Country> atWar;
     #endregion
+    #region Armies
+    [Button]
+    public void CreateArmy()
+    {
+        Army original = Resources.Load<UnitManager>("UnitManager").armyPrefab;
+        armies.Add(Instantiate(original, ownedProvinces[0].transform));
+        var newArmy = armies[armies.Count - 1];
 
+        newArmy.owner = this;
+        newArmy.armyTier = ArmyTier.Troop;
+    }
+
+    public Army armyToAddTo;
+    public UnitType newUnitType;
+
+    [Button]
+    public void CreateUnit()
+    {
+        for (int i = 0; i < Resources.Load<UnitManager>("UnitManager").units.Count; i++)
+        {
+            if (Resources.Load<UnitManager>("UnitManager").units[i].unitType == newUnitType)
+            {
+                var original = Resources.Load<UnitManager>("UnitManager").unitPrefab;
+                armyToAddTo.units.Add(Instantiate(original, armyToAddTo.transform));
+                var newUnit = armyToAddTo.units[armyToAddTo.units.Count - 1];
+
+                newUnit.unitType = newUnitType;
+                Resources.Load<UnitManager>("UnitManager").units[i].Initialize(newUnit);
+                newUnit.army = armyToAddTo;
+                break;
+            }
+        }
+    }
+    #endregion
     #region All Country Stuff
     public void Start()
     {

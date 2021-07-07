@@ -60,28 +60,28 @@ public class Building : MonoBehaviour
     #region Create Military Unit
     public void CreateUnit()
     {
-        //set unit stats based on pops stats
-        for (int i = 0; i < workingPops.Count; i++)
-        {
-            workingPops[i].DestroyPop();
+        ////set unit stats based on pops stats
+        //for (int i = 0; i < workingPops.Count; i++)
+        //{
+        //    workingPops[i].DestroyPop();
 
-            if (provinceOwner.units.Count < 1)
-            {
-                provinceOwner.units.Add(Instantiate(MilitaryManager.instance.unitPrefab, MilitaryManager.instance.transform));
-                var newUnit = provinceOwner.units[provinceOwner.units.Count - 1];
-                CountryManager.instance.totalUnits.Add(newUnit);
-                newUnit.location = provinceOwner;
-                newUnit.owner = provinceOwner.owner;
-                newUnit.transform.position = provinceOwner.transform.position;
-                newUnit.numPops = 1;
-                newUnit.Refresh();
-            }
-            else
-            {
-                provinceOwner.units[0].numPops++;
-                provinceOwner.units[0].Refresh();
-            }
-        }
+        //    if (provinceOwner.units.Count < 1)
+        //    {
+        //        provinceOwner.units.Add(Instantiate(MilitaryManager.instance.unitPrefab, MilitaryManager.instance.transform));
+        //        var newUnit = provinceOwner.units[provinceOwner.units.Count - 1];
+        //        CountryManager.instance.totalUnits.Add(newUnit);
+        //        newUnit.location = provinceOwner;
+        //        newUnit.owner = provinceOwner.owner;
+        //        newUnit.transform.position = provinceOwner.transform.position;
+        //        newUnit.numPops = 1;
+        //        newUnit.Refresh();
+        //    }
+        //    else
+        //    {
+        //        provinceOwner.units[0].numPops++;
+        //        provinceOwner.units[0].Refresh();
+        //    }
+        //}
     }
     #endregion
 

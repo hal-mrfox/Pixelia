@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e63a4e3ee4f2a2b41b626ebc7eeb364f, type: 3}
+  m_Name: Rifle
+  m_EditorClassIdentifier: 
+  weaponType: 4
+  material: 1
+  weaponName: Rifle
+  weaponIcon: {fileID: 21300000, guid: e6b525f59af5c6c419fed32998ef512a, type: 3}
+  headDamage: 100
+  torsoDamage: 90
+  legsDamage: 82
+  accuracy: 0.2
+  rangeEffectiveness:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: -2.8783207
+      outSlope: -2.8783207
+      tangentMode: 34
+      weightedMode: 2
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.21152285
+      value: 0.3911694
+      inSlope: -0.0035052926
+      outSlope: -0.0035052926
+      tangentMode: 0
+      weightedMode: 3
+      inWeight: 0.45862126
+      outWeight: 0.11836791
+    - serializedVersion: 3
+      time: 1
+      value: 0.2
+      inSlope: -0.021482171
+      outSlope: -0.021482171
+      tangentMode: 0
+      weightedMode: 1
+      inWeight: 0.6462788
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  durability: 75
+  woodEffectiveness: 4
+  lightMetalEffectiveness: 3
+  heavyMetalEffectiveness: 1
+  bonusFlankingRange: 1

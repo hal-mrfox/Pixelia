@@ -27,16 +27,20 @@ public class PopulationUICounterpart : ButtonSound
     #region Housing
     public Image[] hungerPips;
     public Image[] moodPips;
+    public ResourceConsuming[] resources;
 
+    [System.Serializable]
     public class ResourceConsuming
     {
         public Image resource;
         public Image progress;
+        public GameObject gameObject;
 
-        public ResourceConsuming(Image resource, Image progress)
+        public ResourceConsuming(Image resource, Image progress, GameObject consuming)
         {
             this.resource = resource;
             this.progress = progress;
+            this.gameObject = consuming;
         }
     }
     #endregion
@@ -132,20 +136,20 @@ public class PopulationUICounterpart : ButtonSound
 
             previewPop = new GameObject("Preview Pop");
 
-            if (GetComponent<Image>().sprite)
-            {
-                previewPop.AddComponent<Image>();
-                previewPop.GetComponent<Image>().sprite = GetComponent<Image>().sprite;
-                previewPop.GetComponent<Image>().SetNativeSize();
-                previewPop.GetComponent<RectTransform>().sizeDelta = new Vector2(previewPop.GetComponent<RectTransform>().sizeDelta.x + 2, previewPop.GetComponent<RectTransform>().sizeDelta.y + 2);
-            }
-            else
-            {
-                previewPop.AddComponent<Image>();
-                previewPop.GetComponent<RectTransform>().sizeDelta = new Vector2(squareSize.x + 2, squareSize.y + 2);
-            }
+            previewPop.AddComponent<Image>();
+            previewPop.GetComponent<RectTransform>().sizeDelta = new Vector2(squareSize.x + 2, squareSize.y + 2);
             previewPop.GetComponent<Image>().raycastTarget = false;
-            previewPop.GetComponent<Image>().color = GetComponent<Image>().color;
+            previewPop.GetComponent<Image>().color = CountryManager.instance.niceGreen;
+            //if (GetComponent<Image>().sprite)
+            //{
+            //    previewPop.AddComponent<Image>();
+            //    previewPop.GetComponent<Image>().sprite = GetComponent<Image>().sprite;
+            //    previewPop.GetComponent<Image>().SetNativeSize();
+            //    previewPop.GetComponent<RectTransform>().sizeDelta = new Vector2(previewPop.GetComponent<RectTransform>().sizeDelta.x + 2, previewPop.GetComponent<RectTransform>().sizeDelta.y + 2);
+            //}
+            //else
+            //{
+            ////}
             previewPop.transform.SetParent(provinceWindow.transform);
         }
         else if (Input.GetKeyDown(KeyCode.Mouse0) && popCP && uIType == UIType.list)
@@ -326,7 +330,11 @@ public class PopulationUICounterpart : ButtonSound
             }
         }
 
-
+        for (int i = 0; i < resources.Length; i++)
+        {
+            resources[i].resource.sprite = popCP.needs[i].resource.icon;
+            resources[i].progress.GetComponent<Image>().fillAmount = popCP.needs[i].progress * 0.10f;
+        }
     }
 
     public void Update()

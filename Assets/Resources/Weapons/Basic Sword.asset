@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e63a4e3ee4f2a2b41b626ebc7eeb364f, type: 3}
+  m_Name: Basic Sword
+  m_EditorClassIdentifier: 
+  weaponType: 1
+  material: 1
+  weaponName: Basic Sword
+  weaponIcon: {fileID: 21300000, guid: 8d109c1be7c566545b5bb106d4b2aaf0, type: 3}
+  headDamage: 0
+  torsoDamage: 0
+  legsDamage: 0
+  accuracy: 0
+  blockChance: 0.639
+  rangeEffectiveness:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  durability: 0
+  woodEffectiveness: 2
+  lightMetalEffectiveness: 1
+  heavyMetalEffectiveness: 0
+  bonusFlankingRange: 0
