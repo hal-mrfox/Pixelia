@@ -123,6 +123,8 @@ public class UnitManager : ScriptableObject
         }
     }
     #endregion
+
+
     //commander medals
     #endregion
 }

@@ -5,5 +5,5 @@ using UnityEngine;
 
 public class Tile : MonoBehaviour
 {
-    public Terrain terrainType;
+    public Image icon;
 }

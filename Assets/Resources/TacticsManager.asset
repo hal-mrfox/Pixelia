@@ -32,8 +32,5 @@ MonoBehaviour:
     lines:
     - units:
       - low: 0
-        high: 0.5
-        unitType: 2
-      - low: 0.5
         high: 1
         unitType: 0
