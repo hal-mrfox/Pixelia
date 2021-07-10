@@ -14,4 +14,10 @@ public class Army : MonoBehaviour
     [Range(0, 100)] public float morale;
     [Range(0, 100)] public float food;
     //commander
+    public Tile[,] setup = new Tile[0, 0];
+
+    public class Tile
+    {
+        public UnitType unitType;
+    }
 }

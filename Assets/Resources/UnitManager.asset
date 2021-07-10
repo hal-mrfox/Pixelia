@@ -19,12 +19,22 @@ MonoBehaviour:
   armies:
   - armyType: 0
     unitCap: 5
-  - armyType: 0
+    battleSize: {x: 1, y: 4}
+  - armyType: 1
     unitCap: 10
-  - armyType: 0
+    battleSize: {x: 2, y: 4}
+  - armyType: 2
     unitCap: 20
-  - armyType: 0
+    battleSize: {x: 2, y: 4}
+  - armyType: 3
+    unitCap: 30
+    battleSize: {x: 3, y: 6}
+  - armyType: 4
+    unitCap: 40
+    battleSize: {x: 3, y: 6}
+  - armyType: 5
     unitCap: 50
+    battleSize: {x: 4, y: 8}
   units:
   - unitType: 0
     icon: {fileID: 21300000, guid: b0ff772dd33c33b489523ddc7f410b07, type: 3}
@@ -51,6 +61,15 @@ MonoBehaviour:
     baseRange: 0
     baseValue: 0
     maxMorale: 100
+    allowedArmor: 
+    allowedWeapons: 
+  - unitType: 3
+    icon: {fileID: 21300000, guid: e7ad0196b0916714aa48f02d7807fee2, type: 3}
+    baseFlankingRange: 0
+    baseSpeed: 0
+    baseRange: 0
+    baseValue: 0
+    maxMorale: 0
     allowedArmor: 
     allowedWeapons: 
   infantryUnits:
@@ -92,3 +111,14 @@ MonoBehaviour:
     baseTorsoHealth: 80
     baseLegsHealth: 60
     baseAnimalHealth: 120
+  artilleryUnits:
+  - unitType: 3
+    icon: {fileID: 21300000, guid: e7ad0196b0916714aa48f02d7807fee2, type: 3}
+    baseFlankingRange: 0
+    baseSpeed: 0
+    baseRange: 0
+    baseValue: 0
+    maxMorale: 0
+    allowedArmor: 
+    allowedWeapons: 
+    baseHealth: 60

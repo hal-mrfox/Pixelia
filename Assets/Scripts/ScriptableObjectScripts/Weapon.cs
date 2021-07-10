@@ -4,6 +4,7 @@ using NaughtyAttributes;
 using UnityEngine;
 
 public enum WeaponType { Blunt, Sword, Spear, Bow, Firearm }
+//need ammunition types
 
 [CreateAssetMenu(fileName = "Weapon", menuName = "Weapon")]
 public class Weapon : ScriptableObject
@@ -23,7 +24,6 @@ public class Weapon : ScriptableObject
     [Range(0, 1)] public float accuracy;//increased by skill
     [Range(0, 1)] public float blockChance;//increased by skill
 
-    //use naughtyattritube CurveRange
     [CurveRange(0, 0, 1, 1, EColor.Red)]
     public AnimationCurve rangeEffectiveness;
 

@@ -37,179 +37,128 @@ public class Battlefield : MonoBehaviour
         }
 
         int offenseTotal = offenseUnits.Count;
+        //need correct y size for the column (currently using total units, use total units possible with allowed types)
 
-        for (int x = 0; x < size.x; x++)
+        for (int x = 0; x < offenseStance.lines.Length; x++)
         {
-            //offense
-            if (x < (size.x / 2) && x >= ((size.x / 2) - offenseStance.lines.Length))
+            //getting max unit amount for column before adding the extras
+            int maxUnits = 0;
+
+            for (int i = 0; i < offenseUnits.Count; i++)
             {
-                //loop thru each unit type***
-                //for each one fill up amount of squares based on how many units the army has***
-                //total num of units placed in column
-                //take half of it and subtract it from column length
-                //length - 1?
-                //add amount to index based on how far from center it is
-
-                int newSize = offenseTotal <= size.y ? offenseTotal : size.y;
-
-                for (int y = 0; y < newSize; y++)
+                for (int j = 0; j < offenseStance.lines.Length; j++)
                 {
-                    for (int j = 0; j < offenseStance.lines[(size.x / 2) - x - 1].units.Length; j++)
+                    bool found = false;
+
+                    if (!found)
                     {
-                        var unitReference = offenseStance.lines[(size.x / 2) - x - 1].units[j];
-                        int offenseUnitIndex = 0;
-                        print(y);
-                        print(Mathf.RoundToInt(unitReference.low * newSize));
-                        print(Mathf.RoundToInt(unitReference.high * newSize));
-
-                        if (y >= Mathf.RoundToInt(unitReference.low * newSize) && y < Mathf.RoundToInt(unitReference.high * newSize) && OffenseContains(unitReference.unitType))
+                        for (int k = 0; k < offenseStance.lines[j].units.Length; k++)
                         {
-                            battlefield[x, y] = new Tile(offenseUnits[offenseUnitIndex]);
-                            offenseUnits.Remove(offenseUnits[offenseUnitIndex]);
-                            break;
-                        }
-
-                        bool OffenseContains(UnitType unitType)
-                        {
-                            for (int u = 0; u < offenseUnits.Count; u++)
+                            if (offenseUnits[i].unitType == offenseStance.lines[j].units[k].unitType)
                             {
-                                if (offenseUnits[u].unitType == unitType)
-                                {
-                                    offenseUnitIndex = u;
-                                    return true;
-                                }
+                                maxUnits++;
+                                found = true;
+                                break;
                             }
-                            return false;
                         }
-                    }
-                }
-
-                for (int y = 0; y < newSize; y++)
-                {
-                    if (battlefield[x, y] == null)
-                    {
-                        for (int i = 0; i < offenseUnits.Count; i++)
-                        {
-                            battlefield[x, y] = new Tile(offenseUnits[i]);
-                            offenseUnits.Remove(offenseUnits[i]);
-                            break;
-                        }
-                    }
-                }
-
-                for (int y = 0; y < size.y; y++)
-                {
-                    if (battlefield[x, y] != null)
-                    {
-                        print(x + " " + battlefield[x, y].occupyingUnit.unitType);
                     }
                     else
                     {
-                        print(null);
+                        break;
                     }
                 }
-
-                //List<int> roundedInts = new List<int>();
-                //int total = 0;
-                //int difference = 0;
-
-                //for (int i = 0; i < offenseStance.lines[(size.x / 2) - x - 1].units.Length; i++)
-                //{
-                //    var unitReference = offenseStance.lines[(size.x / 2) - x - 1].units[i];
-
-                //    int percentage = Mathf.FloorToInt(unitReference.high * newSize - unitReference.low * newSize);
-                //    roundedInts.Add(percentage);
-                //}
-
-                //for (int i = 0; i < roundedInts.Count; i++)
-                //{
-                //    total += roundedInts[i];
-                //}
-
-                //difference = newSize - total;
-
-                //for (int i = 0; i < roundedInts.Count; i++)
-                //{
-                //    if (difference == 0)
-                //    {
-                //        break;
-                //    }
-
-                //    if (roundedInts[i] % 2 != 0)
-                //    {
-                //        difference--;
-                //        roundedInts[i]++;
-                //    }
-                //}
-
-                //for (int i = 0; i < roundedInts.Count; i++)
-                //{
-                //    print(roundedInts[i]);
-                //}
-                //print(difference);
-
-                //if largest num and odd? or 0
-
-                //for (int y = 0; y < newSize; y++)
-                //{
-                //    for (int j = 0; j < offenseStance.lines[(size.x / 2) - x - 1].units.Length; j++)
-                //    {
-                //        var unitReference = offenseStance.lines[(size.x / 2) - x - 1].units[j];
-                //        int offenseUnitIndex = 0;
-
-                //        if (y >= (int)(unitReference.low * newSize) && y < (int)(unitReference.high * newSize) && OffenseContains(unitReference.unitType))
-                //        {
-                //            battlefield[x, y] = new Tile(offenseUnits[offenseUnitIndex]);
-                //            offenseUnits.Remove(offenseUnits[offenseUnitIndex]);
-                //            break;
-                //        }
-
-                //        bool OffenseContains(UnitType unitType)
-                //        {
-                //            for (int u = 0; u < offenseUnits.Count; u++)
-                //            {
-                //                if (offenseUnits[u].unitType == unitType)
-                //                {
-                //                    offenseUnitIndex = u;
-                //                    return true;
-                //                }
-                //            }
-                //            return false;
-                //        }
-                //    }
-                //}
-                //for (int y = 0; y < size.y; y++)
-                //{
-                //    if (battlefield[x, y] != null)
-                //    {
-                //        print(x + " " + battlefield[x, y].occupyingUnit.unitType);
-                //    }
-                //    else
-                //    {
-                //        print(null);
-                //    }
-                //}
-
-                //int newSize = offenseTotal <= size.y ? offenseTotal : size.y;
-
-
             }
-        }
+            //replace
+            int maxSize = maxUnits <= size.y ? maxUnits : size.y; //where to place troops abiding by stance
+            int newSize = offenseTotal <= size.y ? offenseTotal : size.y;//where to place troops that dont apply to stance
+            List<Vector2Int> unitCaps = new List<Vector2Int>(); //lower minimum of high-low ranges
+            List<UnitType> allowedUnits = new List<UnitType>();
 
-        //for (int x = 0; x < size.x; x++)
-        //{
-        //    for (int y = 0; y < size.y; y++)
-        //    {
-        //        if (battlefield[x, y] != null)
-        //        {
-        //            print(battlefield[x, y].occupyingUnit);
-        //        }
-        //        else
-        //        {
-        //            print(null);
-        //        }
-        //    }
-        //}
+            for (int i = 0; i < offenseStance.lines[x].units.Length; i++)
+            {
+                var unitReference = offenseStance.lines[x].units[i];
+                unitCaps.Add(new Vector2Int(Mathf.RoundToInt(unitReference.low * newSize), Mathf.RoundToInt(unitReference.high * newSize)));
+            }
+
+            for (int y = 0; y < newSize; y++)
+            {
+                for (int j = 0; j < offenseStance.lines[x].units.Length; j++)
+                {
+                    if (!allowedUnits.Contains(offenseStance.lines[x].units[j].unitType))
+                    {
+                        allowedUnits.Add(offenseStance.lines[x].units[j].unitType);
+                    }
+                    var unitReference = offenseStance.lines[x].units[j];
+                    int offenseUnitIndex = 0;
+                    print(y);
+                    print(unitCaps[j].x);
+                    print(unitCaps[j].y);
+                    print(unitReference.unitType);
+                    print(y >= unitCaps[j].x && y < unitCaps[j].y && OffenseContains(unitReference.unitType));
+
+                    if (y >= unitCaps[j].x && y < unitCaps[j].y && OffenseContains(unitReference.unitType))
+                    {
+                        battlefield[((size.x / 2) - 1) - x, y] = new Tile(offenseUnits[offenseUnitIndex]);
+                        offenseUnits.Remove(offenseUnits[offenseUnitIndex]);
+
+                        for (int i = 0; i < offenseStance.lines[x].units.Length; i++)
+                        {
+                            if (i > j && offenseStance.lines[x].units[i].unitType == offenseUnits[offenseUnitIndex].unitType && (unitCaps[i].y - unitCaps[i].x) > (unitCaps[j].y - unitCaps[j].x) && j < offenseStance.lines[x].units.Length - 1)
+                            {
+                                unitCaps[j] = new Vector2Int(unitCaps[j].x, y);
+                                unitCaps[j + 1] = new Vector2Int(y, unitCaps[j + 1].y);
+                            }
+                        }
+
+                        break;
+                    }
+                    else if (y >= unitCaps[j].x && y < unitCaps[j].y && !OffenseContains(unitReference.unitType) && j < offenseStance.lines[x].units.Length - 1)
+                    {
+                        unitCaps[j] = new Vector2Int(unitCaps[j].x, y);
+                        unitCaps[j + 1] = new Vector2Int(y, unitCaps[j + 1].y);
+                    }
+
+                    bool OffenseContains(UnitType unitType)
+                    {
+                        for (int u = 0; u < offenseUnits.Count; u++)
+                        {
+                            if (offenseUnits[u].unitType == unitType)
+                            {
+                                offenseUnitIndex = u;
+                                return true;
+                            }
+                        }
+                        return false;
+                    }
+                }
+            }
+
+            //change index of tiles with nulls above them
+            //for (int y = 0; y < size.y; y++)
+            //{
+            //    if (y > 0 && battlefield[((size.x / 2) - 1) - x, y - 1] == null && battlefield[((size.x / 2) - 1) - x, y] != null)
+            //    {
+            //        battlefield[((size.x / 2) - 1) - x, y] = battlefield[((size.x / 2) - 1) - x, y -= 1];
+            //    }
+            //}
+
+            //Loop through again to add back remainders
+            //for (int y = 0; y < maxSize; y++)
+            //{
+            //    if (battlefield[((size.x / 2) - 1) - x, y] == null)
+            //    {
+            //        for (int i = 0; i < offenseUnits.Count; i++)
+            //        {
+            //            if (allowedUnits.Contains(offenseUnits[i].unitType))
+            //            {
+            //                battlefield[((size.x / 2) - 1) - x, y] = new Tile(offenseUnits[i]);
+            //                offenseUnits.Remove(offenseUnits[i]);
+            //                break;
+            //            }
+            //        }
+            //    }
+            //}
+        }
         #endregion
 
         return battlefield;

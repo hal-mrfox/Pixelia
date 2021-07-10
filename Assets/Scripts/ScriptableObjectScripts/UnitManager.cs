@@ -28,6 +28,7 @@ public class UnitManager : ScriptableObject
         public ArmyTier armyType;
 
         public int unitCap;
+        public Vector2Int battleSize;
     }
 
     public void OnEnable()
@@ -45,6 +46,12 @@ public class UnitManager : ScriptableObject
             units.Add(cavalryUnits[i]);
         }
         #endregion
+        #region artillery
+        for (int i = 0; i < artilleryUnits.Length; i++)
+        {
+            units.Add(artilleryUnits[i]);
+        }
+        #endregion
     }
     #region Units
 
@@ -53,6 +60,7 @@ public class UnitManager : ScriptableObject
 
     public Infantry[] infantryUnits;
     public Cavalry[] cavalryUnits;
+    public Artillery[] artilleryUnits;
 
     #region Unit
     [System.Serializable]
@@ -78,7 +86,7 @@ public class UnitManager : ScriptableObject
             unit.speed = baseSpeed;
             unit.range = baseRange;
             unit.value = baseValue;
-            unit.maxMorale = maxMorale;
+            unit.morale = maxMorale;
         }
     }
     #endregion
@@ -96,7 +104,6 @@ public class UnitManager : ScriptableObject
             base.Initialize(unit);
 
             unit.isInfantry = true;
-            unit.isCavalry = false;
             unit.infantry.headHealth = baseHeadHealth;
             unit.infantry.torsoHealth = baseTorsoHealth;
             unit.infantry.legsHealth = baseLegsHealth;
@@ -115,7 +122,6 @@ public class UnitManager : ScriptableObject
         {
             base.Initialize(unit);
 
-            unit.isInfantry = false;
             unit.isCavalry = true;
             unit.cavalry.headHealth = baseHeadHealth;
             unit.cavalry.torsoHealth = baseTorsoHealth;
@@ -123,7 +129,21 @@ public class UnitManager : ScriptableObject
         }
     }
     #endregion
+    #region Artillery
+    [System.Serializable]
+    public class Artillery : UnitSetting
+    {
+        public int baseHealth;
 
+        public override void Initialize(Unit unit)
+        {
+            base.Initialize(unit);
+
+            unit.isArtillery = true;
+            unit.artillery.health = baseHealth;
+        }
+    }
+    #endregion
 
     //commander medals
     #endregion

@@ -16,7 +16,7 @@ public class Unit : MonoBehaviour
     public int speed;
     public int range;
     public int value;
-    public int maxMorale;
+    public int morale;
 
     [ReadOnly]
     public bool isInfantry;
@@ -28,6 +28,12 @@ public class Unit : MonoBehaviour
     [ShowIf("isCavalry")]
     public Cavalry cavalry;
 
+    [ReadOnly]
+    public bool isArtillery;
+    [ShowIf("isArtillery")]
+    public Artillery artillery;
+
+    #region Infantry
     [System.Serializable]
     public class Infantry
     {
@@ -54,4 +60,17 @@ public class Unit : MonoBehaviour
 
         public ArmorType animalArmor;
     }
+    #endregion
+
+    #region Artillery
+    [System.Serializable]
+    public class Artillery
+    {
+        [ProgressBar("Health", 60, EColor.Red)]
+        public int health;
+    }
+    #endregion
+
+    #region Initialize Equipment and Stats
+    #endregion
 }
