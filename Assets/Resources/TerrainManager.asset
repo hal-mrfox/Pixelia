@@ -16,7 +16,7 @@ MonoBehaviour:
   - terrainType: 0
     mapColor: {r: 0.26931292, g: 0.6415094, b: 0.32275048, a: 1}
     defenseModifier: 0
-    baseBattlefieldSize: {x: 6, y: 12}
+    baseBattlefieldSize: 10
     generatableResources:
     - resource: {fileID: 11400000, guid: 7cfb003adb14cda4bbe2e566c4803988, type: 2}
       min: 1
@@ -48,7 +48,7 @@ MonoBehaviour:
   - terrainType: 1
     mapColor: {r: 0.1670305, g: 0.397, b: 0.19849999, a: 1}
     defenseModifier: 0
-    baseBattlefieldSize: {x: 6, y: 10}
+    baseBattlefieldSize: 8
     generatableResources:
     - resource: {fileID: 11400000, guid: 7cfb003adb14cda4bbe2e566c4803988, type: 2}
       min: 1
@@ -80,7 +80,7 @@ MonoBehaviour:
   - terrainType: 2
     mapColor: {r: 0.6087059, g: 0.78039217, b: 0.63445884, a: 1}
     defenseModifier: 0
-    baseBattlefieldSize: {x: 6, y: 10}
+    baseBattlefieldSize: 6
     generatableResources:
     - resource: {fileID: 11400000, guid: 7cfb003adb14cda4bbe2e566c4803988, type: 2}
       min: 1
@@ -112,7 +112,7 @@ MonoBehaviour:
   - terrainType: 3
     mapColor: {r: 0.39991993, g: 0.4056604, b: 0.40279016, a: 1}
     defenseModifier: 0
-    baseBattlefieldSize: {x: 0, y: 0}
+    baseBattlefieldSize: 5
     generatableResources:
     - resource: {fileID: 11400000, guid: 7cfb003adb14cda4bbe2e566c4803988, type: 2}
       min: 1
@@ -144,7 +144,7 @@ MonoBehaviour:
   - terrainType: 4
     mapColor: {r: 0.8396226, g: 0.76996475, b: 0.38416696, a: 1}
     defenseModifier: 0
-    baseBattlefieldSize: {x: 0, y: 0}
+    baseBattlefieldSize: 12
     generatableResources:
     - resource: {fileID: 11400000, guid: 7cfb003adb14cda4bbe2e566c4803988, type: 2}
       min: 0
@@ -176,7 +176,7 @@ MonoBehaviour:
   - terrainType: 5
     mapColor: {r: 0.38679248, g: 0.33861786, b: 0.0748042, a: 1}
     defenseModifier: 0
-    baseBattlefieldSize: {x: 0, y: 0}
+    baseBattlefieldSize: 8
     generatableResources:
     - resource: {fileID: 11400000, guid: 7cfb003adb14cda4bbe2e566c4803988, type: 2}
       min: 0
@@ -208,7 +208,7 @@ MonoBehaviour:
   - terrainType: 6
     mapColor: {r: 0.29411772, g: 0.85882354, b: 0.60498416, a: 1}
     defenseModifier: 0
-    baseBattlefieldSize: {x: 0, y: 0}
+    baseBattlefieldSize: 8
     generatableResources:
     - resource: {fileID: 11400000, guid: 7cfb003adb14cda4bbe2e566c4803988, type: 2}
       min: 1
@@ -240,7 +240,7 @@ MonoBehaviour:
   - terrainType: 7
     mapColor: {r: 0.5, g: 0.46977317, b: 0.3042453, a: 1}
     defenseModifier: 0
-    baseBattlefieldSize: {x: 0, y: 0}
+    baseBattlefieldSize: 8
     generatableResources:
     - resource: {fileID: 11400000, guid: 7cfb003adb14cda4bbe2e566c4803988, type: 2}
       min: 1
@@ -272,7 +272,7 @@ MonoBehaviour:
   - terrainType: 8
     mapColor: {r: 0.27772337, g: 0.50047106, b: 0.745283, a: 1}
     defenseModifier: 0
-    baseBattlefieldSize: {x: 0, y: 0}
+    baseBattlefieldSize: 7
     generatableResources:
     - resource: {fileID: 11400000, guid: 7cfb003adb14cda4bbe2e566c4803988, type: 2}
       min: 3

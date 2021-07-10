@@ -69,7 +69,6 @@ public class Battlefield : MonoBehaviour
                 }
             }
             //replace
-            int maxSize = maxUnits <= size.y ? maxUnits : size.y; //where to place troops abiding by stance
             int newSize = offenseTotal <= size.y ? offenseTotal : size.y;//where to place troops that dont apply to stance
             List<Vector2Int> unitCaps = new List<Vector2Int>(); //lower minimum of high-low ranges
             List<UnitType> allowedUnits = new List<UnitType>();
@@ -90,25 +89,26 @@ public class Battlefield : MonoBehaviour
                     }
                     var unitReference = offenseStance.lines[x].units[j];
                     int offenseUnitIndex = 0;
-                    print(y);
-                    print(unitCaps[j].x);
-                    print(unitCaps[j].y);
-                    print(unitReference.unitType);
-                    print(y >= unitCaps[j].x && y < unitCaps[j].y && OffenseContains(unitReference.unitType));
+                    //print(y);
+                    //print(unitCaps[j].x);
+                    //print(unitCaps[j].y);
+                    //print(unitReference.unitType);
+                    //print(y >= unitCaps[j].x && y < unitCaps[j].y && OffenseContains(unitReference.unitType));
+                    //MAKE CENTERED
 
                     if (y >= unitCaps[j].x && y < unitCaps[j].y && OffenseContains(unitReference.unitType))
                     {
                         battlefield[((size.x / 2) - 1) - x, y] = new Tile(offenseUnits[offenseUnitIndex]);
                         offenseUnits.Remove(offenseUnits[offenseUnitIndex]);
 
-                        for (int i = 0; i < offenseStance.lines[x].units.Length; i++)
-                        {
-                            if (i > j && offenseStance.lines[x].units[i].unitType == offenseUnits[offenseUnitIndex].unitType && (unitCaps[i].y - unitCaps[i].x) > (unitCaps[j].y - unitCaps[j].x) && j < offenseStance.lines[x].units.Length - 1)
-                            {
-                                unitCaps[j] = new Vector2Int(unitCaps[j].x, y);
-                                unitCaps[j + 1] = new Vector2Int(y, unitCaps[j + 1].y);
-                            }
-                        }
+                        //for (int i = 0; i < offenseStance.lines[x].units.Length; i++)
+                        //{
+                        //    if (i > j && offenseStance.lines[x].units[i].unitType == offenseUnits[offenseUnitIndex].unitType && (unitCaps[i].y - unitCaps[i].x) > (unitCaps[j].y - unitCaps[j].x) && j < offenseStance.lines[x].units.Length - 1)
+                        //    {
+                        //        unitCaps[j] = new Vector2Int(unitCaps[j].x, y);
+                        //        unitCaps[j + 1] = new Vector2Int(y, unitCaps[j + 1].y);
+                        //    }
+                        //}
 
                         break;
                     }
@@ -132,32 +132,6 @@ public class Battlefield : MonoBehaviour
                     }
                 }
             }
-
-            //change index of tiles with nulls above them
-            //for (int y = 0; y < size.y; y++)
-            //{
-            //    if (y > 0 && battlefield[((size.x / 2) - 1) - x, y - 1] == null && battlefield[((size.x / 2) - 1) - x, y] != null)
-            //    {
-            //        battlefield[((size.x / 2) - 1) - x, y] = battlefield[((size.x / 2) - 1) - x, y -= 1];
-            //    }
-            //}
-
-            //Loop through again to add back remainders
-            //for (int y = 0; y < maxSize; y++)
-            //{
-            //    if (battlefield[((size.x / 2) - 1) - x, y] == null)
-            //    {
-            //        for (int i = 0; i < offenseUnits.Count; i++)
-            //        {
-            //            if (allowedUnits.Contains(offenseUnits[i].unitType))
-            //            {
-            //                battlefield[((size.x / 2) - 1) - x, y] = new Tile(offenseUnits[i]);
-            //                offenseUnits.Remove(offenseUnits[i]);
-            //                break;
-            //            }
-            //        }
-            //    }
-            //}
         }
         #endregion
 

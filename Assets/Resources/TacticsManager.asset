@@ -28,11 +28,11 @@ MonoBehaviour:
         high: 1
         unitType: 2
     - units:
-      - low: 0
-        high: 1
+      - low: 0.25
+        high: 0.75
         unitType: 3
   - stanceName: basic 1
-    icon: {fileID: 21300000, guid: cb7770543029b444f9179da966c9570e, type: 3}
+    icon: {fileID: 21300000, guid: 638d28b25add7e741b7ce1586a57b70e, type: 3}
     lines:
     - units:
       - low: 0
@@ -40,7 +40,7 @@ MonoBehaviour:
         unitType: 0
       - low: 0.25
         high: 0.7
-        unitType: 2
+        unitType: 3
       - low: 0.7
         high: 1
-        unitType: 3
+        unitType: 2

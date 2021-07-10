@@ -23,48 +23,9 @@ public class TerrainManager : ScriptableObject
         public Color mapColor;
 
         public int defenseModifier;
-        public Vector2Int baseBattlefieldSize;
+        [Range(5, 12)]public int baseBattlefieldSize;
 
         public ResourceDetails[] generatableResources;
-    }
-
-    public void OnValidate()
-    {
-        //make value divisible by 2
-        for (int i = 0; i < terrainDetails.Length; i++)
-        {
-            if (terrainDetails[i].baseBattlefieldSize.y < 0)
-            {
-                terrainDetails[i].baseBattlefieldSize.y = 0;
-                continue;
-            }
-
-            if (terrainDetails[i].baseBattlefieldSize.x < 0)
-            {
-                terrainDetails[i].baseBattlefieldSize.x = 0;
-                continue;
-            }
-
-            //X
-            if (terrainDetails[i].baseBattlefieldSize.x % 2 == 0)
-            {
-
-
-                //Y
-                if (terrainDetails[i].baseBattlefieldSize.y % 2 == 0)
-                {
-                    continue;
-                }
-                else
-                {
-                    terrainDetails[i].baseBattlefieldSize.y--;
-                }
-            }
-            else
-            {
-                terrainDetails[i].baseBattlefieldSize.x--;
-            }
-        }
     }
 
     [System.Serializable]
