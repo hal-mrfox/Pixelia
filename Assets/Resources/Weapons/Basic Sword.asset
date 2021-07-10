@@ -16,9 +16,7 @@ MonoBehaviour:
   material: 1
   weaponName: Basic Sword
   weaponIcon: {fileID: 21300000, guid: 8d109c1be7c566545b5bb106d4b2aaf0, type: 3}
-  headDamage: 0
-  torsoDamage: 0
-  legsDamage: 0
+  damage: 15
   accuracy: 0
   blockChance: 0.639
   rangeEffectiveness:

@@ -17,9 +17,7 @@ public class Weapon : ScriptableObject
     [ShowAssetPreview]
     public Sprite weaponIcon;
 
-    public int headDamage;
-    public int torsoDamage;
-    public int legsDamage;
+    public int damage;
 
     [Range(0, 1)] public float accuracy;//increased by skill
     [Range(0, 1)] public float blockChance;//increased by skill

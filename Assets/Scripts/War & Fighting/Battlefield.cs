@@ -95,6 +95,7 @@ public class Battlefield : MonoBehaviour
                     //print(unitReference.unitType);
                     //print(y >= unitCaps[j].x && y < unitCaps[j].y && OffenseContains(unitReference.unitType));
                     //MAKE CENTERED
+                    //ADD UNUSED ARMIES TO BACK LINES
 
                     if (y >= unitCaps[j].x && y < unitCaps[j].y && OffenseContains(unitReference.unitType))
                     {
